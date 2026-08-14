@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.drsaisekharphysician.com
+
+# Sitemaps
+Sitemap: https://www.drsaisekharphysician.com/sitemap.xml
