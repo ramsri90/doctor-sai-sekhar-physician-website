@@ -1,5 +1,35 @@
-# *
+# Robots.txt - Dr. Sai Sekhar P Physician Website
+# Last updated: 2026-08-15
+
 User-agent: *
+Allow: /
+
+# Block irrelevant or low-value paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /404
+Disallow: /500
+
+# AI / LLM crawlers - Allow for GEO (Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: Bytespider
 Allow: /
 
 # Host

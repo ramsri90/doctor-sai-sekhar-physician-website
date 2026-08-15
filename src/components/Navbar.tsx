@@ -79,7 +79,7 @@ export default function Navbar() {
           }}
         >
           <Image
-            src="/images/main-logo.webp"
+            src="/images/logo.png"
             alt="Dr. Sai Sekhar Clinic Logo"
             width={50}
             height={50}
@@ -87,7 +87,7 @@ export default function Navbar() {
             priority
           />
           <div className="logo-text">
-            <span className="logo-title">Dr. Sai Sekhar P</span>
+            <span className="logo-title"><span className="doctor-name-highlight">Dr. Sai Sekhar P</span></span>
             <span className="logo-subtitle">Consultant Physician</span>
           </div>
         </NextLink>

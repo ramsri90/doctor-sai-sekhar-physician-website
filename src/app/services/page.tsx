@@ -4,8 +4,28 @@ import Link from "next/link";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "Medical Services & Specialties | Dr. Sai Sekhar P",
-  description: "Browse comprehensive healthcare services offered by Dr. Sai Sekhar P in Visakhapatnam, including Diabetes, Thyroid, Fever, Cardiac, and Renal treatments.",
+  title: "Medical Services & Treatments | Dr. Sai Sekhar P | Visakhapatnam",
+  description: "Complete list of medical services by Dr. Sai Sekhar Pyla in Visakhapatnam – Diabetes, Thyroid, Hypertension, Fever, Dengue, Asthma, Kidney, Cardiac & more at Trinetra Medicals, Muralinagar.",
+  keywords: [
+    "diabetes treatment Visakhapatnam",
+    "thyroid treatment Vizag",
+    "dengue fever doctor Visakhapatnam",
+    "hypertension specialist Vizag",
+    "asthma treatment Muralinagar",
+    "kidney disease doctor Visakhapatnam",
+    "adult vaccination Vizag",
+    "routine health checkup Visakhapatnam",
+    "internal medicine services Vizag"
+  ],
+  openGraph: {
+    title: "Medical Services | Dr. Sai Sekhar P – Visakhapatnam",
+    description: "Comprehensive medical services by Dr. Sai Sekhar Pyla – Diabetes, Thyroid, Cardiac, Respiratory, Renal & Infectious Diseases at Trinetra Medicals.",
+    url: "https://www.drsaisekharphysician.com/services",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.drsaisekharphysician.com/services",
+  },
 };
 
 async function getServicesList() {
@@ -188,7 +208,7 @@ export default async function ServicesPage() {
         <div className="services-cta-block bg-gradient-mesh">
           <div className="cta-content">
             <h2>Need Consultation for a Custom Health Concern?</h2>
-            <p>Dr. Sai Sekhar P is available for diagnosis and treatment plans for various general medicine conditions. Book your consultation today.</p>
+            <p><span className="doctor-name-highlight">Dr. Sai Sekhar P</span> is available for diagnosis and treatment plans for various general medicine conditions. Book your consultation today.</p>
           </div>
           <div className="cta-action">
             <Link href="/contact" className="btn btn-primary cta-btn">

@@ -5,8 +5,24 @@ import Link from "next/link";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "About Dr. Sai Sekhar P Clinic | Consultant Physician in Visakhapatnam",
-  description: "Learn about Dr. Sai Sekhar P's clinic, his mission to provide expert primary care, diabetes treatment, and preventative health services in Visakhapatnam.",
+  title: "About Us | Dr. Sai Sekhar P | Consultant Physician Visakhapatnam",
+  description: "Dr. Sai Sekhar Pyla is a highly experienced Consultant Physician based in Visakhapatnam with 12+ years of expertise in General Medicine, Diabetes, Hypertension, and Infectious Diseases at Trinetra Medicals, Muralinagar.",
+  keywords: [
+    "about Dr Sai Sekhar",
+    "physician Visakhapatnam mission",
+    "best internal medicine doctor Vizag",
+    "patient-centered care Visakhapatnam",
+    "why choose Dr Sai Sekhar"
+  ],
+  openGraph: {
+    title: "About Us | Dr. Sai Sekhar P – Consultant Physician Visakhapatnam",
+    description: "Learn about Dr. Sai Sekhar Pyla's mission, 12+ years of expertise, and commitment to patient-centered medical excellence in Visakhapatnam.",
+    url: "https://www.drsaisekharphysician.com/about-us",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.drsaisekharphysician.com/about-us",
+  },
 };
 
 async function getAboutUsContent() {
@@ -52,7 +68,7 @@ export default async function AboutUsPage() {
             />
             
             <div className="highlights-list-card" style={{ marginTop: "2rem", marginBottom: "2rem" }}>
-              <h3>Why Choose Dr. Sai Sekhar?</h3>
+              <h3>Why Choose <span className="doctor-name-highlight">Dr. Sai Sekhar</span>?</h3>
               <ul className="perks-list">
                 <li>
                   <i className="fas fa-check-circle perk-icon"></i>
@@ -96,7 +112,7 @@ export default async function AboutUsPage() {
             </div>
             
             <div className="cta-block" style={{ marginTop: "2rem" }}>
-              <h3>Need to Consult Dr. Sai Sekhar P?</h3>
+              <h3>Need to Consult <span className="doctor-name-highlight">Dr. Sai Sekhar P</span>?</h3>
               <p>Schedule an appointment at Trinetra Medicals today.</p>
               <div className="cta-buttons">
                 <Link href="/contact" className="btn btn-primary">

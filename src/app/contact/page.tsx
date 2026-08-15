@@ -2,13 +2,67 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Dr. Sai Sekhar P | Clinic Timings Visakhapatnam",
-  description: "Get directions, contact numbers, and schedule appointments with Dr. Sai Sekhar P at Trinetra Medicals (Muralinagar), Visakhapatnam.",
+  title: "Book Appointment | Contact Dr. Sai Sekhar P | Trinetra Medicals Muralinagar Visakhapatnam",
+  description: "Book an appointment with Dr. Sai Sekhar P at Trinetra Medicals, Muralinagar, Visakhapatnam. Clinic timings: Mon–Sat 6 PM–9 PM. Call +91 63007 93688 or WhatsApp for consultation.",
+  keywords: [
+    "book appointment Dr Sai Sekhar Visakhapatnam",
+    "Trinetra Medicals contact",
+    "physician clinic Muralinagar",
+    "doctor appointment Vizag",
+    "general physician near me Muralinagar"
+  ],
+  openGraph: {
+    title: "Contact Dr. Sai Sekhar P | Book Appointment – Visakhapatnam",
+    description: "Visit Trinetra Medicals, Muralinagar or call +91 63007 93688. Consultation: Mon–Sat, 6 PM – 9 PM.",
+    url: "https://www.drsaisekharphysician.com/contact",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.drsaisekharphysician.com/contact",
+  },
 };
 
 export default function ContactPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drsaisekharphysician.com" },
+      { "@type": "ListItem", "position": 2, "name": "Contact & Appointment", "item": "https://www.drsaisekharphysician.com/contact" }
+    ]
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Trinetra Medicals – Dr. Sai Sekhar P",
+    "telephone": "+916300793688",
+    "email": "info@drsaisekharphysician.com",
+    "url": "https://www.drsaisekharphysician.com/contact",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Opposite Govt School, Ramalayam Street, Muralinagar, Madhavadhara",
+      "addressLocality": "Visakhapatnam",
+      "addressRegion": "Andhra Pradesh",
+      "postalCode": "530007",
+      "addressCountry": "IN"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 17.745176, "longitude": 83.256999 },
+    "hasMap": "https://maps.app.goo.gl/RwBcYF5CqF1yoigb9",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "18:00",
+        "closes": "21:00"
+      }
+    ]
+  };
+
   return (
     <div className="contact-page-wrapper">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       {/* Header Banner */}
       <div className="page-header bg-gradient-mesh">
         <div className="container">

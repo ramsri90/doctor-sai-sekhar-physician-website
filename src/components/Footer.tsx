@@ -34,14 +34,14 @@ export default function Footer() {
             }}
           >
             <Image
-              src="/images/main-logo.webp"
+              src="/images/logo.png"
               alt="Dr. Sai Sekhar Clinic Logo"
               width={45}
               height={45}
               className="logo-img"
             />
             <div className="logo-text">
-              <span className="logo-title">Dr. Sai Sekhar P</span>
+              <span className="logo-title"><span className="doctor-name-highlight">Dr. Sai Sekhar P</span></span>
               <span className="logo-subtitle">Internal Medicine Consultant</span>
             </div>
           </NextLink>
@@ -84,34 +84,42 @@ export default function Footer() {
         {/* Contacts Column */}
         <div className="footer-col">
           <h3 className="footer-title">Contact Details</h3>
-          <ul className="footer-contacts">
-            <li>
-              <a href="tel:+916300793688" className="contact-link">
-                <i className="fas fa-phone-alt"></i> +91 63007 93688
-              </a>
-            </li>
-            <li>
-              <a href="https://wa.me/916300793688" target="_blank" rel="noopener noreferrer" className="contact-link">
-                <i className="fab fa-whatsapp"></i> +91 63007 93688 (WhatsApp)
-              </a>
-            </li>
-            <li>
-              <a href="mailto:info@drsaisekharphysician.com" className="contact-link">
-                <i className="fas fa-envelope"></i> info@drsaisekharphysician.com
-              </a>
-            </li>
-            <li className="address-li">
-              <a 
-                href="https://maps.app.goo.gl/RwBcYF5CqF1yoigb9" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="contact-link"
-              >
-                <i className="fas fa-map-marker-alt"></i> 
-                <span>Kodanda Ramalayam St, Muralinagar, Visakhapatnam, 530007</span>
-              </a>
-            </li>
-          </ul>
+          {/* NAP wrapped in <address> for local SEO signal */}
+          <address itemScope itemType="https://schema.org/MedicalClinic" style={{ fontStyle: "normal" }}>
+            <span itemProp="name" style={{ display: "none" }}>Trinetra Medicals – Dr. Sai Sekhar P</span>
+            <ul className="footer-contacts">
+              <li>
+                <a href="tel:+916300793688" className="contact-link" itemProp="telephone">
+                  <i className="fas fa-phone-alt"></i> +91 63007 93688
+                </a>
+              </li>
+              <li>
+                <a href="https://wa.me/916300793688" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <i className="fab fa-whatsapp"></i> +91 63007 93688 (WhatsApp)
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@drsaisekharphysician.com" className="contact-link" itemProp="email">
+                  <i className="fas fa-envelope"></i> info@drsaisekharphysician.com
+                </a>
+              </li>
+              <li className="address-li">
+                <a 
+                  href="https://maps.app.goo.gl/RwBcYF5CqF1yoigb9" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="contact-link"
+                >
+                  <i className="fas fa-map-marker-alt"></i> 
+                  <span itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                    <span itemProp="streetAddress">Ramalayam Street, Muralinagar</span>,{" "}
+                    <span itemProp="addressLocality">Visakhapatnam</span>,{" "}
+                    <span itemProp="postalCode">530007</span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </address>
         </div>
 
         {/* Links Column */}

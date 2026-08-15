@@ -142,7 +142,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                   className="doc-avatar"
                 />
                 <div>
-                  <h4>Dr. Sai Sekhar P</h4>
+                  <h4><span className="doctor-name-highlight">Dr. Sai Sekhar P</span></h4>
                   <p>Consultant Physician</p>
                   <p className="hospital-sub">Trinetra Medicals</p>
                 </div>

@@ -5,8 +5,25 @@ import ContactForm from "@/components/ContactForm";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "About Trinetra Medicals | Dr. Sai Sekhar P Clinic - Muralinagar",
-  description: "Explore Trinetra Medicals clinic facilities, consultation timings in Muralinagar, and patient support options in Visakhapatnam.",
+  title: "Trinetra Medicals Muralinagar | General Medicine Clinic Visakhapatnam | Dr. Sai Sekhar P",
+  description: "Trinetra Medicals is a trusted general medicine clinic in Muralinagar, Visakhapatnam led by Dr. Sai Sekhar Pyla. Evening OPD: Monday to Saturday 6 PM – 9 PM. Opposite Govt School, Ramalayam Street, Muralinagar – 530007.",
+  keywords: [
+    "Trinetra Medicals Muralinagar",
+    "clinic Muralinagar Visakhapatnam",
+    "general medicine clinic Vizag",
+    "doctor clinic near me Muralinagar",
+    "evening OPD Visakhapatnam",
+    "clinic timings Muralinagar 530007"
+  ],
+  openGraph: {
+    title: "Trinetra Medicals | General Medicine Clinic in Muralinagar, Visakhapatnam",
+    description: "Trusted healthcare clinic in Muralinagar led by Dr. Sai Sekhar Pyla. Evening OPD Mon–Sat, 6 PM–9 PM. Call +91 63007 93688.",
+    url: "https://www.drsaisekharphysician.com/about-clinic",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://www.drsaisekharphysician.com/about-clinic",
+  },
 };
 
 async function getAboutClinicContent() {
@@ -24,7 +41,7 @@ async function getAboutClinicContent() {
     console.error("Error fetching about-clinic content:", err);
     return `
       <h2>About Our Clinic</h2>
-      <p><strong>Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <strong>Dr. Sai Sekhar P</strong>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments. We aim to be the <strong>best physician clinic in Visakhapatnam / Vizag</strong>.</p>
+      <p><strong>Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <span class="doctor-name-highlight">Dr. Sai Sekhar P</span>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments. We aim to be the <strong>best physician clinic in Visakhapatnam / Vizag</strong>.</p>
       <p>Conveniently located <strong>beside Abhiruchi Sweets, Ramalayam Street, Muralinagar</strong>, our clinic is equipped with modern medical facilities to ensure accurate diagnoses and effective treatment plans.</p>
       <h3>Clinic Timings</h3>
       <ul>

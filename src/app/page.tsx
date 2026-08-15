@@ -1,12 +1,40 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HomeSlider from "@/components/HomeSlider";
 import ReviewsSection from "@/components/ReviewsSection";
 import ContactForm from "@/components/ContactForm";
 import AnimatedCounterSection from "@/components/AnimatedCounterSection";
+import VideoReelsSection from "@/components/VideoReelsSection";
 
 // Force static rendering with dynamic revalidation (ISR)
 export const revalidate = 3600; // Revalidate every hour
+
+export const metadata: Metadata = {
+  title: "Dr. Sai Sekhar Pyla | Best General Physician in Visakhapatnam",
+  description: "Consult the best General Physician & Diabetologist in Visakhapatnam. Dr. Sai Sekhar treats diabetes, thyroid, & fevers at Trinetra Medicals.",
+  keywords: [
+    "best physician Visakhapatnam", "best general physician Vizag", "Dr Sai Sekhar",
+    "general doctor Muralinagar", "physician near me Visakhapatnam",
+    "diabetes doctor Vizag", "thyroid doctor Visakhapatnam", "Trinetra Medicals",
+  ],
+  alternates: { canonical: "https://www.drsaisekharphysician.com" },
+  openGraph: {
+    title: "Dr. Sai Sekhar Pyla | Best Physician in Visakhapatnam",
+    description: "Consult the best General Physician & Diabetologist in Visakhapatnam. Dr. Sai Sekhar treats diabetes, thyroid, & fevers.",
+    url: "https://www.drsaisekharphysician.com",
+    siteName: "Trinetra Medicals",
+    images: [
+      {
+        url: "https://www.drsaisekharphysician.com/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Dr. Sai Sekhar Pyla - Consultant Physician",
+      },
+    ],
+    type: "website",
+  },
+};
 
 async function getClinicData() {
   const baseURL = "https://admin.drsaisekharphysician.com/api/client/";
@@ -84,8 +112,13 @@ export default async function HomePage() {
     <div className="home-page">
       {/* SEO H1 — visually embedded in hero, exactly one per page (slider uses h2) */}
       <div className="sr-h1-hero">
-        <h1>Dr P Sai Sekhar</h1>
-        <p>General Physician</p>
+        <h1>Dr. Sai Sekhar Pyla – Best Physician in Visakhapatnam</h1>
+        <p>MBBS, MD General Medicine | Trinetra Medicals, Muralinagar</p>
+      </div>
+
+      {/* AEO Featured Snippet / Top Summary Signal */}
+      <div className="sr-only">
+        <p><strong>Key Takeaway:</strong> Dr. Sai Sekhar Pyla is an MD General Medicine physician and diabetologist based in Visakhapatnam, with 12 years of experience treating diabetes, hypertension, and infectious diseases. He is a gold medalist known for his patient-centered approach at Trinetra Medicals.</p>
       </div>
 
       {/* 1. Hero Slideshow Section */}
@@ -112,17 +145,17 @@ export default async function HomePage() {
           
           <div className="doctor-info-content">
             <span className="badge">About the Physician</span>
-            <h2 className="section-title">Dr. Sai Sekhar Pyla</h2>
-            <h3 className="doctor-credentials">MBBS, MD (General Medicine) | Consultant Physician</h3>
+            <h2 className="section-title"><span className="doctor-name-highlight">Dr. Sai Sekhar Pyla</span></h2>
+            <p className="doctor-credentials" style={{ fontSize: "1.2rem", fontWeight: "600", color: "var(--text)", marginBottom: "5px" }}>MBBS, MD (General Medicine) | Consultant Physician</p>
             <p className="doctor-specialty-desc" style={{ marginBottom: "15px" }}>
-              Consultant Physician at CARE Hospital, Visakhapatnam
+              Consultant Physician at CARE Hospital & <strong>Trinetra Medicals</strong>
             </p>
 
             <p className="doctor-bio-paragraph">
-              Dr. Sai Sekhar Pyla, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With 12 years of expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.
+              If you are wondering <strong>when should I see a physician</strong>, or if you are experiencing persistent fatigue, unexplained weight changes, or managing a chronic condition like diabetes or thyroid disorders, <span className="doctor-name-highlight">Dr. Sai Sekhar Pyla's</span> General Medicine practice provides comprehensive care. With 12 years of clinical expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare.
             </p>
             <p className="doctor-bio-paragraph">
-              Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:
+              Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong>Trinetra Medicals</strong>, <span className="doctor-name-highlight">Dr. Sai Sekhar</span> is known for his evidence-based, patient-centered approach. Whether you want to know <em>how to manage type 2 diabetes</em> or need immediate treatment for acute infectious fevers, his expertise includes:
             </p>
 
             <div className="doctor-key-highlights">
@@ -203,10 +236,45 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 6. Testimonials Section */}
+      {/* 6. Video Reels Section */}
+      <VideoReelsSection />
+
+      {/* 7. Testimonials Section */}
       <ReviewsSection />
 
-      {/* 7. Contact Map Section */}
+      {/* 8. Patient FAQ & Medical Advice (AEO Optimization) */}
+      <section className="aeo-faq-section scroll-reveal" style={{ padding: "4rem 0", background: "var(--background-alt)" }}>
+        <div className="container">
+          <div className="section-header text-center">
+            <span className="badge">Frequently Asked Questions</span>
+            <h2 className="section-title">Common Patient Queries</h2>
+          </div>
+          
+          <div className="faq-grid" style={{ display: "grid", gap: "2rem", maxWidth: "900px", margin: "0 auto" }}>
+            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
+              <h3>What conditions does a General Physician treat?</h3>
+              <p>A General Physician is your primary point of contact for adult healthcare. Dr. Sai Sekhar treats a wide range of acute and chronic conditions, including viral fevers, respiratory infections, gastrointestinal issues, and metabolic disorders. According to the <a href="https://www.who.int/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>World Health Organization (WHO)</a>, primary care physicians handle the vast majority of personal health needs safely and effectively.</p>
+            </article>
+
+            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
+              <h3>When should you see a Diabetologist in Vizag?</h3>
+              <p>You should consult a diabetologist if your fasting blood sugar is consistently above 126 mg/dL, if you experience excessive thirst or frequent urination, or if you have a family history of diabetes. Early intervention is critical; as per <a href="https://main.icmr.nic.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>ICMR guidelines</a>, timely management of Type 2 Diabetes prevents severe complications like neuropathy and kidney disease.</p>
+            </article>
+
+            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
+              <h3>How is Dr. Sai Sekhar different from other physicians in Visakhapatnam?</h3>
+              <p>Dr. Sai Sekhar brings 12 years of specialized experience in both critical care and chronic disease management. His approach focuses on evidence-based medicine and comprehensive lifestyle counseling rather than just prescribing medication. He prioritizes taking a detailed medical history to uncover the root cause of symptoms.</p>
+            </article>
+
+            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
+              <h3>What should I expect during my first consultation?</h3>
+              <p>During your initial visit at Trinetra Medicals, expect a thorough review of your medical history, a physical examination, and a detailed discussion of your current symptoms. Dr. Sai Sekhar will explain your diagnosis clearly and work with you to develop a personalized, easy-to-follow treatment and diet plan.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. Contact Map Section */}
       <section className="contact-map-section scroll-reveal">
         <div className="container contact-map-grid">
           {/* Map Embed */}
@@ -248,7 +316,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      
+      {/* Freshness Signal for GEO/SEO */}
+      <div className="container" style={{ textAlign: "center", paddingBottom: "2rem", fontSize: "0.85rem", color: "var(--text-light)" }}>
+        <p>Medical information last updated: <strong>{new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</strong></p>
+      </div>
+
     </div>
   );
 }
