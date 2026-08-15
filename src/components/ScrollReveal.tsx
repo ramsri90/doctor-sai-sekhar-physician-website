@@ -12,22 +12,33 @@ export default function ScrollReveal() {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-revealed');
+            // Stop observing once revealed — no need to re-trigger
+            observer.unobserve(entry.target);
           }
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0,
+        // Slightly generous margin so elements just below fold pre-reveal,
+        // preventing scroll-height miscalculation on iOS
+        rootMargin: '0px 0px 20px 0px'
       }
     );
 
     const elements = document.querySelectorAll('.scroll-reveal');
     elements.forEach((el) => {
-      observer.observe(el);
+      // Immediately reveal elements already in the viewport (above fold)
+      // This prevents invisible/shifted elements from breaking scroll layout on refresh
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-revealed');
+      } else {
+        observer.observe(el);
+      }
     });
     
     return () => {
-      elements.forEach((el) => observer.unobserve(el));
+      observer.disconnect();
     };
   }, [pathname]); // Re-run when pathname changes
 
