@@ -251,25 +251,33 @@ export default async function HomePage() {
           </div>
           
           <div className="faq-grid" style={{ display: "grid", gap: "2rem", maxWidth: "900px", margin: "0 auto" }}>
-            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
-              <h3>What conditions does a General Physician treat?</h3>
-              <p>A General Physician is your primary point of contact for adult healthcare. Dr. Sai Sekhar treats a wide range of acute and chronic conditions, including viral fevers, respiratory infections, gastrointestinal issues, and metabolic disorders. According to the <a href="https://www.who.int/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>World Health Organization (WHO)</a>, primary care physicians handle the vast majority of personal health needs safely and effectively.</p>
-            </article>
+            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
+              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
+                What conditions does a General Physician treat?
+              </summary>
+              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>A General Physician is your primary point of contact for adult healthcare. Dr. Sai Sekhar treats a wide range of acute and chronic conditions, including viral fevers, respiratory infections, gastrointestinal issues, and metabolic disorders. According to the <a href="https://www.who.int/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>World Health Organization (WHO)</a>, primary care physicians handle the vast majority of personal health needs safely and effectively.</p>
+            </details>
 
-            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
-              <h3>When should you see a Diabetologist in Vizag?</h3>
-              <p>You should consult a diabetologist if your fasting blood sugar is consistently above 126 mg/dL, if you experience excessive thirst or frequent urination, or if you have a family history of diabetes. Early intervention is critical; as per <a href="https://main.icmr.nic.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>ICMR guidelines</a>, timely management of Type 2 Diabetes prevents severe complications like neuropathy and kidney disease.</p>
-            </article>
+            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
+              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
+                When should you see a Diabetologist in Vizag?
+              </summary>
+              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>You should consult a diabetologist if your fasting blood sugar is consistently above 126 mg/dL, if you experience excessive thirst or frequent urination, or if you have a family history of diabetes. Early intervention is critical; as per <a href="https://main.icmr.nic.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>ICMR guidelines</a>, timely management of Type 2 Diabetes prevents severe complications like neuropathy and kidney disease.</p>
+            </details>
 
-            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
-              <h3>How is Dr. Sai Sekhar different from other physicians in Visakhapatnam?</h3>
-              <p>Dr. Sai Sekhar brings 12 years of specialized experience in both critical care and chronic disease management. His approach focuses on evidence-based medicine and comprehensive lifestyle counseling rather than just prescribing medication. He prioritizes taking a detailed medical history to uncover the root cause of symptoms.</p>
-            </article>
+            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
+              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
+                How is Dr. Sai Sekhar different from other physicians in Visakhapatnam?
+              </summary>
+              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>Dr. Sai Sekhar brings 12 years of specialized experience in both critical care and chronic disease management. His approach focuses on evidence-based medicine and comprehensive lifestyle counseling rather than just prescribing medication. He prioritizes taking a detailed medical history to uncover the root cause of symptoms.</p>
+            </details>
 
-            <article className="faq-item" style={{ background: "var(--card-bg)", padding: "2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)" }}>
-              <h3>What should I expect during my first consultation?</h3>
-              <p>During your initial visit at Trinetra Medicals, expect a thorough review of your medical history, a physical examination, and a detailed discussion of your current symptoms. Dr. Sai Sekhar will explain your diagnosis clearly and work with you to develop a personalized, easy-to-follow treatment and diet plan.</p>
-            </article>
+            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
+              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
+                What should I expect during my first consultation?
+              </summary>
+              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>During your initial visit at Trinetra Medicals, expect a thorough review of your medical history, a physical examination, and a detailed discussion of your current symptoms. Dr. Sai Sekhar will explain your diagnosis clearly and work with you to develop a personalized, easy-to-follow treatment and diet plan.</p>
+            </details>
           </div>
         </div>
       </section>

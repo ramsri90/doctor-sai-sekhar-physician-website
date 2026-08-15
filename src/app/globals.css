@@ -3434,3 +3434,48 @@ img, video, iframe, figure {
   }
 }
 
+
+/* ==================== AEO FAQ ACCORDION ANIMATION ==================== */
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+details.faq-item summary {
+  list-style: none;
+  position: relative;
+  padding-right: 2rem;
+}
+details.faq-item summary::after {
+  content: '\f107'; /* FontAwesome angle-down */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+  color: var(--primary);
+}
+details.faq-item[open] summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+details.faq-item::details-content {
+  opacity: 0;
+  block-size: 0;
+  overflow-y: clip;
+  transition: content-visibility 0.4s allow-discrete, opacity 0.4s, block-size 0.4s;
+}
+details.faq-item[open]::details-content {
+  opacity: 1;
+  block-size: auto;
+}
+
+/* Fallback for browsers that don't support ::details-content */
+@supports not selector(::details-content) {
+  details.faq-item p {
+    animation: sweep .4s ease-in-out forwards;
+  }
+}
+@keyframes sweep {
+  0%    {opacity: 0; transform: translateY(-10px)}
+  100%  {opacity: 1; transform: translateY(0)}
+}
