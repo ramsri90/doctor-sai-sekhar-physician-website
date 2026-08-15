@@ -17,9 +17,6 @@ export default function Footer() {
 
   return (
     <footer className="footer-section">
-      {/* FontAwesome style injection for social icons */}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-      
       <div className="container footer-grid">
         {/* Info Column */}
         <div className="footer-col info-col">
@@ -41,7 +38,7 @@ export default function Footer() {
               className="logo-img"
             />
             <div className="logo-text">
-              <span className="logo-title"><span className="doctor-name-highlight">Dr. Sai Sekhar P</span></span>
+              <span className="logo-title">Dr. Sai Sekhar P</span>
               <span className="logo-subtitle">Internal Medicine Consultant</span>
             </div>
           </NextLink>
