@@ -10,24 +10,12 @@ export const metadata: Metadata = {
 };
 
 async function getAboutDoctorContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 } });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data.find((p: { slug: string, content: string }) => p.slug === "about-doctor");
-    let content = page ? page.content : "";
-    content = content.replace(/<h2>.*?<\/h2>/i, "");
-    content = content.replace(/<strong>([^<]*CARE Hospital[^<]*)<\/strong>/gi, "$1");
-    content = content.replace(/<b>([^<]*CARE Hospital[^<]*)<\/b>/gi, "$1");
-    return content;
-  } catch (err) {
-    console.error("Error fetching about-doctor content:", err);
-    return `
-      <h2>About Dr. Sai Sekhar Pyla</h2>
-      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
-      <p>Currently serving as a <strong>Consultant Physician at CARE Hospital, Visakhapatnam</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
-    `;
-  }
+  // Override the API completely as it is serving outdated content
+  return `
+    <h2>About Dr. Sai Sekhar Pyla</h2>
+    <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
+    <p>Currently serving as a <strong>Consultant Physician at CARE Hospital, Visakhapatnam</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
+  `;
 }
 
 export default async function AboutDoctorPage() {
