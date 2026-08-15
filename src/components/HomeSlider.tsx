@@ -108,6 +108,7 @@ export default function HomeSlider({ banners }: HomeSliderProps) {
                     <Image 
                       src="/images/one.webp"
                       alt="Doctor Consultation"
+                      title="Doctor Consultation"
                       width={480}
                       height={500}
                       priority={idx === 0}

@@ -112,7 +112,7 @@ export default async function HomePage() {
     <div className="home-page">
       {/* SEO H1 — visually embedded in hero, exactly one per page (slider uses h2) */}
       <div className="sr-h1-hero">
-        <h1>Dr. Sai Sekhar Pyla – Best Physician in Visakhapatnam</h1>
+        <h1>Dr P Sai Sekhar</h1>
         <p>MBBS, MD General Medicine | Trinetra Medicals, Muralinagar</p>
       </div>
 
@@ -131,6 +131,7 @@ export default async function HomePage() {
             <Image
               src="/images/two.webp"
               alt="Dr. Sai Sekhar P - Consultant Physician"
+              title="Dr. Sai Sekhar P - Consultant Physician"
               width={450}
               height={550}
               className="blob-mask"

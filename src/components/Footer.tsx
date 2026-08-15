@@ -33,6 +33,7 @@ export default function Footer() {
             <Image
               src="/images/logo.png"
               alt="Dr. Sai Sekhar Clinic Logo"
+              title="Dr. Sai Sekhar Clinic Logo"
               width={45}
               height={45}
               className="logo-img"

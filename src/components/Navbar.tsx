@@ -81,6 +81,7 @@ export default function Navbar() {
           <Image
             src="/images/logo.png"
             alt="Dr. Sai Sekhar Clinic Logo"
+            title="Dr. Sai Sekhar Clinic Logo"
             width={50}
             height={50}
             className="logo-img"
