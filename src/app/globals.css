@@ -185,8 +185,10 @@
 
 html {
   scroll-behavior: smooth;
-  /* Prevent iOS rubber-band bounce from masking actual scroll */
-  overscroll-behavior: none;
+  /* Only block horizontal overscroll (prevents side-scroll drift on mobile).
+     Do NOT use overscroll-behavior:none — it blocks vertical bounce on desktop
+     making scroll feel stuck at the top and bottom of the page. */
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -384,6 +386,8 @@ a {
 .slider-container {
   position: relative;
   width: 100%;
+  /* Ensure slider never exceeds viewport width */
+  max-width: 100%;
   background-color: #0f3d3e; /* Dark Teal */
   margin-top: 0;
   display: grid;
@@ -391,10 +395,9 @@ a {
   grid-template-rows: 1fr;
   /* Allow vertical touch scrolling on iOS */
   touch-action: pan-y;
-  /* Force own compositing layer — keeps slider GPU-rendered
-     separately from the scroll engine, preventing interference */
-  transform: translateZ(0);
-  isolation: isolate;
+  /* Promote to GPU layer WITHOUT transform (transform breaks clip boundaries).
+     will-change achieves the same compositing without escaping overflow:clip */
+  will-change: contents;
 }
 
 .slide-item {
