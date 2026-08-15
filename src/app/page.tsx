@@ -53,11 +53,18 @@ async function getClinicData() {
       };
     });
 
+    let fetchedServices = servicesRes?.data || fallbackServices;
+    // Filter out osteoarthritis from API data
+    fetchedServices = fetchedServices.map((cat: any) => ({
+      ...cat,
+      services: cat.services ? cat.services.filter((s: any) => s.slug !== 'osteoarthritis') : []
+    }));
+
     return {
       banners: bannersRes?.data || [],
       settings: settingsRes?.data || fallbackSettings,
       counters: mergedCounters,
-      services: servicesRes?.data || fallbackServices,
+      services: fetchedServices,
     };
   } catch (error) {
     console.error("Error fetching clinic data, using fallbacks:", error);

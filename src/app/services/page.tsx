@@ -13,7 +13,15 @@ async function getServicesList() {
     const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error("Failed to fetch");
     const json = await res.json();
-    return json.data || [];
+    let data = json.data || [];
+    
+    // Filter out osteoarthritis from API data
+    data = data.map((cat: any) => ({
+      ...cat,
+      services: cat.services ? cat.services.filter((s: any) => s.slug !== 'osteoarthritis') : []
+    }));
+    
+    return data;
   } catch (err) {
     console.error("Error fetching services list:", err);
     // Fallback static structure matching the actual database categories and services
