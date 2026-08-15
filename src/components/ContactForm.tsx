@@ -140,7 +140,7 @@ export default function ContactForm() {
                   onClick={() => handleStarClick(star)}
                   className={`star-btn ${star <= formData.rating ? "active" : ""}`}
                   aria-label={`Rate ${star} Stars`}
-                  style={{ background: "none", border: "none", fontSize: "1.8rem", cursor: "pointer", color: star <= formData.rating ? "#fbbf24" : "#e5e7eb", transition: "color 0.2s" }}
+                  style={{ color: star <= formData.rating ? "#fbbf24" : "#e5e7eb" }}
                 >
                   ★
                 </button>
