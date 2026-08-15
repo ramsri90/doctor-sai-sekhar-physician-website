@@ -42,12 +42,13 @@ async function getClinicData() {
     ]);
 
     // Format target fallback details on counter items if needed
+    // The API is returning old data, so we force the updated fallback counts instead
     const APIcounters = countersRes?.data || [];
     const mergedCounters = fallbackCounters.map((fallback, idx) => {
       const apiItem = APIcounters[idx];
       return {
         id: fallback.id,
-        count: apiItem?.count || fallback.count,
+        count: fallback.count, // Override API with the new requested values
         title: fallback.title // keep exact specified title
       };
     });
