@@ -59,7 +59,6 @@ async function getServicesList() {
         id: 5,
         category_name: "Bone and Joint",
         services: [
-          { id: 56, name: "Osteoarthritis", slug: "osteoarthritis" },
           { id: 58, name: "Rheumatoid Arthritis", slug: "rheumatoid-arthritis" },
           { id: 59, name: "Cervical Spondylosis", slug: "cervical-spondylosis" },
           { id: 60, name: "Lumbar Spondylosis", slug: "lumbar-spondylosis" }

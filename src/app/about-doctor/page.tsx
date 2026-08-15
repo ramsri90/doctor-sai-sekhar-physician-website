@@ -23,9 +23,9 @@ async function getAboutDoctorContent() {
   } catch (err) {
     console.error("Error fetching about-doctor content:", err);
     return `
-      <h2>About Dr. Sai Sekhar P</h2>
-      <p><strong>Dr. Sai Sekhar P</strong>, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, diabetes management, infectious diseases, and preventive healthcare</strong>.</p>
-      <p>Practicing at <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>, <strong>Dr. Sai Sekhar P</strong> is known for his patient-centered approach, high diagnostic accuracy, and commitment to medical excellence. He is recognized as the <strong>best physician from Visakhapatnam / Vizag</strong>.</p>
+      <h2>About Dr. Sai Sekhar Pyla</h2>
+      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), gold medalist, a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
+      <p>Currently serving as a <strong>Consultant Physician at CARE Hospital, Visakhapatnam</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
     `;
   }
 }
@@ -86,8 +86,8 @@ export default async function AboutDoctorPage() {
           <div className="doctor-details-content">
             <div style={{ marginBottom: "2rem" }}>
               <span className="badge">Physician Profile</span>
-              <h1 className="page-title" style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>Dr. Sai Sekhar P</h1>
-              <p className="page-subtitle" style={{ margin: 0, color: "var(--neutral-muted)" }}>MD General Medicine | Diabetologist | Infectious Disease Specialist</p>
+              <h1 className="page-title" style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>Dr. Sai Sekhar Pyla</h1>
+              <p className="page-subtitle" style={{ margin: 0, color: "var(--neutral-muted)" }}>MBBS, MD (General Medicine) | Gold Medalist | Consultant Physician, CARE Hospital</p>
             </div>
 
             <div 

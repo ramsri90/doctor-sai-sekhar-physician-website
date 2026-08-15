@@ -733,6 +733,59 @@ a {
      a scroll boundary. */
   overflow-x: clip;
   width: 100%;
+  position: relative;
+}
+
+/* SEO H1 — visually integrated into the hero slider area.
+   Positioned absolute so it sits over the hero's dark teal background.
+   Uses pointer-events:none so it doesn't interfere with slider interactions.
+   Exactly ONE h1 on the homepage. */
+.sr-h1-hero {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 1240px;
+  z-index: 10;
+  pointer-events: none;
+  color: #ffffff;
+}
+
+.sr-h1-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+}
+
+.sr-h1-hero p {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 600;
+  color: var(--secondary);
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* On mobile, hide the overlay H1 (slider content is hidden too at small sizes)
+   and show it as a regular block above the slider instead */
+@media (max-width: 767px) {
+  .sr-h1-hero {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    background-color: #0f3d3e;
+    padding: 80px 20px 16px 20px;
+    margin-bottom: 0;
+    pointer-events: auto;
+  }
 }
 
 .about-doctor-section {

@@ -34,12 +34,11 @@ async function getClinicData() {
   ];
 
   try {
-    const [bannersRes, settingsRes, countersRes, servicesRes, videosRes] = await Promise.all([
+    const [bannersRes, settingsRes, countersRes, servicesRes] = await Promise.all([
       fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
       fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
       fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
       fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-videos-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null)
     ]);
 
     // Format target fallback details on counter items if needed
@@ -58,7 +57,6 @@ async function getClinicData() {
       settings: settingsRes?.data || fallbackSettings,
       counters: mergedCounters,
       services: servicesRes?.data || fallbackServices,
-      videos: videosRes?.data || []
     };
   } catch (error) {
     console.error("Error fetching clinic data, using fallbacks:", error);
@@ -67,7 +65,6 @@ async function getClinicData() {
       settings: fallbackSettings,
       counters: fallbackCounters,
       services: fallbackServices,
-      videos: []
     };
   }
 }
@@ -77,6 +74,12 @@ export default async function HomePage() {
 
   return (
     <div className="home-page">
+      {/* SEO H1 — visually embedded in hero, exactly one per page (slider uses h2) */}
+      <div className="sr-h1-hero">
+        <h1>Dr P Sai Sekhar</h1>
+        <p>General Physician</p>
+      </div>
+
       {/* 1. Hero Slideshow Section */}
       <HomeSlider banners={data.banners} />
 
@@ -101,20 +104,17 @@ export default async function HomePage() {
           
           <div className="doctor-info-content">
             <span className="badge">About the Physician</span>
-            <h2 className="section-title">Dr. Sai Sekhar P</h2>
-            <h3 className="doctor-credentials">MD General Medicine | Diabetologist | Infectious Disease Specialist</h3>
+            <h2 className="section-title">Dr. Sai Sekhar Pyla</h2>
+            <h3 className="doctor-credentials">MBBS, MD (General Medicine) | Gold Medalist | Consultant Physician</h3>
             <p className="doctor-specialty-desc" style={{ marginBottom: "15px" }}>
-              Consultant Physician in Internal Medicine & General Practitioner
+              Consultant Physician at CARE Hospital, Visakhapatnam
             </p>
-            <p className="best-physician-bold" style={{ fontWeight: "bold", fontSize: "1.25rem", color: "var(--primary)", marginTop: "-10px", marginBottom: "20px" }}>
-              Best Physician in Visakhapatnam / Vizag
-            </p>
-            
+
             <p className="doctor-bio-paragraph">
-              Dr. Sai Sekhar P is a highly regarded Consultant Physician based in Visakhapatnam. Practicing at Trinetra Medicals, Muralinagar, he specializes in the diagnosis, treatment, and comprehensive management of lifestyle disorders, chronic illnesses, and infectious diseases.
+              Dr. Sai Sekhar Pyla, MBBS, MD (General Medicine), gold medalist, a highly experienced physician with a passion for providing top-quality medical care. With 12 years of expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.
             </p>
             <p className="doctor-bio-paragraph">
-              With 12 years of dedicated experience, Dr. Sai Sekhar P is widely recognized for his patient-centered approach. He believes in careful, attentive listening to understand each patient&apos;s history fully, providing clear explanations of treatment paths, and delivering high diagnostic accuracy&mdash;especially in complex and critical care scenarios.
+              Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:
             </p>
 
             <div className="doctor-key-highlights">
@@ -194,34 +194,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* 5. Health Tips Video Section */}
-      {data.videos && data.videos.length > 0 && (
-        <section className="video-section scroll-reveal">
-          <div className="container video-container">
-            <div className="section-header text-center">
-              <span className="badge">Patient Education</span>
-              <h2 className="section-title">Health Awareness Videos</h2>
-              <p className="section-subtitle">Watch health tips and medical guidance from Dr. Sai Sekhar P</p>
-            </div>
-            
-            <div className="video-player-wrapper video-thumbnail-container" style={{ marginBottom: "2rem" }}>
-              <iframe
-                src={`https://www.youtube.com/embed/${data.videos[0].youtubelink?.split("v=")[1]?.split("&")[0] || "vknuYFU1sTo"}`}
-                title={data.videos[0].name || "Health Tips from Dr. Sai Sekhar P"}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="video-iframe"
-                style={{ width: "100%", aspectRatio: "16/9", border: "none" }}
-              ></iframe>
-            </div>
-            <div className="video-info text-center">
-              <h3>{data.videos[0].name || "Important Health Tips"}</h3>
-              <p>Learn tips on managing lifestyle diseases, diabetes control, and preventive health screenings.</p>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* 6. Testimonials Section */}
       <ReviewsSection />
