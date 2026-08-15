@@ -106,13 +106,13 @@ export default async function HomePage() {
           <div className="doctor-info-content">
             <span className="badge">About the Physician</span>
             <h2 className="section-title">Dr. Sai Sekhar Pyla</h2>
-            <h3 className="doctor-credentials">MBBS, MD (General Medicine) | Gold Medalist | Consultant Physician</h3>
+            <h3 className="doctor-credentials">MBBS, MD (General Medicine) | Consultant Physician</h3>
             <p className="doctor-specialty-desc" style={{ marginBottom: "15px" }}>
               Consultant Physician at CARE Hospital, Visakhapatnam
             </p>
 
             <p className="doctor-bio-paragraph">
-              Dr. Sai Sekhar Pyla, MBBS, MD (General Medicine), gold medalist, a highly experienced physician with a passion for providing top-quality medical care. With 12 years of expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.
+              Dr. Sai Sekhar Pyla, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With 12 years of expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.
             </p>
             <p className="doctor-bio-paragraph">
               Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:

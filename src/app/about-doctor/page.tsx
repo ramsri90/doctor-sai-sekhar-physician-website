@@ -24,7 +24,7 @@ async function getAboutDoctorContent() {
     console.error("Error fetching about-doctor content:", err);
     return `
       <h2>About Dr. Sai Sekhar Pyla</h2>
-      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), gold medalist, a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
+      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
       <p>Currently serving as a <strong>Consultant Physician at CARE Hospital, Visakhapatnam</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
     `;
   }
@@ -87,7 +87,7 @@ export default async function AboutDoctorPage() {
             <div style={{ marginBottom: "2rem" }}>
               <span className="badge">Physician Profile</span>
               <h1 className="page-title" style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>Dr. Sai Sekhar Pyla</h1>
-              <p className="page-subtitle" style={{ margin: 0, color: "var(--neutral-muted)" }}>MBBS, MD (General Medicine) | Gold Medalist | Consultant Physician, CARE Hospital</p>
+              <p className="page-subtitle" style={{ margin: 0, color: "var(--neutral-muted)" }}>MBBS, MD (General Medicine) | Consultant Physician, CARE Hospital</p>
             </div>
 
             <div 
