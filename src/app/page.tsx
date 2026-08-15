@@ -20,10 +20,10 @@ async function getClinicData() {
   };
 
   const fallbackCounters = [
-    { id: 1, title: "Patients Treated", count: "1,00,000+" },
-    { id: 2, title: "Chronic Disease Management Cases", count: "50,000+" },
-    { id: 3, title: "Preventive Health Screenings", count: "35,000+" },
-    { id: 4, title: "Emergency Cases Handled", count: "20,000+" }
+    { id: 1, title: "Patients Treated", count: "2,00,000+" },
+    { id: 2, title: "Chronic Disease Management Cases", count: "1,00,000+" },
+    { id: 3, title: "Preventive Health Screenings", count: "50,000+" },
+    { id: 4, title: "Emergency Cases Handled", count: "30,000+" }
   ];
 
   const fallbackServices = [
