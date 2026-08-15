@@ -173,7 +173,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* NOTE: overflow-x: hidden on body breaks iOS Safari scroll.
+     Use a wrapper div or html-level clip instead. */
+  overflow-x: clip;
 }
 
 main {
@@ -352,6 +354,8 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  /* Allow vertical touch scrolling on iOS */
+  touch-action: pan-y;
 }
 
 .slide-item {
@@ -653,13 +657,18 @@ a {
   }
   .slider-container {
     height: auto;
-    min-height: 100vh;
+    /* Use dvh (dynamic viewport height) so iOS Safari's address bar
+       is correctly excluded — prevents the hero from being taller
+       than the scrollable area, which causes the scroll-stuck bug. */
+    min-height: 100dvh;
     padding-bottom: 40px;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
   .slide-item {
     position: relative;
     height: auto;
-    min-height: 100vh;
+    min-height: 100dvh;
   }
   .slide-info-row {
     grid-template-columns: 1fr;
