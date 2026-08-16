@@ -64,10 +64,10 @@ async function getClinicData() {
 
   try {
     const [bannersRes, settingsRes, countersRes, servicesRes] = await Promise.all([
-      fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
     ]);
 
     // Format target fallback details on counter items if needed
