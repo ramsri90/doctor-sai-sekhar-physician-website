@@ -29,9 +29,12 @@ export const metadata: Metadata = {
   },
 };
 
-async function getServicesList() {
+const getServicesList = cache(async () => {
   try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
+    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { 
+      next: { revalidate: 3600 }, 
+      signal: AbortSignal.timeout(800) 
+    });
     if (!res.ok) throw new Error("Failed to fetch");
     const json = await res.json();
     let data = json.data || [];
