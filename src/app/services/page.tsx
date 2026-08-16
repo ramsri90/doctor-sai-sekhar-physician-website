@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cache } from "react";
 
 export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
@@ -158,7 +159,7 @@ const getServicesList = cache(async () => {
       }
     ];
   }
-}
+});
 
 export default async function ServicesPage() {
   const categories = await getServicesList();
