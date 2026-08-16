@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {

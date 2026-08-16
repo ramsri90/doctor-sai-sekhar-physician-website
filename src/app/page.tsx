@@ -7,7 +7,8 @@ import ContactForm from "@/components/ContactForm";
 import AnimatedCounterSection from "@/components/AnimatedCounterSection";
 import VideoReelsSection from "@/components/VideoReelsSection";
 
-// Force static rendering with dynamic revalidation (ISR)
+// Force static rendering for instant edge loading
+export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
