@@ -26,26 +26,13 @@ export const metadata: Metadata = {
   },
 };
 
-async function getAboutUsContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data.find((p: { slug: string, content: string }) => p.slug === "about-us");
-    let content = page ? page.content : "";
-    content = content.replace(/<h2>.*?<\/h2>/i, "");
-    content = content.replace(/<strong>([^<]*CARE Hospital[^<]*)<\/strong>/gi, "$1");
-    content = content.replace(/<b>([^<]*CARE Hospital[^<]*)<\/b>/gi, "$1");
-    return content;
-  } catch (err) {
-    console.error("Error fetching about-us content:", err);
-    return `
-      <h2>About Us</h2>
-      <p>Welcome to <strong>Dr. Sai Sekhar P&apos;s</strong> official website, your trusted destination for expert medical care. With over <strong>12 years of experience</strong>, Dr. Sai Sekhar P is a renowned Consultant Physician specializing in General Medicine, Diabetology, and Infectious Diseases.</p>
-      <p>Our clinic is dedicated to providing <strong>comprehensive healthcare</strong>, ranging from preventive medicine to the management of chronic diseases like <strong>diabetes, hypertension, and infectious diseases</strong>. We strive to offer patient-centric care with a focus on early diagnosis and effective treatment. We are committed to providing the <strong>best physician services in Visakhapatnam / Vizag</strong>.</p>
-      <p>Visit us at Trinetra Medicals, Muralinagar, Visakhapatnam.</p>
-    `;
-  }
+function getAboutUsContent() {
+  return `
+    <h2>About Us</h2>
+    <p>Welcome to <strong>Dr. Sai Sekhar P&apos;s</strong> official website, your trusted destination for expert medical care. With over <strong>12 years of experience</strong>, Dr. Sai Sekhar P is a renowned Consultant Physician specializing in General Medicine, Diabetology, and Infectious Diseases.</p>
+    <p>Our clinic is dedicated to providing <strong>comprehensive healthcare</strong>, ranging from preventive medicine to the management of chronic diseases like <strong>diabetes, hypertension, and infectious diseases</strong>. We strive to offer patient-centric care with a focus on early diagnosis and effective treatment. We are committed to providing the <strong>best physician services in Visakhapatnam / Vizag</strong>.</p>
+    <p>Visit us at Trinetra Medicals, Muralinagar, Visakhapatnam.</p>
+  `;
 }
 
 export default async function AboutUsPage() {

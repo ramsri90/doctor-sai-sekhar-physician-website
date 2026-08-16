@@ -27,29 +27,16 @@ export const metadata: Metadata = {
   },
 };
 
-async function getAboutClinicContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data.find((p: { slug: string, content: string }) => p.slug === "about-clinic");
-    let content = page ? page.content : "";
-    content = content.replace(/<h2>.*?<\/h2>/i, "");
-    content = content.replace(/<strong>([^<]*CARE Hospital[^<]*)<\/strong>/gi, "$1");
-    content = content.replace(/<b>([^<]*CARE Hospital[^<]*)<\/b>/gi, "$1");
-    return content;
-  } catch (err) {
-    console.error("Error fetching about-clinic content:", err);
-    return `
-      <h2>About Our Clinic</h2>
-      <p><strong>Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <span class="doctor-name-highlight">Dr. Sai Sekhar P</span>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments. We aim to be the <strong>best physician clinic in Visakhapatnam / Vizag</strong>.</p>
-      <p>Conveniently located <strong>beside Abhiruchi Sweets, Ramalayam Street, Muralinagar</strong>, our clinic is equipped with modern medical facilities to ensure accurate diagnoses and effective treatment plans.</p>
-      <h3>Clinic Timings</h3>
-      <ul>
-        <li><strong>Trinetra Medicals (Muralinagar)</strong> &ndash; 6:00 PM to 9:00 PM (Monday &ndash; Saturday)</li>
-      </ul>
-    `;
-  }
+function getAboutClinicContent() {
+  return `
+    <h2>About Our Clinic</h2>
+    <p><strong>Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <span class="doctor-name-highlight">Dr. Sai Sekhar P</span>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments. We aim to be the <strong>best physician clinic in Visakhapatnam / Vizag</strong>.</p>
+    <p>Conveniently located <strong>beside Abhiruchi Sweets, Ramalayam Street, Muralinagar</strong>, our clinic is equipped with modern medical facilities to ensure accurate diagnoses and effective treatment plans.</p>
+    <h3>Clinic Timings</h3>
+    <ul>
+      <li><strong>Trinetra Medicals (Muralinagar)</strong> &ndash; 6:00 PM to 9:00 PM (Monday &ndash; Saturday)</li>
+    </ul>
+  `;
 }
 
 export default async function AboutClinicPage() {

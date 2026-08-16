@@ -140,23 +140,7 @@ const fallbackServiceDetails: Record<string, { name: string; content: string; im
   }
 };
 
-const getServiceDetail = cache(async (slug: string) => {
-  try {
-    const res = await fetch(`https://admin.drsaisekharphysician.com/api/client/get-single-service/${slug}`, { 
-      next: { revalidate: 3600 }, 
-      signal: AbortSignal.timeout(800) 
-    });
-    if (res.ok) {
-      const json = await res.json();
-      if (json.status && json.data && json.data.name) {
-        return json.data;
-      }
-    }
-  } catch (err) {
-    // API failed or timed out — seamlessly use fallback below
-  }
-
-  // Return static fallback if available, or generate default details from slug
+function getServiceDetail(slug: string) {
   if (fallbackServiceDetails[slug]) {
     return fallbackServiceDetails[slug];
   }
@@ -171,35 +155,10 @@ const getServiceDetail = cache(async (slug: string) => {
     content: `<p>Consult Dr. Sai Sekhar Pyla for expert medical evaluation, diagnosis, and treatment of ${formattedName} in Visakhapatnam. Book an appointment for comprehensive clinical care.</p>`,
     image: "/images/two.webp"
   };
-});
+}
 
 export async function generateStaticParams() {
   const allSlugs = Object.keys(fallbackServiceDetails);
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { 
-      next: { revalidate: 3600 }, 
-      signal: AbortSignal.timeout(800) 
-    });
-    if (res.ok) {
-      const json = await res.json();
-      const fetchedSlugs: { slug: string }[] = [];
-      if (json.data) {
-        json.data.forEach((cat: { services: Array<{ slug: string }> }) => {
-          if (cat.services) {
-            cat.services.forEach((s: { slug: string }) => {
-              if (s.slug && s.slug !== "osteoarthritis") {
-                fetchedSlugs.push({ slug: s.slug });
-              }
-            });
-          }
-        });
-      }
-      if (fetchedSlugs.length > 0) return fetchedSlugs;
-    }
-  } catch (error) {
-    // Return all static slugs if network fails
-  }
-
   return allSlugs.map(slug => ({ slug }));
 }
 

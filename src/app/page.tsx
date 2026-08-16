@@ -37,9 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-async function getClinicData() {
-  const baseURL = "https://admin.drsaisekharphysician.com/api/client/";
-  
+function getClinicData() {
   const fallbackSettings = {
     contact: {
       phone: "6300793688",
@@ -56,54 +54,18 @@ async function getClinicData() {
   ];
 
   const fallbackServices = [
-    { id: 1, category_name: "Diabetes", services: [{ name: "Type II DM", slug: "type-ii-dm" }] },
-    { id: 2, category_name: "Thyroid Disorder", services: [{ name: "Hypothyroidism", slug: "hypothyroidism" }] },
-    { id: 3, category_name: "Fever & Infections", services: [{ name: "Dengue fever", slug: "dengue-fever" }] },
-    { id: 4, category_name: "Cardiac & Hypertension", services: [{ name: "Hypertension (HTN)", slug: "hypertension-htn" }] }
+    { id: 1, category_name: "Diabetes", services: [{ id: 1, name: "Type II DM", slug: "type-ii-dm" }, { id: 2, name: "Type 1 DM", slug: "type-1-dm" }] },
+    { id: 2, category_name: "Thyroid Disorder", services: [{ id: 3, name: "Hypothyroidism", slug: "hypothyroidism" }, { id: 4, name: "Hyperthyroidism", slug: "hyperthyroidism" }] },
+    { id: 3, category_name: "Fever & Infections", services: [{ id: 5, name: "Dengue fever", slug: "dengue-fever" }, { id: 6, name: "Malaria", slug: "malaria" }] },
+    { id: 4, category_name: "Cardiac & Hypertension", services: [{ id: 7, name: "Hypertension (HTN)", slug: "hypertension-htn" }] }
   ];
 
-  try {
-    const [bannersRes, settingsRes, countersRes, servicesRes] = await Promise.all([
-      fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(300) }).then(res => res.json()).catch(() => null),
-    ]);
-
-    // Format target fallback details on counter items if needed
-    // The API is returning old data, so we force the updated fallback counts instead
-    const APIcounters = countersRes?.data || [];
-    const mergedCounters = fallbackCounters.map((fallback, idx) => {
-      const apiItem = APIcounters[idx];
-      return {
-        id: fallback.id,
-        count: fallback.count, // Override API with the new requested values
-        title: fallback.title // keep exact specified title
-      };
-    });
-
-    let fetchedServices = servicesRes?.data || fallbackServices;
-    // Filter out osteoarthritis from API data
-    fetchedServices = fetchedServices.map((cat: any) => ({
-      ...cat,
-      services: cat.services ? cat.services.filter((s: any) => s.slug !== 'osteoarthritis') : []
-    }));
-
-    return {
-      banners: bannersRes?.data || [],
-      settings: settingsRes?.data || fallbackSettings,
-      counters: mergedCounters,
-      services: fetchedServices,
-    };
-  } catch (error) {
-    console.error("Error fetching clinic data, using fallbacks:", error);
-    return {
-      banners: [],
-      settings: fallbackSettings,
-      counters: fallbackCounters,
-      services: fallbackServices,
-    };
-  }
+  return {
+    banners: [],
+    settings: fallbackSettings,
+    counters: fallbackCounters,
+    services: fallbackServices,
+  };
 }
 
 export default async function HomePage() {
