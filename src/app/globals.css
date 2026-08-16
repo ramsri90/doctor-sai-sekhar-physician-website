@@ -1796,9 +1796,16 @@ a {
 }
 
 .doc-avatar {
-  border-radius: 50%;
+  width: 70px !important;
+  height: 70px !important;
+  min-width: 70px !important;
+  min-height: 70px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
   border: 2px solid var(--primary-light);
   object-fit: cover;
+  object-position: top center;
+  flex-shrink: 0;
 }
 
 .doc-avatar-row h4 {
