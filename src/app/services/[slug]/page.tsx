@@ -12,7 +12,7 @@ interface PageProps {
 
 async function getServiceDetail(slug: string) {
   try {
-    const res = await fetch(`https://admin.drsaisekharphysician.com/api/client/get-single-service/${slug}`, { next: { revalidate: 3600 } });
+    const res = await fetch(`https://admin.drsaisekharphysician.com/api/client/get-single-service/${slug}`, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
     if (!res.ok) return null;
     const json = await res.json();
     if (json.status && json.data) {
@@ -27,7 +27,7 @@ async function getServiceDetail(slug: string) {
 
 export async function generateStaticParams() {
   try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { next: { revalidate: 3600 } });
+    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
     if (!res.ok) return [];
     const json = await res.json();
     const paths: { slug: string }[] = [];

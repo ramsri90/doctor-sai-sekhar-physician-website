@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 async function getPrivacyPolicyContent() {
   try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 } });
+    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 }, signal: AbortSignal.timeout(1200) });
     if (!res.ok) throw new Error("Failed to fetch");
     const json = await res.json();
     const page = json.data.find((p: { slug: string, content: string }) => p.slug === "privacy-policy");
