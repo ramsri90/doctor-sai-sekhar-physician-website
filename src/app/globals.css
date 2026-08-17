@@ -60,27 +60,27 @@
   }
 }
 
-/* Page Navigation View Transitions (Soft Scale & Reveal) */
-@media (prefers-reduced-motion: no-preference) {
+/* Page Navigation View Transitions (Ultra Fast & Snappy) */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
   }
 
   ::view-transition-old(root) {
-    animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-scale-out;
+    animation: 0.15s ease-out both fade-scale-out;
   }
 
   ::view-transition-new(root) {
-    animation: 0.5s cubic-bezier(0.4, 0, 0.2, 1) both fade-scale-in;
+    animation: 0.15s ease-in both fade-scale-in;
   }
 }
 
 @keyframes fade-scale-out {
-  to { transform: scale(0.98); opacity: 0; }
+  to { opacity: 0; }
 }
 
 @keyframes fade-scale-in {
-  from { transform: scale(1.02); opacity: 0; }
+  from { opacity: 0; }
 }
 
 @keyframes blobFloat {
@@ -97,14 +97,14 @@
 
 .animate-fade-up {
   opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Scroll Reveal Animations (ViewTimeline & IntersectionObserver Fallback) */
+/* Scroll Reveal Animations (Instant & High Performance) */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
   will-change: opacity, transform;
 }
 
@@ -118,7 +118,7 @@
     .scroll-reveal {
       animation: fadeUp auto linear forwards;
       animation-timeline: view(block);
-      animation-range: entry 0% cover 15%;
+      animation-range: entry 0% cover 10%;
       transition: none; /* Let CSS native timeline handle it */
     }
   }
@@ -129,6 +129,7 @@
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
+    transition: none !important;
   }
 }
 

@@ -80,8 +80,20 @@ export default function Navbar() {
                 <li key={link.name}>
                   <NextLink
                     href={link.href}
+                    prefetch={true}
                     className={`nav-link ${isActive ? "active" : ""}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      if (link.href === "/services" && pathname === "/") {
+                        e.preventDefault();
+                        const el = document.getElementById("services");
+                        if (el) {
+                          const yOffset = -80;
+                          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                        }
+                      }
+                    }}
                   >
                     {link.name}
                   </NextLink>
@@ -89,7 +101,7 @@ export default function Navbar() {
               );
             })}
           </ul>
-          <NextLink href="/contact" className="btn btn-primary nav-cta" onClick={() => setIsOpen(false)}>
+          <NextLink href="/contact" prefetch={true} className="btn btn-primary nav-cta" onClick={() => setIsOpen(false)}>
             Book Appointment
           </NextLink>
         </div>

@@ -118,13 +118,13 @@ export default function Footer() {
         <div className="footer-col">
           <h3 className="footer-title">Quick Links</h3>
           <ul className="footer-links">
-            <li><NextLink href="/">Home</NextLink></li>
-            <li><NextLink href="/about-us">About Us</NextLink></li>
-            <li><NextLink href="/about-doctor">About Doctor</NextLink></li>
-            <li><NextLink href="/about-clinic">About Clinic</NextLink></li>
-            <li><NextLink href="/services">Our Services</NextLink></li>
-            <li><NextLink href="/contact">Contact Us</NextLink></li>
-            <li><NextLink href="/privacy-policy">Privacy Policy</NextLink></li>
+            <li><NextLink href="/" prefetch={true}>Home</NextLink></li>
+            <li><NextLink href="/about-us" prefetch={true}>About Us</NextLink></li>
+            <li><NextLink href="/about-doctor" prefetch={true}>About Doctor</NextLink></li>
+            <li><NextLink href="/about-clinic" prefetch={true}>About Clinic</NextLink></li>
+            <li><NextLink href="/services" prefetch={true}>Our Services</NextLink></li>
+            <li><NextLink href="/contact" prefetch={true}>Contact Us</NextLink></li>
+            <li><NextLink href="/privacy-policy" prefetch={true}>Privacy Policy</NextLink></li>
           </ul>
         </div>
       </div>

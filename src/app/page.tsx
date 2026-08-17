@@ -29,22 +29,30 @@ async function getClinicData() {
   ];
 
   const fallbackServices = [
-    { id: 1, category_name: "Diabetes", services: [{ name: "Type II DM", slug: "type-ii-dm" }] },
-    { id: 2, category_name: "Thyroid Disorder", services: [{ name: "Hypothyroidism", slug: "hypothyroidism" }] },
-    { id: 3, category_name: "Fever & Infections", services: [{ name: "Dengue fever", slug: "dengue-fever" }] },
-    { id: 4, category_name: "Cardiac & Hypertension", services: [{ name: "Hypertension (HTN)", slug: "hypertension-htn" }] }
+    { id: 1, category_name: "Diabetes", services: [{ id: 39, name: "Type 1 DM", slug: "type-1-dm" }, { id: 40, name: "Type II DM", slug: "type-ii-dm" }, { id: 41, name: "Diabetic Neuropathy", slug: "diabetic-neuropathy" }] },
+    { id: 2, category_name: "Thyroid Disorder", services: [{ id: 44, name: "Hypothyroidism", slug: "hypothyroidism" }, { id: 45, name: "Hyperthyroidism", slug: "hyperthyroidism" }] },
+    { id: 3, category_name: "Fever & Infections", services: [{ id: 47, name: "Dengue fever", slug: "dengue-fever" }, { id: 48, name: "Malaria", slug: "malaria" }, { id: 49, name: "UTI", slug: "urinary-tract-infection-uti" }] },
+    { id: 4, category_name: "Headache Care", services: [{ id: 54, name: "Tension Headache", slug: "tension-headache" }, { id: 55, name: "Migraine", slug: "migraine" }] },
+    { id: 5, category_name: "Bone and Joint", services: [{ id: 58, name: "Rheumatoid Arthritis", slug: "rheumatoid-arthritis" }, { id: 59, name: "Cervical Spondylosis", slug: "cervical-spondylosis" }] },
+    { id: 6, category_name: "Gastro Intestinal", services: [{ id: 61, name: "Acute Gastritis", slug: "acute-gastritis" }, { id: 63, name: "Diarrhea", slug: "acute-and-chronic-diarrhea" }] },
+    { id: 7, category_name: "Renal Care", services: [{ id: 66, name: "Acute Renal Failure", slug: "acute-renal-failure" }, { id: 69, name: "Kidney stones", slug: "kidney-stones" }] },
+    { id: 8, category_name: "Cardiac & Hypertension", services: [{ id: 43, name: "Hypertension (HTN)", slug: "hypertension-htn" }, { id: 70, name: "Ischemic Heart Disease", slug: "ischemic-heart-disease" }] }
   ];
+
+  const fetchOpts = {
+    next: { revalidate: 3600 },
+    signal: AbortSignal.timeout(300)
+  };
 
   try {
     const [bannersRes, settingsRes, countersRes, servicesRes, videosRes] = await Promise.all([
-      fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-videos-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null)
+      fetch(`${baseURL}get-banners-list`, fetchOpts).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-settings`, fetchOpts).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-counter-list`, fetchOpts).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-services-list`, fetchOpts).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-videos-list`, fetchOpts).then(res => res.json()).catch(() => null)
     ]);
 
-    // Use updated counter numbers
     const mergedCounters = fallbackCounters.map((fallback) => {
       return {
         id: fallback.id,
@@ -57,11 +65,10 @@ async function getClinicData() {
       banners: bannersRes?.data || [],
       settings: settingsRes?.data || fallbackSettings,
       counters: mergedCounters,
-      services: servicesRes?.data || fallbackServices,
+      services: (servicesRes?.data && servicesRes.data.length > 0) ? servicesRes.data : fallbackServices,
       videos: videosRes?.data || []
     };
   } catch (error) {
-    console.error("Error fetching clinic data, using fallbacks:", error);
     return {
       banners: [],
       settings: fallbackSettings,
@@ -220,7 +227,7 @@ export default async function HomePage() {
       <AnimatedCounterSection initialCounters={data.counters} />
 
       {/* 4. Services Grid Section */}
-      <section className="services-section bg-gradient-mesh scroll-reveal">
+      <section id="services" className="services-section bg-gradient-mesh scroll-reveal">
         <div className="container">
           <div className="section-header text-center">
             <span className="badge">Our Specialties</span>
@@ -242,7 +249,7 @@ export default async function HomePage() {
                   <ul className="cat-services-list">
                     {cat.services.slice(0, 3).map((s: { id: number | string, slug: string, name: string }) => (
                       <li key={s.id}>
-                        <Link href={`/services/${s.slug}`} className="service-sublink">
+                        <Link href={`/services/${s.slug}`} prefetch={true} className="service-sublink">
                           <i className="fas fa-angle-right"></i> {s.name}
                         </Link>
                       </li>
@@ -250,7 +257,7 @@ export default async function HomePage() {
                   </ul>
                 )}
                 
-                <Link href="/services" className="cat-view-all">
+                <Link href="/services" prefetch={true} className="cat-view-all">
                   View All Services <i className="fas fa-arrow-right"></i>
                 </Link>
               </div>
@@ -258,7 +265,7 @@ export default async function HomePage() {
           </div>
 
           <div className="text-center section-footer-cta">
-            <Link href="/services" className="btn btn-primary">
+            <Link href="/services" prefetch={true} className="btn btn-primary">
               View Complete Services Catalog
             </Link>
           </div>
