@@ -94,19 +94,12 @@ export default function AnimatedCounterSection({ initialCounters }: CounterSecti
   }, [initialCounters, hasAnimated]);
 
   return (
-    <section ref={sectionRef} className="counter-section bg-deep-teal" style={{ padding: "80px 0", margin: "40px 0" }}>
-      <div className="container" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "30px", textAlign: "center" }}>
+    <section ref={sectionRef} className="counter-section">
+      <div className="container counter-grid">
         {initialCounters.map((cnt, idx) => (
-          <div key={cnt.id} className="counter-card" style={{ padding: "20px" }}>
-            <div style={{ marginBottom: "15px", opacity: 0.9 }}>
-              <i className="fas fa-heartbeat" style={{ fontSize: "1.8rem", color: "var(--secondary)" }}></i>
-            </div>
-            <span className="counter-number" style={{ display: "block", fontSize: "3rem", fontWeight: 800, color: "#ffffff", fontFamily: "var(--font-heading)", lineHeight: 1.1, marginBottom: "10px" }}>
-              {displayCounts[idx]}
-            </span>
-            <h4 className="counter-title" style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.7)", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              {cnt.title}
-            </h4>
+          <div key={cnt.id} className="counter-card">
+            <span className="counter-number">{displayCounts[idx]}</span>
+            <h4 className="counter-title">{cnt.title}</h4>
           </div>
         ))}
       </div>

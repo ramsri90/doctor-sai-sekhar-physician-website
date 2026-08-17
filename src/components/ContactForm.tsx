@@ -77,7 +77,7 @@ export default function ContactForm() {
 
   return (
     <div className="contact-form-container">
-      <h3 className="form-title">Send a Message</h3>
+      <h2 className="form-title">Send a Message</h2>
       <p className="form-subtitle">For appointments, questions, or patient inquiries, please fill out the form below. We will get back to you shortly.</p>
       
       {status.type === "success" ? (
@@ -89,50 +89,53 @@ export default function ContactForm() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="contact-form contact-form-styled">
-          <div className="form-row-grid">
-            <div className="floating-input-group">
+        <form onSubmit={handleSubmit} className="contact-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="fullname">Full Name <span className="required">*</span></label>
               <input
                 type="text"
                 id="fullname"
                 name="fullname"
                 value={formData.fullname}
                 onChange={handleChange}
-                placeholder=" "
+                placeholder="e.g. John Doe"
                 required
+                className="form-control"
               />
-              <label htmlFor="fullname">Full Name *</label>
             </div>
             
-            <div className="floating-input-group">
+            <div className="form-group">
+              <label htmlFor="mobile">Mobile Number <span className="required">*</span></label>
               <input
                 type="tel"
                 id="mobile"
                 name="mobile"
                 value={formData.mobile}
                 onChange={handleChange}
-                placeholder=" "
+                placeholder="e.g. +91 98765 43210"
                 required
+                className="form-control"
               />
-              <label htmlFor="mobile">Mobile Number *</label>
             </div>
           </div>
 
-          <div className="floating-input-group">
+          <div className="form-group">
+            <label htmlFor="email">Email Address (Optional)</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder=" "
+              placeholder="e.g. john@example.com"
+              className="form-control"
             />
-            <label htmlFor="email">Email Address (Optional)</label>
           </div>
 
-          <div className="form-group" style={{ marginBottom: "25px" }}>
-            <label style={{ fontSize: "0.9rem", color: "var(--neutral-muted)" }}>How would you rate your experience? (Optional)</label>
-            <div className="star-rating" style={{ marginTop: "10px" }}>
+          <div className="form-group">
+            <label>How would you rate your experience? (Optional)</label>
+            <div className="star-rating">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   type="button"
@@ -140,7 +143,6 @@ export default function ContactForm() {
                   onClick={() => handleStarClick(star)}
                   className={`star-btn ${star <= formData.rating ? "active" : ""}`}
                   aria-label={`Rate ${star} Stars`}
-                  style={{ color: star <= formData.rating ? "#fbbf24" : "#e5e7eb" }}
                 >
                   ★
                 </button>
@@ -148,17 +150,18 @@ export default function ContactForm() {
             </div>
           </div>
 
-          <div className="floating-input-group">
+          <div className="form-group">
+            <label htmlFor="message">Your Message / Query <span className="required">*</span></label>
             <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}
-              placeholder=" "
+              placeholder="Please describe your health symptoms, required medical services, or appointment preference..."
               required
-              rows={4}
+              rows={5}
+              className="form-control"
             ></textarea>
-            <label htmlFor="message">Your Message / Query *</label>
           </div>
 
           {status.type === "error" && (
@@ -171,14 +174,15 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status.type === "loading"}
-            className="btn btn-primary btn-gradient btn-gradient-submit"
+            className="btn btn-pill-primary submit-btn"
+            style={{ width: "100%", justifyContent: "center", paddingTop: "14px", paddingBottom: "14px", fontSize: "1rem" }}
           >
             {status.type === "loading" ? (
               <>
                 <span className="spinner"></span> Sending...
               </>
             ) : (
-              <>Submit Inquiry <i className="fas fa-paper-plane"></i></>
+              "Submit Message"
             )}
           </button>
         </form>

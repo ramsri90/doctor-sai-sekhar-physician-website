@@ -19,41 +19,9 @@ export default function Navbar() {
         setIsScrolled(false);
       }
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Lock body scroll when mobile menu is open (prevents iOS scroll-through)
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-    };
-  }, [isOpen]);
-
-  // Close menu on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) setIsOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
-  // Close nav on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -80,16 +48,15 @@ export default function Navbar() {
         >
           <Image
             src="/images/logo.png"
-            alt="Dr. Sai Sekhar Clinic Logo"
-            title="Dr. Sai Sekhar Clinic Logo"
+            alt="Dr. P. Sai Sekhar - General Physician"
             width={50}
             height={50}
             className="logo-img"
             priority
           />
           <div className="logo-text">
-            <span className="logo-title"><span className="doctor-name-highlight">Dr. Sai Sekhar P</span></span>
-            <span className="logo-subtitle">Consultant Physician</span>
+            <span className="logo-title">Dr. P. Sai Sekhar</span>
+            <span className="logo-subtitle">General Physician</span>
           </div>
         </NextLink>
 
@@ -113,7 +80,6 @@ export default function Navbar() {
                 <li key={link.name}>
                   <NextLink
                     href={link.href}
-                    prefetch={true}
                     className={`nav-link ${isActive ? "active" : ""}`}
                     onClick={() => setIsOpen(false)}
                   >
@@ -123,7 +89,7 @@ export default function Navbar() {
               );
             })}
           </ul>
-          <NextLink href="/contact" prefetch={true} className="btn btn-primary nav-cta" onClick={() => setIsOpen(false)}>
+          <NextLink href="/contact" className="btn btn-primary nav-cta" onClick={() => setIsOpen(false)}>
             Book Appointment
           </NextLink>
         </div>

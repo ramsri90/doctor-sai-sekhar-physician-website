@@ -2,67 +2,13 @@ import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Book Appointment | Contact Dr. Sai Sekhar P | Trinetra Medicals Muralinagar Visakhapatnam",
-  description: "Book an appointment with Dr. Sai Sekhar P at Trinetra Medicals, Muralinagar, Visakhapatnam. Clinic timings: Mon–Sat 6 PM–9 PM. Call +91 63007 93688 or WhatsApp for consultation.",
-  keywords: [
-    "book appointment Dr Sai Sekhar Visakhapatnam",
-    "Trinetra Medicals contact",
-    "physician clinic Muralinagar",
-    "doctor appointment Vizag",
-    "general physician near me Muralinagar"
-  ],
-  openGraph: {
-    title: "Contact Dr. Sai Sekhar P | Book Appointment – Visakhapatnam",
-    description: "Visit Trinetra Medicals, Muralinagar or call +91 63007 93688. Consultation: Mon–Sat, 6 PM – 9 PM.",
-    url: "https://www.drsaisekharphysician.com/contact",
-    type: "website",
-  },
-  alternates: {
-    canonical: "https://www.drsaisekharphysician.com/contact",
-  },
+  title: "Contact Dr. Sai Sekhar P | Clinic Timings Visakhapatnam",
+  description: "Get directions, contact numbers, and schedule appointments with Dr. Sai Sekhar P at Trinetra Medicals (Muralinagar), Visakhapatnam.",
 };
 
 export default function ContactPage() {
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drsaisekharphysician.com" },
-      { "@type": "ListItem", "position": 2, "name": "Contact & Appointment", "item": "https://www.drsaisekharphysician.com/contact" }
-    ]
-  };
-
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Trinetra Medicals – Dr. Sai Sekhar P",
-    "telephone": "+916300793688",
-    "email": "info@drsaisekharphysician.com",
-    "url": "https://www.drsaisekharphysician.com/contact",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Opposite Govt School, Ramalayam Street, Muralinagar, Madhavadhara",
-      "addressLocality": "Visakhapatnam",
-      "addressRegion": "Andhra Pradesh",
-      "postalCode": "530007",
-      "addressCountry": "IN"
-    },
-    "geo": { "@type": "GeoCoordinates", "latitude": 17.745176, "longitude": 83.256999 },
-    "hasMap": "https://maps.app.goo.gl/RwBcYF5CqF1yoigb9",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-        "opens": "18:00",
-        "closes": "21:00"
-      }
-    ]
-  };
-
   return (
     <div className="contact-page-wrapper">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       {/* Header Banner */}
       <div className="page-header bg-gradient-mesh">
         <div className="container">
@@ -80,9 +26,7 @@ export default function ContactPage() {
             {/* Quick Contact Cards */}
             <div className="contact-cards">
               <div className="card contact-card">
-                <div className="contact-card-icon">
-                  <i className="fas fa-phone-alt"></i>
-                </div>
+                <i className="fas fa-phone-alt contact-card-icon"></i>
                 <div className="card-details">
                   <h3>Phone Support</h3>
                   <p><a href="tel:+916300793688">+91 63007 93688</a></p>
@@ -91,9 +35,7 @@ export default function ContactPage() {
               </div>
 
               <div className="card contact-card">
-                <div className="contact-card-icon whatsapp-icon">
-                  <i className="fab fa-whatsapp"></i>
-                </div>
+                <i className="fab fa-whatsapp contact-card-icon whatsapp-icon"></i>
                 <div className="card-details">
                   <h3>WhatsApp Inquiry</h3>
                   <p><a href="https://wa.me/916300793688" target="_blank" rel="noopener noreferrer">+91 63007 93688</a></p>
@@ -102,9 +44,7 @@ export default function ContactPage() {
               </div>
 
               <div className="card contact-card">
-                <div className="contact-card-icon">
-                  <i className="fas fa-envelope"></i>
-                </div>
+                <i className="fas fa-envelope contact-card-icon"></i>
                 <div className="card-details">
                   <h3>Email Address</h3>
                   <p><a href="mailto:info@drsaisekharphysician.com">info@drsaisekharphysician.com</a></p>
@@ -118,14 +58,14 @@ export default function ContactPage() {
               <h3>Consultation Locations & Hours</h3>
               <div className="timing-grid">
                 <div className="timing-location-box">
-                  <h4><i className="fas fa-clinic-medical"></i> Trinetra Medicals</h4>
+                  <h4><i className="fas fa-clinic-medical"></i> <strong style={{ color: "var(--primary)" }}>Trinetra Medicals</strong></h4>
                   <p className="loc-address">Kodanda Ramalayam St, Muralinagar, Visakhapatnam</p>
                   <span className="loc-hours">6:00 PM – 9:00 PM</span>
                   <span className="loc-days">Monday – Saturday</span>
                 </div>
                 <div className="timing-location-box">
-                  <h4><i className="fas fa-certificate"></i> Practitioner Details</h4>
-                  <p className="loc-address" style={{ fontWeight: "bold" }}>Dr. Sai Sekhar P</p>
+                  <h4><i className="fas fa-user-md"></i> Practitioner Details</h4>
+                  <p className="loc-address" style={{ fontWeight: "bold", fontSize: "1.05rem" }}><strong style={{ color: "var(--primary)" }}>Dr. Sai Sekhar Pyla</strong></p>
                   <span className="loc-hours">12+ Years Experience</span>
                   <span className="loc-days">MD General Medicine</span>
                 </div>

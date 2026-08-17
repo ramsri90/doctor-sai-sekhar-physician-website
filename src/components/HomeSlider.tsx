@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,6 +16,8 @@ interface HomeSliderProps {
 
 export default function HomeSlider({ banners }: HomeSliderProps) {
   const [current, setCurrent] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   // Local fallback banners if API banners list is empty
   const mobileImages = [
@@ -47,8 +49,37 @@ export default function HomeSlider({ banners }: HomeSliderProps) {
     return () => clearInterval(timer);
   }, [slides.length]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 50;
+    if (diff > minSwipeDistance) {
+      // Swiped left -> Next slide
+      setCurrent((prev) => (prev + 1) % slides.length);
+    } else if (diff < -minSwipeDistance) {
+      // Swiped right -> Prev slide
+      setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   return (
-    <div className="slider-container">
+    <div 
+      className="slider-container"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {slides.map((slide, idx) => (
         <div
           key={slide.id}
@@ -85,8 +116,8 @@ export default function HomeSlider({ banners }: HomeSliderProps) {
                     <span className="info-value">6300793688</span>
                   </div>
                   <div className="info-col">
-                    <span className="info-label">LOCATION</span>
-                    <span className="info-value">Muralinagar, Visakhapatnam</span>
+                    <span className="info-label">LOCATION & CLINIC</span>
+                    <span className="info-value"><strong style={{ color: "var(--secondary)" }}>Trinetra Medicals</strong>, Muralinagar</span>
                   </div>
                   <div className="info-col">
                     <span className="info-label">TIMINGS</span>
@@ -108,13 +139,9 @@ export default function HomeSlider({ banners }: HomeSliderProps) {
                     <Image 
                       src="/images/one.webp"
                       alt="Doctor Consultation"
-                      title="Doctor Consultation"
                       width={480}
                       height={500}
                       priority={idx === 0}
-                      fetchPriority={idx === 0 ? "high" : "auto"}
-                      quality={90}
-                      sizes="(max-width: 768px) 100vw, 480px"
                       className="doctor-hero-img"
                     />
                   </div>
@@ -124,7 +151,7 @@ export default function HomeSlider({ banners }: HomeSliderProps) {
           </div>
         </div>
       ))}
-
     </div>
   );
 }
+

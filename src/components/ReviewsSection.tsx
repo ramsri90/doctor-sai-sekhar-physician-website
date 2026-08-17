@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Review {
   name: string;
@@ -11,39 +11,6 @@ interface Review {
 
 export default function ReviewsSection() {
   const [active, setActive] = useState(0);
-  const [touchStart, setTouchStart] = useState<{x: number, y: number} | null>(null);
-  const [touchEnd, setTouchEnd] = useState<{x: number, y: number} | null>(null);
-
-  const minSwipeDistance = 50;
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd({ x: e.targetTouches[0].clientX, y: e.targetTouches[0].clientY });
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distanceX = touchStart.x - touchEnd.x;
-    const distanceY = touchStart.y - touchEnd.y;
-    
-    // If vertical scroll distance is greater than horizontal swipe, ignore it
-    if (Math.abs(distanceY) > Math.abs(distanceX)) return;
-
-    const isLeftSwipe = distanceX > minSwipeDistance;
-    const isRightSwipe = distanceX < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      setActive((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
-    }
-    if (isRightSwipe) {
-      setActive((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
-    }
-  };
 
   const reviews: Review[] = [
     {
@@ -72,13 +39,6 @@ export default function ReviewsSection() {
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActive((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [reviews.length]);
-
   return (
     <section className="reviews-section bg-gradient-mesh">
       <div className="container">
@@ -94,31 +54,23 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        <div 
-          className="reviews-slider-wrapper"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
+        <div className="reviews-slider-wrapper">
           <div className="reviews-slider">
             {reviews.map((rev, idx) => (
               <div 
                 key={idx} 
                 className={`review-card ${idx === active ? "active" : ""}`}
               >
-                <div style={{ position: "absolute", top: "-20px", right: "10px", fontSize: "120px", color: "rgba(13, 122, 102, 0.05)", fontFamily: "serif", lineHeight: 1, pointerEvents: "none" }}>"</div>
-                <div style={{ marginBottom: "15px", color: "#fbbf24", fontSize: "1.2rem", letterSpacing: "2px" }}>
-                  {"★".repeat(rev.rating)}
-                </div>
-                <p className="review-text" style={{ fontStyle: "italic", fontSize: "1.1rem", color: "var(--neutral-muted)", marginBottom: "20px", position: "relative", zIndex: 1 }}>"{rev.comment}"</p>
-                <div className="review-author" style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                  <div className="author-avatar" style={{ width: "50px", height: "50px", borderRadius: "50%", background: "var(--primary-glow)", color: "var(--primary)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "1.2rem" }}>
-                    {rev.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                <div className="quote-icon">“</div>
+                <p className="review-text">{rev.comment}</p>
+                <div className="review-author">
+                  <div className="author-avatar">
+                    {rev.name.split(" ").map(n => n[0]).join("")}
                   </div>
                   <div className="author-info">
-                    <h4 className="author-name" style={{ fontSize: "1rem", fontWeight: 700, margin: 0, color: "var(--neutral-dark)" }}>{rev.name}</h4>
-                    <span className="author-source" style={{ fontSize: "0.85rem", color: "var(--primary)", display: "flex", alignItems: "center", gap: "4px" }}>
-                      <i className="fas fa-check-circle" style={{ fontSize: "0.8rem" }}></i> Verified Patient
+                    <h4 className="author-name">{rev.name}</h4>
+                    <span className="author-source">
+                      <span className="stars-small">{"★".repeat(rev.rating)}</span> • {rev.source}
                     </span>
                   </div>
                 </div>

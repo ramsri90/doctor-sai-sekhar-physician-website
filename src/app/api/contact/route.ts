@@ -23,35 +23,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // Forward sanitized data to the CMS API endpoint with strict timeout
-    try {
-      const response = await fetch("https://admin.drsaisekharphysician.com/api/client/contact-submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
+    // Forward sanitized data to the CMS API endpoint
+    const response = await fetch("https://admin.drsaisekharphysician.com/api/client/contact-submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ fullname, mobile, message })
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (response.ok && data) {
+      return NextResponse.json({
+        status: true,
+        message: data.message || "Message submitted successfully!"
+      }, { headers: securityHeaders });
+    } else {
+      console.error("CMS API submit error:", data);
+      return NextResponse.json(
+        {
+          status: false,
+          message: data?.message || "Error submitting message to clinic API. Please try again later."
         },
-        body: JSON.stringify({ fullname, mobile, message }),
-        signal: AbortSignal.timeout(2500)
-      });
-
-      const data = await response.json().catch(() => null);
-
-      if (response.ok && data) {
-        return NextResponse.json({
-          status: true,
-          message: data.message || "Thank you! Your appointment request has been submitted successfully."
-        }, { headers: securityHeaders });
-      }
-    } catch (apiError) {
-      console.warn("External admin API submission timed out or failed, falling back to successful client confirmation:", apiError);
+        { status: response.status || 500, headers: securityHeaders }
+      );
     }
-
-    // Graceful fallback response to ensure user never sees a broken form error
-    return NextResponse.json({
-      status: true,
-      message: "Thank you! Your appointment request has been received. Dr. Sai Sekhar's team will contact you shortly at " + mobile + "."
-    }, { headers: securityHeaders });
   } catch (error: unknown) {
     console.error("API proxy error:", error);
     return NextResponse.json(

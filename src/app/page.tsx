@@ -1,43 +1,18 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import HomeSlider from "@/components/HomeSlider";
 import ReviewsSection from "@/components/ReviewsSection";
 import ContactForm from "@/components/ContactForm";
 import AnimatedCounterSection from "@/components/AnimatedCounterSection";
-import VideoReelsSection from "@/components/VideoReelsSection";
+import FaqSection from "@/components/FaqSection";
+import AwarenessReels from "@/components/AwarenessReels";
 
-// Force static rendering for instant edge loading
-export const dynamic = "force-static";
+// Force static rendering with dynamic revalidation (ISR)
 export const revalidate = 3600; // Revalidate every hour
 
-export const metadata: Metadata = {
-  title: "Dr. Sai Sekhar Pyla | Best General Physician in Visakhapatnam",
-  description: "Consult the best General Physician & Diabetologist in Visakhapatnam. Dr. Sai Sekhar treats diabetes, thyroid, & fevers at Trinetra Medicals.",
-  keywords: [
-    "best physician Visakhapatnam", "best general physician Vizag", "Dr Sai Sekhar",
-    "general doctor Muralinagar", "physician near me Visakhapatnam",
-    "diabetes doctor Vizag", "thyroid doctor Visakhapatnam", "Trinetra Medicals",
-  ],
-  alternates: { canonical: "https://www.drsaisekharphysician.com" },
-  openGraph: {
-    title: "Dr. Sai Sekhar Pyla | Best Physician in Visakhapatnam",
-    description: "Consult the best General Physician & Diabetologist in Visakhapatnam. Dr. Sai Sekhar treats diabetes, thyroid, & fevers.",
-    url: "https://www.drsaisekharphysician.com",
-    siteName: "Trinetra Medicals",
-    images: [
-      {
-        url: "https://www.drsaisekharphysician.com/images/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Dr. Sai Sekhar Pyla - Consultant Physician",
-      },
-    ],
-    type: "website",
-  },
-};
-
-function getClinicData() {
+async function getClinicData() {
+  const baseURL = "https://admin.drsaisekharphysician.com/api/client/";
+  
   const fallbackSettings = {
     contact: {
       phone: "6300793688",
@@ -54,18 +29,47 @@ function getClinicData() {
   ];
 
   const fallbackServices = [
-    { id: 1, category_name: "Diabetes", services: [{ id: 1, name: "Type II DM", slug: "type-ii-dm" }, { id: 2, name: "Type 1 DM", slug: "type-1-dm" }] },
-    { id: 2, category_name: "Thyroid Disorder", services: [{ id: 3, name: "Hypothyroidism", slug: "hypothyroidism" }, { id: 4, name: "Hyperthyroidism", slug: "hyperthyroidism" }] },
-    { id: 3, category_name: "Fever & Infections", services: [{ id: 5, name: "Dengue fever", slug: "dengue-fever" }, { id: 6, name: "Malaria", slug: "malaria" }] },
-    { id: 4, category_name: "Cardiac & Hypertension", services: [{ id: 7, name: "Hypertension (HTN)", slug: "hypertension-htn" }] }
+    { id: 1, category_name: "Diabetes", services: [{ name: "Type II DM", slug: "type-ii-dm" }] },
+    { id: 2, category_name: "Thyroid Disorder", services: [{ name: "Hypothyroidism", slug: "hypothyroidism" }] },
+    { id: 3, category_name: "Fever & Infections", services: [{ name: "Dengue fever", slug: "dengue-fever" }] },
+    { id: 4, category_name: "Cardiac & Hypertension", services: [{ name: "Hypertension (HTN)", slug: "hypertension-htn" }] }
   ];
 
-  return {
-    banners: [],
-    settings: fallbackSettings,
-    counters: fallbackCounters,
-    services: fallbackServices,
-  };
+  try {
+    const [bannersRes, settingsRes, countersRes, servicesRes, videosRes] = await Promise.all([
+      fetch(`${baseURL}get-banners-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-settings`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-counter-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-services-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null),
+      fetch(`${baseURL}get-videos-list`, { next: { revalidate: 3600 } }).then(res => res.json()).catch(() => null)
+    ]);
+
+    // Use updated counter numbers
+    const mergedCounters = fallbackCounters.map((fallback) => {
+      return {
+        id: fallback.id,
+        count: fallback.count,
+        title: fallback.title
+      };
+    });
+
+    return {
+      banners: bannersRes?.data || [],
+      settings: settingsRes?.data || fallbackSettings,
+      counters: mergedCounters,
+      services: servicesRes?.data || fallbackServices,
+      videos: videosRes?.data || []
+    };
+  } catch (error) {
+    console.error("Error fetching clinic data, using fallbacks:", error);
+    return {
+      banners: [],
+      settings: fallbackSettings,
+      counters: fallbackCounters,
+      services: fallbackServices,
+      videos: []
+    };
+  }
 }
 
 export default async function HomePage() {
@@ -73,16 +77,56 @@ export default async function HomePage() {
 
   return (
     <div className="home-page">
-      {/* SEO H1 — visually embedded in hero, exactly one per page (slider uses h2) */}
-      <div className="sr-h1-hero">
-        <h1>Dr P Sai Sekhar</h1>
-        <p>MBBS, MD General Medicine | Trinetra Medicals, Muralinagar</p>
-      </div>
-
-      {/* AEO Featured Snippet / Top Summary Signal */}
-      <div className="sr-only">
-        <p><strong>Key Takeaway:</strong> Dr. Sai Sekhar Pyla is an MD General Medicine physician and diabetologist based in Visakhapatnam, with 12 years of experience treating diabetes, hypertension, and infectious diseases. He is a gold medalist known for his patient-centered approach at Trinetra Medicals.</p>
-      </div>
+      {/* WebPage & Physician Structured Schema (AEO/GEO/SEO) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebPage",
+                "@id": "https://www.drsaisekharphysician.com/#webpage",
+                "url": "https://www.drsaisekharphysician.com/",
+                "name": "Dr Sai Sekhar Pyla | Best Physician in Visakhapatnam",
+                "description": "Dr. Sai Sekhar Pyla is a General Physician & Diabetologist in Visakhapatnam with 12 years of experience in chronic disease management & preventive care.",
+                "datePublished": "2024-01-01T00:00:00+05:30",
+                "dateModified": "2026-08-17T00:00:00+05:30",
+                "inLanguage": "en-IN",
+                "isPartOf": {
+                  "@type": "WebSite",
+                  "@id": "https://www.drsaisekharphysician.com/#website",
+                  "url": "https://www.drsaisekharphysician.com/",
+                  "name": "Dr. Sai Sekhar Pyla - General Physician"
+                },
+                "about": {
+                  "@type": "Person",
+                  "@id": "https://www.drsaisekharphysician.com/#physician",
+                  "name": "Dr. Sai Sekhar Pyla",
+                  "jobTitle": "Consultant Physician & Diabetologist",
+                  "medicalSpecialty": "General Medicine",
+                  "telephone": "6300793688"
+                }
+              },
+              {
+                "@type": "Physician",
+                "@id": "https://www.drsaisekharphysician.com/#physician",
+                "name": "Dr. Sai Sekhar Pyla",
+                "medicalSpecialty": ["GeneralMedicine", "Diabetology"],
+                "telephone": "6300793688",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "Ramalayam Street, Muralinagar",
+                  "addressLocality": "Visakhapatnam",
+                  "addressRegion": "Andhra Pradesh",
+                  "postalCode": "530007",
+                  "addressCountry": "IN"
+                }
+              }
+            ]
+          })
+        }}
+      />
 
       {/* 1. Hero Slideshow Section */}
       <HomeSlider banners={data.banners} />
@@ -90,48 +134,64 @@ export default async function HomePage() {
       {/* 2. Doctor Bio Section */}
       <section className="about-doctor-section scroll-reveal">
         <div className="container doctor-grid">
-          <div className="doctor-blob-wrapper">
-            <Image
-              src="/images/two.webp"
-              alt="Dr. Sai Sekhar P - Consultant Physician"
-              title="Dr. Sai Sekhar P - Consultant Physician"
-              width={450}
-              height={550}
-              className="blob-mask"
-              priority
-              sizes="(max-width: 767px) 100vw, 450px"
-            />
-            <div className="floating-glass-badge glass-panel">
-              <span className="exp-num" style={{ color: "var(--primary)" }}>12</span>
-              <span className="exp-text">Years of Medical Excellence</span>
+          <div className="doctor-image-wrapper">
+            <div className="doctor-blob-bg">
+              <Image
+                src="/images/two.webp"
+                alt="Dr. Sai Sekhar Pyla - General Physician in Visakhapatnam"
+                width={450}
+                height={550}
+                className="doctor-main-image"
+                priority
+                sizes="(max-width: 767px) 100vw, 450px"
+              />
+            </div>
+            <div className="doctor-experience-badge">
+              <span className="exp-num">12</span>
+              <span className="exp-text">YEARS OF MEDICAL EXCELLENCE</span>
             </div>
           </div>
           
           <div className="doctor-info-content">
-            <span className="badge">About the Physician</span>
-            <h2 className="section-title"><span className="doctor-name-highlight">Dr. Sai Sekhar Pyla</span></h2>
-            <p className="doctor-credentials" style={{ fontSize: "1.2rem", fontWeight: "600", color: "var(--text)", marginBottom: "5px" }}>MBBS, MD (General Medicine) | Consultant Physician</p>
-            <p className="doctor-specialty-desc" style={{ marginBottom: "15px" }}>
+            <span className="badge-pill">ABOUT THE PHYSICIAN</span>
+            <h1 className="section-title-doctor">
+              Dr. Sai Sekhar Pyla
+            </h1>
+            <h2 className="doctor-credentials-subtitle">
+              MBBS, MD (General Medicine) | Consultant Physician
+            </h2>
+            <p className="doctor-hospitals-subtitle">
               Consultant Physician at CARE Hospital & <strong>Trinetra Medicals</strong>
             </p>
 
+            {/* Item 9: Top Summary / Key Takeaway Box for Featured Snippets */}
+            <div className="top-key-takeaway-card" style={{ backgroundColor: "#f0fdf4", borderLeft: "4px solid var(--primary)", padding: "14px 18px", borderRadius: "12px", marginBottom: "16px" }}>
+              <p style={{ margin: 0, fontSize: "0.95rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
+                <strong>Key Takeaway:</strong> Dr. Sai Sekhar Pyla is an MD (General Medicine) physician and diabetologist based in Visakhapatnam, with 12 years of experience treating chronic lifestyle diseases, critical care, and metabolic conditions. He is a gold medalist known for his patient-centered, evidence-based healthcare at Trinetra Medicals.
+              </p>
+            </div>
+            
             <p className="doctor-bio-paragraph">
-              If you are wondering <strong>when should I see a physician</strong>, or if you are experiencing persistent fatigue, unexplained weight changes, or managing a chronic condition like diabetes or thyroid disorders, <span className="doctor-name-highlight">Dr. Sai Sekhar Pyla's</span> General Medicine practice provides comprehensive care. With 12 years of clinical expertise, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare.
+              If you are wondering <strong>when should I see a physician</strong>, or if you are experiencing persistent fatigue, unexplained weight changes, or managing a chronic condition like diabetes or thyroid disorders, <strong>Dr. Sai Sekhar Pyla&apos;s</strong> General Medicine practice provides comprehensive care. According to research published by the <a href="https://www.icmr.gov.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>Indian Council of Medical Research (ICMR)</a>, over 101 million Indians live with diabetes—making early diagnosis and evidence-based diabetology essential for preventing long-term complications.
             </p>
             <p className="doctor-bio-paragraph">
-              Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong>Trinetra Medicals</strong>, <span className="doctor-name-highlight">Dr. Sai Sekhar</span> is known for his evidence-based, patient-centered approach. Whether you want to know <em>how to manage type 2 diabetes</em> or need immediate treatment for acute infectious fevers, his expertise includes:
+              Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong>Trinetra Medicals</strong>, <strong>Dr. Sai Sekhar</strong> is known for his evidence-based, patient-centered approach. Whether you want to know <em>how to manage type 2 diabetes</em>, need screening for thyroid imbalance, or require immediate treatment for acute infectious fevers, his clinical expertise encompasses comprehensive internal medicine care.
             </p>
 
-            <div className="doctor-key-highlights">
-              <div className="highlight-item">
-                <i className="fas fa-stethoscope highlight-icon"></i>
+            <div className="doctor-key-highlights-box">
+              <div className="highlight-row">
+                <div className="highlight-circle-icon">
+                  <i className="fas fa-stethoscope"></i>
+                </div>
                 <div>
                   <h4>Primary Timings</h4>
                   <p>Trinetra Medicals (Muralinagar): 6:00 PM – 9:00 PM</p>
                 </div>
               </div>
-              <div className="highlight-item">
-                <i className="fas fa-certificate highlight-icon"></i>
+              <div className="highlight-row">
+                <div className="highlight-circle-icon">
+                  <i className="fas fa-sun"></i>
+                </div>
                 <div>
                   <h4>Experience & Specialization</h4>
                   <p>12 Years of Experience in Diabetology & Infectious Diseases</p>
@@ -139,14 +199,19 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="bio-buttons">
-              <Link href="/about-doctor" className="btn btn-primary btn-gradient">
-                Read Detailed Bio <i className="fas fa-arrow-right"></i>
+            <div className="bio-pill-buttons">
+              <Link href="/about-doctor" className="btn btn-pill-primary">
+                Read Detailed Bio <i className="fas fa-arrow-right" style={{ marginLeft: "6px" }}></i>
               </Link>
-              <Link href="/contact" className="btn btn-secondary">
+              <Link href="/contact" className="btn btn-pill-outline">
                 Book Consultation
               </Link>
             </div>
+
+            {/* Item 14: Freshness Signal */}
+            <p className="freshness-signal" style={{ fontSize: "0.82rem", color: "var(--neutral-muted)", marginTop: "16px" }}>
+              <i className="fas fa-calendar-check" style={{ marginRight: "4px", color: "var(--primary)" }}></i> Clinical profile last updated: <strong>August 2026</strong>
+            </p>
           </div>
         </div>
       </section>
@@ -165,16 +230,16 @@ export default async function HomePage() {
 
           <div className="services-category-grid">
             {data.services.slice(0, 8).map((cat: { id: number | string, category_name: string, services: Array<{ id: number | string, slug: string, name: string }> }) => (
-              <div key={cat.id} className="service-cat-card-modern">
+              <div key={cat.id} className="card service-cat-card">
                 <div className="cat-header">
-                  <div className="duotone-icon">
+                  <div className="cat-icon-bg">
                     <i className="fas fa-notes-medical"></i>
                   </div>
-                  <h3 className="cat-title" style={{ marginBottom: "1rem" }}>{cat.category_name}</h3>
+                  <h3 className="cat-title">{cat.category_name}</h3>
                 </div>
                 
                 {cat.services && cat.services.length > 0 && (
-                  <ul className="cat-services-list" style={{ flexGrow: 1 }}>
+                  <ul className="cat-services-list">
                     {cat.services.slice(0, 3).map((s: { id: number | string, slug: string, name: string }) => (
                       <li key={s.id}>
                         <Link href={`/services/${s.slug}`} className="service-sublink">
@@ -193,75 +258,38 @@ export default async function HomePage() {
           </div>
 
           <div className="text-center section-footer-cta">
-            <Link href="/services" className="btn btn-primary btn-gradient">
-              View Complete Services Catalog <i className="fas fa-arrow-right"></i>
+            <Link href="/services" className="btn btn-primary">
+              View Complete Services Catalog
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 6. Video Reels Section */}
-      <VideoReelsSection />
+      {/* 5. Frequently Asked Questions Section */}
+      <FaqSection />
+
+      {/* 6. Health Awareness Reels Carousel */}
+      <AwarenessReels />
 
       {/* 7. Testimonials Section */}
       <ReviewsSection />
 
-      {/* 8. Patient FAQ & Medical Advice (AEO Optimization) */}
-      <section className="aeo-faq-section scroll-reveal" style={{ padding: "4rem 0", background: "var(--background-alt)" }}>
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="badge">Frequently Asked Questions</span>
-            <h2 className="section-title">Common Patient Queries</h2>
-          </div>
-          
-          <div className="faq-grid" style={{ display: "grid", gap: "2rem", maxWidth: "900px", margin: "0 auto" }}>
-            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
-              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
-                What conditions does a General Physician treat?
-              </summary>
-              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>A General Physician is your primary point of contact for adult healthcare. Dr. Sai Sekhar treats a wide range of acute and chronic conditions, including viral fevers, respiratory infections, gastrointestinal issues, and metabolic disorders. According to the <a href="https://www.who.int/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>World Health Organization (WHO)</a>, primary care physicians handle the vast majority of personal health needs safely and effectively.</p>
-            </details>
-
-            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
-              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
-                When should you see a Diabetologist in Vizag?
-              </summary>
-              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>You should consult a diabetologist if your fasting blood sugar is consistently above 126 mg/dL, if you experience excessive thirst or frequent urination, or if you have a family history of diabetes. Early intervention is critical; as per <a href="https://main.icmr.nic.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>ICMR guidelines</a>, timely management of Type 2 Diabetes prevents severe complications like neuropathy and kidney disease.</p>
-            </details>
-
-            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
-              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
-                How is Dr. Sai Sekhar different from other physicians in Visakhapatnam?
-              </summary>
-              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>Dr. Sai Sekhar brings 12 years of specialized experience in both critical care and chronic disease management. His approach focuses on evidence-based medicine and comprehensive lifestyle counseling rather than just prescribing medication. He prioritizes taking a detailed medical history to uncover the root cause of symptoms.</p>
-            </details>
-
-            <details className="faq-item" style={{ background: "var(--card-bg)", padding: "1.5rem 2rem", borderRadius: "12px", boxShadow: "var(--shadow-md)", cursor: "pointer", transition: "all 0.3s ease" }}>
-              <summary style={{ fontSize: "1.25rem", fontWeight: "700", color: "var(--text-dark)", outline: "none" }}>
-                What should I expect during my first consultation?
-              </summary>
-              <p style={{ marginTop: "1rem", color: "var(--text)", lineHeight: "1.6" }}>During your initial visit at Trinetra Medicals, expect a thorough review of your medical history, a physical examination, and a detailed discussion of your current symptoms. Dr. Sai Sekhar will explain your diagnosis clearly and work with you to develop a personalized, easy-to-follow treatment and diet plan.</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Contact Map Section */}
-      <section className="contact-map-section scroll-reveal">
+      {/* 8. Contact Map Section */}
+      <section className="contact-map-section bg-gradient-mesh scroll-reveal">
         <div className="container contact-map-grid">
           {/* Map Embed */}
           <div className="map-wrapper">
             <div className="map-header">
-              <span className="badge">Location</span>
+              <span className="badge-pill">LOCATION</span>
               <h3 className="map-title">Trinetra Medicals</h3>
               <p className="map-desc">Opposite Govt School, Ramalayam Street, Muralinagar, Visakhapatnam, 530007</p>
             </div>
-            <div className="map-iframe-container styled-map-wrapper">
+            <div className="map-iframe-container">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60799.59690698831!2d83.18353544863278!3d17.745826199999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a395d0384a06819%3A0x45ef7110571ff582!2sDr%20SAI%20SEKHAR%20P!5e0!3m2!1sen!2sin!4v1786558233514!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
-                style={{ border: 0, minHeight: "400px" }}
+                style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -274,9 +302,9 @@ export default async function HomePage() {
                 href="https://maps.app.goo.gl/RwBcYF5CqF1yoigb9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary directions-btn"
+                className="btn btn-pill-outline map-directions-btn"
               >
-                <i className="fas fa-directions"></i> Get Directions on Google Maps
+                <i className="fas fa-compass" style={{ marginRight: "6px" }}></i> Get Directions on Google Maps
               </a>
             </div>
           </div>
@@ -288,11 +316,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Freshness Signal for GEO/SEO */}
-      <div className="container" style={{ textAlign: "center", paddingBottom: "2rem", fontSize: "0.85rem", color: "var(--text-light)" }}>
-        <p>Medical information last updated: <strong>{new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</strong></p>
-      </div>
-
+      
     </div>
   );
 }

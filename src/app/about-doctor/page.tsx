@@ -2,79 +2,84 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "Dr. Sai Sekhar Pyla | MBBS MD General Medicine | Best Physician Visakhapatnam",
-  description: "Dr. Sai Sekhar Pyla (MBBS, MD General Medicine) – 12 years of experience as Consultant Physician at Trinetra Medicals, Muralinagar, Visakhapatnam. Specialist in Diabetes, Thyroid, Infectious Diseases & Critical Care.",
-  keywords: [
-    "Dr. Sai Sekhar Pyla biography",
-    "Dr Sai Sekhar MD General Medicine",
-    "best doctor Muralinagar Visakhapatnam",
-    "diabetologist Visakhapatnam",
-    "infectious disease specialist Vizag",
-    "consultant physician 12 years experience"
-  ],
-  openGraph: {
-    title: "Dr. Sai Sekhar Pyla | Consultant Physician Visakhapatnam – About",
-    description: "Learn about Dr. Sai Sekhar Pyla's qualifications, 12+ years of medical excellence, and his patient-first approach at Trinetra Medicals, Muralinagar.",
-    url: "https://www.drsaisekharphysician.com/about-doctor",
-    type: "profile",
-  },
-  alternates: {
-    canonical: "https://www.drsaisekharphysician.com/about-doctor",
-  },
+  title: "About Dr. Sai Sekhar P | MD General Medicine | Diabetologist | Infectious Disease Specialist",
+  description: "Read about Dr. Sai Sekhar P's medical qualifications, 12 years of experience as a Consultant Physician, and specializations in diabetes and infectious diseases.",
 };
 
 async function getAboutDoctorContent() {
-  // Override the API completely as it is serving outdated content
-  return `
-    <h2>About <span class="doctor-name-highlight">Dr. Sai Sekhar Pyla</span></h2>
-    <p><span class="doctor-name-highlight">Dr. Sai Sekhar Pyla</span>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of <strong>critical care, lifestyle diseases, and preventive healthcare</strong>. He is the best physician in Visakhapatnam with great knowledge.</p>
-    <p>Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong>Trinetra Medicals</strong>, <span class="doctor-name-highlight">Dr. Sai Sekhar Pyla</span> is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
-  `;
+  try {
+    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", { next: { revalidate: 3600 } });
+    if (!res.ok) throw new Error("Failed to fetch");
+    const json = await res.json();
+    const page = json.data.find((p: { slug: string, content: string }) => p.slug === "about-doctor");
+    return page ? page.content : "";
+  } catch (err) {
+    console.error("Error fetching about-doctor content:", err);
+    return `
+      <h2>About Dr. Sai Sekhar Pyla</h2>
+      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.</p>
+      <p>Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong style="color: #0d7a66;">Trinetra Medicals</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
+      <h3>Core Clinical Areas</h3>
+      <ul>
+        <li><strong>Diabetes Management</strong></li>
+        <li><strong>Hypertension & Lipidology</strong></li>
+        <li><strong>Infectious Diseases</strong></li>
+        <li><strong>Asthma & COPD</strong></li>
+        <li><strong>Critical Care & ICU</strong></li>
+        <li><strong>Preventive Checkups</strong></li>
+      </ul>
+      <p>For appointments and consultations, call: <strong style="color: #0d7a66; font-size: 1.1em;">6300793688</strong>.</p>
+    `;
+  }
+}
+
+function cleanAndSanitizeContent(html: string): string {
+  if (!html) return "";
+  
+  return html
+    // 1. Remove image tags from raw dynamic HTML
+    .replace(/<p><img[^>]*><\/p>/gi, "")
+    .replace(/<img[^>]*>/gi, "")
+    
+    // 2. Fix 10 years / 10&nbsp;years -> 12 years
+    .replace(/10\s*(&nbsp;)?\s*years/gi, "12 years")
+    
+    // 3. Un-highlight CARE Hospital (remove <strong> tag surrounding CARE Hospital)
+    .replace(/<strong>([^<]*CARE Hospital[^<]*)<\/strong>/gi, "$1")
+    
+    // 4. Update sentence 2 with primarily at Trinetra Medicals
+    .replace(/Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam.*known for/gi, 'Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong style="color: #0d7a66;">Trinetra Medicals</strong>, Dr. Sai Sekhar Pyla is known for')
+    
+    // 5. Highlight Trinetra Medicals cleanly
+    .replace(/Trinetra\s*Medicals/gi, '<strong style="color: #0d7a66;">Trinetra Medicals</strong>');
 }
 
 export default async function AboutDoctorPage() {
   const content = await getAboutDoctorContent();
-  const cleanedContent = content.replace(/<p><img[^>]*><\/p>/i, "").replace(/<img[^>]*>/i, "");
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drsaisekharphysician.com" },
-      { "@type": "ListItem", "position": 2, "name": "About Dr. Sai Sekhar", "item": "https://www.drsaisekharphysician.com/about-doctor" }
-    ]
-  };
-
-  const pageSchema = {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "name": "Dr. Sai Sekhar Pyla – Consultant Physician Visakhapatnam",
-    "url": "https://www.drsaisekharphysician.com/about-doctor",
-    "description": "Dr. Sai Sekhar Pyla (MBBS, MD General Medicine) – 12 years of experience. Specialist in Diabetes, Thyroid, Infectious Diseases & Critical Care at Trinetra Medicals, Muralinagar, Visakhapatnam.",
-    "mainEntity": {
-      "@type": "Person",
-      "name": "Dr. Sai Sekhar Pyla",
-      "jobTitle": "Consultant Physician",
-      "worksFor": { "@type": "MedicalClinic", "name": "Trinetra Medicals" }
-    }
-  };
+  const cleanedContent = cleanAndSanitizeContent(content);
 
   return (
     <div className="about-page-wrapper">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }} />
+      {/* Header Banner */}
+      <div className="page-header bg-gradient-mesh">
+        <div className="container">
+          <span className="badge">Physician Profile</span>
+          <h1 className="page-title">Dr. Sai Sekhar Pyla</h1>
+          <p className="page-subtitle">MBBS, MD (General Medicine) | Consultant Physician, Trinetra Medicals</p>
+        </div>
+      </div>
+
       {/* Main Content */}
-      <div className="container main-content-container scroll-reveal" style={{ marginTop: "40px" }}>
+      <div className="container main-content-container scroll-reveal">
         <div className="doctor-grid-about">
           <div className="doctor-image-container">
             <div className="doctor-image-card">
               <Image
                 src="/images/two.webp"
-                alt="Dr. Sai Sekhar P"
+                alt="Dr. Sai Sekhar Pyla - General Physician"
                 width={400}
                 height={500}
                 className="doctor-profile-img"
@@ -83,8 +88,15 @@ export default async function AboutDoctorPage() {
             </div>
             
             <div className="qualifications-card">
-              <h3>Qualifications</h3>
+              <h3>Qualifications & Experience</h3>
               <ul className="qual-list">
+                <li>
+                  <i className="fas fa-user-md qual-icon"></i>
+                  <div>
+                    <strong style={{ color: "var(--primary)" }}>Dr. Sai Sekhar Pyla</strong>
+                    <p>General Physician & Consultant Physician</p>
+                  </div>
+                </li>
                 <li>
                   <i className="fas fa-graduation-cap qual-icon"></i>
                   <div>
@@ -100,11 +112,17 @@ export default async function AboutDoctorPage() {
                   </div>
                 </li>
                 <li>
-                  <i className="fas fa-certificate qual-icon"></i>
+                  <i className="fas fa-award qual-icon"></i>
                   <div>
-                    <strong>Registrations & Affiliations</strong>
-                    <p>Andhra Pradesh Medical Council</p>
-                    <p>Indian Medical Association (IMA)</p>
+                    <strong style={{ color: "var(--primary)" }}>12 Years Clinical Experience</strong>
+                    <p>Specialist in Critical Care, Lifestyle Diseases & Preventive Healthcare</p>
+                  </div>
+                </li>
+                <li>
+                  <i className="fas fa-clinic-medical qual-icon"></i>
+                  <div>
+                    <strong style={{ color: "var(--primary)" }}>Trinetra Medicals</strong>
+                    <p>Primary Clinic Practice in Muralinagar, Visakhapatnam</p>
                   </div>
                 </li>
               </ul>
@@ -112,12 +130,6 @@ export default async function AboutDoctorPage() {
           </div>
 
           <div className="doctor-details-content">
-            <div style={{ marginBottom: "2rem" }}>
-              <span className="badge">Physician Profile</span>
-              <h1 className="page-title" style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}><span className="doctor-name-highlight">Dr. Sai Sekhar Pyla</span></h1>
-              <p className="page-subtitle" style={{ margin: 0, color: "var(--neutral-muted)" }}>MBBS, MD (General Medicine) | Consultant Physician, Trinetra Medicals</p>
-            </div>
-
             <div 
               className="rich-text-content"
               dangerouslySetInnerHTML={{ __html: cleanedContent }}
@@ -155,7 +167,7 @@ export default async function AboutDoctorPage() {
             
             <div className="cta-block">
               <h3>Book a Consultation</h3>
-              <p>Consult <span className="doctor-name-highlight">Dr. Sai Sekhar P</span> at Trinetra Medicals, Muralinagar (evening timings: 6:00 PM – 9:00 PM).</p>
+              <p>Consult Dr. Sai Sekhar P at Trinetra Medicals, Muralinagar (evening timings: 6:00 PM – 9:00 PM).</p>
               <div className="cta-buttons">
                 <Link href="/contact" className="btn btn-primary">
                   Book an Appointment
