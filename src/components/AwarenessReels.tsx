@@ -37,53 +37,59 @@ const REEL_VIDEOS: ReelVideo[] = [
 ];
 
 export default function AwarenessReels() {
-  const [playingId, setPlayingId] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [isAutoSliding, setIsAutoSliding] = useState<boolean>(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  // 1. IntersectionObserver to play/pause only the visible video when scrolling on mobile
+  // 1. Initial silent play for all video cards on mount
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const videoId = entry.target.getAttribute("data-video-id");
-          if (!videoId) return;
-          const vid = videoRefs.current[videoId];
-          if (!vid) return;
+    Object.keys(videoRefs.current).forEach((k) => {
+      const v = videoRefs.current[k];
+      if (v) {
+        v.muted = true;
+        v.play().catch(() => {});
+      }
+    });
+  }, []);
 
-          if (entry.isIntersecting) {
-            // Auto play muted when in viewport
-            vid.muted = true;
-            vid.play().catch(() => {});
-          } else {
-            vid.pause();
-            if (playingId === videoId) {
-              setPlayingId(null);
-            }
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
+  // 2. Smooth auto-sliding timer when isAutoSliding is true
+  useEffect(() => {
+    if (!isAutoSliding) return;
 
-    const elements = document.querySelectorAll(".phone-reel-card");
-    elements.forEach((el) => observer.observe(el));
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const container = carouselRef.current;
+        const cardWidth = 310;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (container.scrollLeft >= maxScroll - 10) {
+          container.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          container.scrollBy({ left: cardWidth, behavior: "smooth" });
+        }
+      }
+    }, 3500);
 
-    return () => observer.disconnect();
-  }, [playingId]);
+    return () => clearInterval(interval);
+  }, [isAutoSliding]);
 
-  // 2. Play / Unmute video on tap/click gesture for iOS / Android compatibility
+  // 3. Click handler:
+  // - If clicked while active/unmuted -> Mute audio & RESUME AUTO-SLIDING!
+  // - If clicked first time -> STOP AUTO-SLIDING, reset video to 0, unmute audio, and play!
   const handleCardClick = (id: string) => {
     const targetVid = videoRefs.current[id];
     if (!targetVid) return;
 
-    if (playingId === id && !isMuted) {
-      // Toggle to muted
+    if (activeId === id && !targetVid.muted) {
+      // Unmuted -> Clicking again mutes video and resumes auto sliding!
       targetVid.muted = true;
-      setIsMuted(true);
+      setActiveId(null);
+      setIsAutoSliding(true);
     } else {
-      // Pause all other videos
+      // First click -> Stops auto sliding, resets video to 0, unmutes audio & plays!
+      setIsAutoSliding(false);
+
+      // Mute and pause all other videos
       Object.keys(videoRefs.current).forEach((k) => {
         const v = videoRefs.current[k];
         if (v && k !== id) {
@@ -92,30 +98,34 @@ export default function AwarenessReels() {
         }
       });
 
-      targetVid.currentTime = 0;
-      targetVid.muted = false;
-      setIsMuted(false);
-      
-      // Explicit play inside user gesture handler for iOS Safari / Android Chrome
-      const p = targetVid.play();
-      if (p !== undefined) {
-        p.catch(() => {
-          // If unmuted autoplay blocked by browser policy, fallback to muted play
-          targetVid.muted = true;
-          setIsMuted(true);
-          targetVid.play().catch(() => {});
-        });
+      try {
+        targetVid.pause();
+        targetVid.currentTime = 0;
+        targetVid.muted = false;
+        targetVid.volume = 1.0;
+        
+        const p = targetVid.play();
+        if (p !== undefined) {
+          p.catch((err) => {
+            console.log("Audio play policy fallback:", err);
+            targetVid.muted = true;
+            targetVid.play().catch(() => {});
+          });
+        }
+      } catch (e) {
+        console.error("Video reset error:", e);
       }
-      setPlayingId(id);
+
+      setActiveId(id);
     }
   };
 
   const scrollLeft = () => {
-    carouselRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+    carouselRef.current?.scrollBy({ left: -310, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    carouselRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+    carouselRef.current?.scrollBy({ left: 310, behavior: "smooth" });
   };
 
   return (
@@ -127,7 +137,7 @@ export default function AwarenessReels() {
             Health Awareness Reels
           </h2>
           <p style={{ color: "var(--neutral-muted)", fontSize: "1.05rem", marginTop: "4px" }}>
-            Tap any reel below to play with audio on your phone or computer
+            Tap any reel to play with audio from 0:00. Tap again to mute & resume auto-slide.
           </p>
         </div>
       </div>
@@ -144,28 +154,27 @@ export default function AwarenessReels() {
 
           <div className="reels-carousel-track" ref={carouselRef}>
             {REEL_VIDEOS.map((video) => {
-              const isPlayingThis = playingId === video.id && !isMuted;
+              const isUnmutedActive = activeId === video.id;
 
               return (
                 <div
                   key={video.id}
-                  data-video-id={video.id}
-                  className={`phone-reel-card ${isPlayingThis ? "active-reel" : ""}`}
+                  className={`phone-reel-card ${isUnmutedActive ? "active-reel" : ""}`}
                   onClick={() => handleCardClick(video.id)}
                 >
                   <div className="phone-reel-frame">
                     <div className="phone-notch"></div>
 
-                    {/* Sound Indicator / Play Button */}
+                    {/* Sound Badge Toggle */}
                     <button
-                      className={`sound-toggle-btn ${isPlayingThis ? "unmuted" : ""}`}
+                      className={`sound-toggle-btn ${isUnmutedActive ? "unmuted" : ""}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleCardClick(video.id);
                       }}
-                      aria-label={isPlayingThis ? "Mute Audio" : "Unmute Audio"}
+                      title={isUnmutedActive ? "Mute Audio & Resume Auto-Slide" : "Play Unmuted from Beginning"}
                     >
-                      <i className={`fas ${isPlayingThis ? "fa-volume-up" : "fa-volume-mute"}`}></i>
+                      <i className={`fas ${isUnmutedActive ? "fa-volume-up" : "fa-volume-mute"}`}></i>
                     </button>
 
                     <video
@@ -177,7 +186,7 @@ export default function AwarenessReels() {
                       muted
                       playsInline
                       className="reel-video-element"
-                      preload="metadata"
+                      preload="auto"
                     />
 
                     <div className="reel-title-overlay">
