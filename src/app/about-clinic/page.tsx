@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
+import RegionalSEOBlock from "@/components/RegionalSEOBlock";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -61,7 +62,7 @@ export default async function AboutClinicPage() {
                 <strong style={{ color: "var(--primary)" }}>Trinetra Medicals</strong>
               </h1>
               <p className="page-subtitle" style={{ fontSize: "1.05rem", color: "var(--neutral-muted)", margin: 0 }}>
-                Primary Care Clinic led by <strong style={{ color: "var(--primary)" }}>Dr. Sai Sekhar Pyla</strong> in Muralinagar, Visakhapatnam
+                Primary Care Clinic led by <strong style={{ color: "var(--primary)" }}>Dr. Sai Sekhar P</strong> (<strong>Best Physician in Visakhapatnam / Vizag</strong> · <strong>MD General Medicine | Diabetologist | Infectious Disease Specialist</strong>) at <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>
               </p>
             </div>
 
@@ -141,6 +142,9 @@ export default async function AboutClinicPage() {
               <ContactForm />
             </div>
           </div>
+        </div>
+        <div style={{ marginTop: "40px" }}>
+          <RegionalSEOBlock useCardOnly={true} />
         </div>
       </div>
 

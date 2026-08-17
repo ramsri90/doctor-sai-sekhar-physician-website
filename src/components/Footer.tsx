@@ -3,7 +3,6 @@
 import NextLink from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-
 export default function Footer() {
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
@@ -17,9 +16,6 @@ export default function Footer() {
 
   return (
     <footer className="footer-section">
-      {/* FontAwesome style injection for social icons */}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-      
       <div className="container footer-grid">
         {/* Info Column */}
         <div className="footer-col info-col">

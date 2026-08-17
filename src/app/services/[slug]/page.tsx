@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ContactForm from "@/components/ContactForm";
+import { getServiceImage } from "@/lib/servicesImageMap";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -62,7 +63,10 @@ async function getServiceDetail(slug: string) {
     if (!res.ok) throw new Error("Fetch failed");
     const json = await res.json();
     if (json.status && json.data) {
-      return json.data;
+      return {
+        ...json.data,
+        image: getServiceImage(slug, json.data.name, json.data.image)
+      };
     }
   } catch (err) {
     // Return instant static fallback if available
@@ -73,7 +77,7 @@ async function getServiceDetail(slug: string) {
     return {
       name: fallback.name,
       content: fallback.content,
-      image: fallback.image || "/images/one.webp"
+      image: getServiceImage(slug, fallback.name, fallback.image)
     };
   }
 
@@ -86,7 +90,7 @@ async function getServiceDetail(slug: string) {
   return {
     name: formattedName,
     content: `<p>Expert diagnosis, clinical evaluation, and customized treatment plans for <strong>${formattedName}</strong> provided by Dr. Sai Sekhar P in Visakhapatnam.</p><h3>Clinical Services & Care</h3><ul><li>Comprehensive Medical Evaluation</li><li>Targeted Diagnostic & Medication Therapy</li><li>Preventative Health Counseling</li></ul>`,
-    image: "/images/one.webp"
+    image: getServiceImage(slug, formattedName)
   };
 }
 
@@ -150,8 +154,47 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  const cleanDescription = service.content
+    ? service.content.replace(/<[^>]*>/g, "").substring(0, 160).trim()
+    : `Expert diagnosis and management for ${service.name} in Visakhapatnam by Dr. Sai Sekhar P.`;
+
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "name": `${service.name} Treatment & Diagnosis in Visakhapatnam`,
+    "url": `https://www.drsaisekharphysician.com/services/${slug}`,
+    "description": cleanDescription,
+    "medicalAudience": "Patient",
+    "about": {
+      "@type": "MedicalCondition",
+      "name": service.name,
+      "possibleTreatment": [
+        {
+          "@type": "MedicalTherapy",
+          "name": `Clinical Management & Treatment for ${service.name}`
+        }
+      ]
+    },
+    "author": {
+      "@type": "Physician",
+      "name": "Dr. Sai Sekhar P",
+      "jobTitle": "MD General Medicine | Diabetologist | Infectious Disease Specialist",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Muralinagar",
+        "addressLocality": "Visakhapatnam",
+        "addressRegion": "Andhra Pradesh",
+        "addressCountry": "IN"
+      }
+    }
+  };
+
   return (
     <div className="service-detail-wrapper">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       {/* Header Banner */}
       <div className="page-header bg-gradient-mesh">
         <div className="container">
@@ -172,7 +215,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               <div className="service-main-image-card">
                 <Image
                   src={service.image}
-                  alt={`Treatment for ${service.name}`}
+                  alt={`Treatment for ${service.name} in Visakhapatnam`}
                   width={800}
                   height={400}
                   className="service-image"
@@ -182,6 +225,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               </div>
             )}
             
+            {/* AEO / GEO Direct Answer Takeaway Card */}
+            <div className="top-key-takeaway-card" style={{ backgroundColor: "#f0fdf4", borderLeft: "4px solid var(--primary)", padding: "16px 20px", borderRadius: "10px", marginBottom: "24px" }}>
+              <p style={{ margin: 0, fontSize: "0.98rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
+                <strong>Key Medical Takeaway:</strong> Specialized <strong>{service.name}</strong> diagnosis, treatment, and ongoing care are provided by <strong>Dr. Sai Sekhar P</strong> (<strong>Best Physician in Visakhapatnam / Vizag</strong> · <strong>MD General Medicine</strong>) at <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>.
+              </p>
+            </div>
+
             <div 
               className="rich-text-content service-content"
               dangerouslySetInnerHTML={{ __html: service.content }}

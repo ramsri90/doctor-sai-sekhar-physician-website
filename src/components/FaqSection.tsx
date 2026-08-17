@@ -102,7 +102,7 @@ export default function FaqSection() {
 
                 {isOpen && (
                   <div
-                    className="faq-answer"
+                    className="faq-answer faq-answer-anim"
                     style={{
                       padding: "0 24px 20px 24px",
                       color: "var(--neutral-muted)",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Review {
   name: string;
@@ -11,6 +11,7 @@ interface Review {
 
 export default function ReviewsSection() {
   const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const reviews: Review[] = [
     {
@@ -39,6 +40,16 @@ export default function ReviewsSection() {
     }
   ];
 
+  useEffect(() => {
+    if (isPaused) return;
+
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % reviews.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, [isPaused, reviews.length]);
+
   return (
     <section className="reviews-section bg-gradient-mesh">
       <div className="container">
@@ -54,7 +65,11 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        <div className="reviews-slider-wrapper">
+        <div 
+          className="reviews-slider-wrapper"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <div className="reviews-slider">
             {reviews.map((rev, idx) => (
               <div 
@@ -84,8 +99,10 @@ export default function ReviewsSection() {
                 key={idx}
                 onClick={() => setActive(idx)}
                 className={`nav-dot ${idx === active ? "active" : ""}`}
-                aria-label={`View review ${idx + 1}`}
-              ></button>
+                aria-label={`Go to patient review ${idx + 1}`}
+              >
+                <span className="sr-only">Go to review {idx + 1}</span>
+              </button>
             ))}
           </div>
         </div>

@@ -6,6 +6,8 @@ import ContactForm from "@/components/ContactForm";
 import AnimatedCounterSection from "@/components/AnimatedCounterSection";
 import FaqSection from "@/components/FaqSection";
 import AwarenessReels from "@/components/AwarenessReels";
+import FeaturedServicesTabs from "@/components/FeaturedServicesTabs";
+import { getServiceImage } from "@/lib/servicesImageMap";
 
 // Force static rendering with dynamic revalidation (ISR)
 export const revalidate = 3600; // Revalidate every hour
@@ -95,40 +97,71 @@ export default async function HomePage() {
                 "@type": "WebPage",
                 "@id": "https://www.drsaisekharphysician.com/#webpage",
                 "url": "https://www.drsaisekharphysician.com/",
-                "name": "Dr Sai Sekhar Pyla | Best Physician in Visakhapatnam",
-                "description": "Dr. Sai Sekhar Pyla is a General Physician & Diabetologist in Visakhapatnam with 12 years of experience in chronic disease management & preventive care.",
+                "name": "Dr Sai Sekhar P | Best Physician in Visakhapatnam / Vizag",
+                "description": "Dr. Sai Sekhar P is the best physician in Visakhapatnam / Vizag. MD General Medicine, Diabetologist, & Infectious Disease Specialist at Trinetra Medicals, Muralinagar.",
                 "datePublished": "2024-01-01T00:00:00+05:30",
-                "dateModified": "2026-08-17T00:00:00+05:30",
+                "dateModified": "2026-08-18T00:00:00+05:30",
                 "inLanguage": "en-IN",
                 "isPartOf": {
                   "@type": "WebSite",
                   "@id": "https://www.drsaisekharphysician.com/#website",
                   "url": "https://www.drsaisekharphysician.com/",
-                  "name": "Dr. Sai Sekhar Pyla - General Physician"
+                  "name": "Dr. Sai Sekhar P - General Physician Visakhapatnam"
                 },
                 "about": {
                   "@type": "Person",
                   "@id": "https://www.drsaisekharphysician.com/#physician",
-                  "name": "Dr. Sai Sekhar Pyla",
-                  "jobTitle": "Consultant Physician & Diabetologist",
-                  "medicalSpecialty": "General Medicine",
-                  "telephone": "6300793688"
+                  "name": "Dr. Sai Sekhar P (Dr. Sai Sekhar Pyla)",
+                  "jobTitle": "MD General Medicine | Diabetologist | Infectious Disease Specialist",
+                  "medicalSpecialty": ["GeneralMedicine", "Endocrinology", "InfectiousDisease"],
+                  "telephone": "+916300793688"
                 }
               },
               {
                 "@type": "Physician",
                 "@id": "https://www.drsaisekharphysician.com/#physician",
-                "name": "Dr. Sai Sekhar Pyla",
-                "medicalSpecialty": ["GeneralMedicine", "Diabetology"],
-                "telephone": "6300793688",
+                "name": "Dr. Sai Sekhar P",
+                "alternateName": ["Dr. Sai Sekhar Pyla", "Best Physician in Visakhapatnam / Vizag"],
+                "medicalSpecialty": ["GeneralMedicine", "Diabetology", "InfectiousDisease"],
+                "telephone": "+916300793688",
                 "address": {
                   "@type": "PostalAddress",
-                  "streetAddress": "Ramalayam Street, Muralinagar",
+                  "streetAddress": "Beside Abhiruchi Sweets, Ramalayam Street, Muralinagar",
                   "addressLocality": "Visakhapatnam",
                   "addressRegion": "Andhra Pradesh",
                   "postalCode": "530007",
                   "addressCountry": "IN"
                 }
+              },
+              {
+                "@type": "FAQPage",
+                "@id": "https://www.drsaisekharphysician.com/#faq",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Who is the best physician in Visakhapatnam / Vizag?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Dr. Sai Sekhar P (MD General Medicine, Diabetologist, Infectious Disease Specialist) with 12 years of clinical experience is widely recognized as the best physician in Visakhapatnam / Vizag. He practices primarily at Trinetra Medicals, Muralinagar, Visakhapatnam."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Where is Dr. Sai Sekhar P's clinic located in Visakhapatnam?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Dr. Sai Sekhar P practices at Trinetra Medicals, located Beside Abhiruchi Sweets, Ramalayam Street, Muralinagar, Visakhapatnam (6:00 PM to 9:00 PM, Monday to Saturday)."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What conditions does Dr. Sai Sekhar P treat?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Dr. Sai Sekhar P specializes in Type 1 & Type 2 Diabetes management, Thyroid disorders (Hypo/Hyperthyroidism), Dengue & Infectious fevers, Hypertension, Asthma/COPD, Gastrointestinal issues, and Kidney care."
+                    }
+                  }
+                ]
               }
             ]
           })
@@ -165,16 +198,16 @@ export default async function HomePage() {
               Dr. Sai Sekhar Pyla
             </h1>
             <h2 className="doctor-credentials-subtitle">
-              MBBS, MD (General Medicine) | Consultant Physician
+              MD General Medicine | Diabetologist | Infectious Disease Specialist
             </h2>
             <p className="doctor-hospitals-subtitle">
-              Consultant Physician at CARE Hospital & <strong>Trinetra Medicals</strong>
+              Consultant Physician at CARE Hospital & <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>
             </p>
 
-            {/* Item 9: Top Summary / Key Takeaway Box for Featured Snippets */}
+            {/* Featured Highlight Card - Best Physician in Visakhapatnam / Vizag */}
             <div className="top-key-takeaway-card" style={{ backgroundColor: "#f0fdf4", borderLeft: "4px solid var(--primary)", padding: "14px 18px", borderRadius: "12px", marginBottom: "16px" }}>
-              <p style={{ margin: 0, fontSize: "0.95rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
-                <strong>Key Takeaway:</strong> Dr. Sai Sekhar Pyla is an MD (General Medicine) physician and diabetologist based in Visakhapatnam, with 12 years of experience treating chronic lifestyle diseases, critical care, and metabolic conditions. He is a gold medalist known for his patient-centered, evidence-based healthcare at Trinetra Medicals.
+              <p style={{ margin: 0, fontSize: "0.98rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
+                <strong>Best Physician in Visakhapatnam / Vizag</strong> — <strong>Dr. Sai Sekhar Pyla</strong> is an <strong>MD General Medicine</strong>, <strong>Diabetologist</strong>, and <strong>Infectious Disease Specialist</strong> with 12 years of experience providing gold-standard healthcare at <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>.
               </p>
             </div>
             
@@ -235,40 +268,7 @@ export default async function HomePage() {
             <p className="section-subtitle">Dedicated primary, chronic, and preventative healthcare services</p>
           </div>
 
-          <div className="services-category-grid">
-            {data.services.slice(0, 8).map((cat: { id: number | string, category_name: string, services: Array<{ id: number | string, slug: string, name: string }> }) => (
-              <div key={cat.id} className="card service-cat-card">
-                <div className="cat-header">
-                  <div className="cat-icon-bg">
-                    <i className="fas fa-notes-medical"></i>
-                  </div>
-                  <h3 className="cat-title">{cat.category_name}</h3>
-                </div>
-                
-                {cat.services && cat.services.length > 0 && (
-                  <ul className="cat-services-list">
-                    {cat.services.slice(0, 3).map((s: { id: number | string, slug: string, name: string }) => (
-                      <li key={s.id}>
-                        <Link href={`/services/${s.slug}`} prefetch={true} className="service-sublink">
-                          <i className="fas fa-angle-right"></i> {s.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                
-                <Link href="/services" prefetch={true} className="cat-view-all">
-                  View All Services <i className="fas fa-arrow-right"></i>
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center section-footer-cta">
-            <Link href="/services" prefetch={true} className="btn btn-primary">
-              View Complete Services Catalog
-            </Link>
-          </div>
+          <FeaturedServicesTabs categories={data.services} />
         </div>
       </section>
 

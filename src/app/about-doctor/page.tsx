@@ -70,8 +70,8 @@ export default async function AboutDoctorPage() {
       <div className="page-header bg-gradient-mesh">
         <div className="container">
           <span className="badge">Physician Profile</span>
-          <h1 className="page-title">Dr. Sai Sekhar Pyla</h1>
-          <p className="page-subtitle">MBBS, MD (General Medicine) | Consultant Physician, Trinetra Medicals</p>
+          <h1 className="page-title">Dr. Sai Sekhar P</h1>
+          <p className="page-subtitle">MD General Medicine | Diabetologist | Infectious Disease Specialist | Trinetra Medicals, Muralinagar, Visakhapatnam</p>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default async function AboutDoctorPage() {
             <div className="doctor-image-card">
               <Image
                 src="/images/two.webp"
-                alt="Dr. Sai Sekhar Pyla - General Physician"
+                alt="Dr. Sai Sekhar P - Best Physician in Visakhapatnam"
                 width={400}
                 height={500}
                 className="doctor-profile-img"
@@ -96,15 +96,17 @@ export default async function AboutDoctorPage() {
                 <li>
                   <i className="fas fa-user-md qual-icon"></i>
                   <div>
-                    <strong style={{ color: "var(--primary)" }}>Dr. Sai Sekhar Pyla</strong>
-                    <p>General Physician & Consultant Physician</p>
+                    <strong style={{ color: "var(--primary)", fontSize: "1.05rem" }}>Dr. Sai Sekhar P</strong>
+                    <p style={{ marginTop: "2px", fontWeight: "bold", color: "var(--neutral-dark)" }}>
+                      Best Physician in Visakhapatnam / Vizag
+                    </p>
                   </div>
                 </li>
                 <li>
                   <i className="fas fa-graduation-cap qual-icon"></i>
                   <div>
-                    <strong>MD (General Medicine)</strong>
-                    <p>JJM Medical College, Davanagere</p>
+                    <strong>MD General Medicine | Diabetologist</strong>
+                    <p>Infectious Disease Specialist · JJM Medical College</p>
                   </div>
                 </li>
                 <li>
@@ -118,14 +120,14 @@ export default async function AboutDoctorPage() {
                   <i className="fas fa-award qual-icon"></i>
                   <div>
                     <strong style={{ color: "var(--primary)" }}>12 Years Clinical Experience</strong>
-                    <p>Specialist in Critical Care, Lifestyle Diseases & Preventive Healthcare</p>
+                    <p>Specialist in Critical Care, Lifestyle Diseases & Diabetology</p>
                   </div>
                 </li>
                 <li>
                   <i className="fas fa-clinic-medical qual-icon"></i>
                   <div>
                     <strong style={{ color: "var(--primary)" }}>Trinetra Medicals</strong>
-                    <p>Primary Clinic Practice in Muralinagar, Visakhapatnam</p>
+                    <p>Muralinagar, Visakhapatnam (6:00 PM – 9:00 PM)</p>
                   </div>
                 </li>
               </ul>

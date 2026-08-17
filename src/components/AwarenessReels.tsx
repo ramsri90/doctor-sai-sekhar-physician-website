@@ -142,7 +142,7 @@ export default function AwarenessReels() {
         </div>
       </div>
 
-      <div className="full-width-reels-container">
+      <div className="reels-section-container">
         <div className="reels-carousel-wrapper">
           <button 
             className="reels-nav-btn reels-prev-btn" 
