@@ -26,9 +26,9 @@ async function getAboutUsContent() {
 
 function cleanAndSanitizeContent(html: string): string {
   return `
-    <p style="margin-bottom: 24px; line-height: 1.85; font-size: 1.08rem; color: var(--neutral-dark);">Welcome to <strong>Dr. Sai Sekhar Pyla&apos;s</strong> official website, your trusted destination for expert medical care. With over <strong>12 years of experience</strong>, Dr. Sai Sekhar Pyla is a renowned Consultant Physician specializing in General Medicine, Diabetology, and Infectious Diseases.</p>
-    <p style="margin-bottom: 24px; line-height: 1.85; font-size: 1.08rem; color: var(--neutral-dark);">Our clinic is dedicated to providing <strong>comprehensive healthcare</strong>, ranging from preventive medicine to the management of chronic diseases like <strong>diabetes, hypertension, and infectious diseases</strong>. We strive to offer patient-centric care with a focus on early diagnosis and effective treatment. We are committed to providing the <strong>best physician services in Visakhapatnam / Vizag</strong>.</p>
-    <p style="margin-bottom: 0; line-height: 1.85; font-size: 1.08rem; color: var(--neutral-dark);">Visit us at <strong style="color: #0d7a66;">Trinetra Medicals</strong>, Muralinagar, Visakhapatnam for personalized consultation and dedicated chronic condition management.</p>
+    <p className="about-p">Welcome to <strong>Dr. Sai Sekhar Pyla&apos;s</strong> official website, your trusted destination for expert medical care. With over <strong>12 years of experience</strong>, Dr. Sai Sekhar Pyla is a renowned Consultant Physician specializing in General Medicine, Diabetology, and Infectious Diseases.</p>
+    <p className="about-p">Our clinic is dedicated to providing <strong>comprehensive healthcare</strong>, ranging from preventive medicine to the management of chronic diseases like <strong>diabetes, hypertension, and infectious diseases</strong>. We strive to offer patient-centric care with a focus on early diagnosis and effective treatment. We are committed to providing the <strong>best physician services in Visakhapatnam / Vizag</strong>.</p>
+    <p className="about-p-highlight">Visit us at <strong style="color: var(--primary);">Trinetra Medicals</strong>, Muralinagar, Visakhapatnam for personalized consultation and dedicated chronic condition management.</p>
   `;
 }
 
@@ -37,28 +37,28 @@ export default async function AboutUsPage() {
   const cleanedContent = cleanAndSanitizeContent(content);
 
   return (
-    <div className="about-page-wrapper" style={{ paddingTop: "130px", paddingBottom: "90px" }}>
-      <div className="container scroll-reveal">
+    <div className="about-page-wrapper">
+      <div className="container">
         
         {/* SECTION 1: Top 2-Column Row (About Us Text on Left + Doctor Image on Right) */}
         <div className="about-top-grid">
-          {/* Left Column: Title & Description with expanded line spacing */}
-          <div className="about-top-text" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          {/* Left Column */}
+          <div className="about-top-text">
             <div>
               <span className="badge-pill">LEARN MORE</span>
-              <h1 className="page-title" style={{ marginTop: "12px", marginBottom: "10px" }}>About Us</h1>
-              <p className="page-subtitle" style={{ marginBottom: "32px", fontSize: "1.15rem", lineHeight: 1.6 }}>
+              <h1 className="page-title about-title">About Us</h1>
+              <p className="page-subtitle about-subtitle">
                 Dedicated to delivering professional and patient-centered healthcare
               </p>
 
               <div 
-                className="rich-text-content"
+                className="rich-text-content about-rich-text"
                 dangerouslySetInnerHTML={{ __html: cleanedContent }}
               />
             </div>
           </div>
 
-          {/* Right Column: Doctor Image matching top H1 to bottom paragraph height */}
+          {/* Right Column */}
           <div className="about-top-media">
             <div className="image-card about-hero-image-card">
               <Image
@@ -74,8 +74,8 @@ export default async function AboutUsPage() {
           </div>
         </div>
 
-        {/* SECTION 2: Bottom 2-Column Row (Why Choose Card on Left + Consult CTA Card on Right) */}
-        <div className="about-bottom-grid" style={{ marginTop: "50px" }}>
+        {/* SECTION 2: Bottom 2-Column Row */}
+        <div className="about-bottom-grid">
           {/* Left Box: Why Choose Dr. Sai Sekhar? */}
           <div className="highlights-list-card equal-bottom-card">
             <h3>Why Choose Dr. Sai Sekhar?</h3>
@@ -110,20 +110,20 @@ export default async function AboutUsPage() {
           {/* Right Box: Need to Consult Dr. Sai Sekhar P? */}
           <div className="cta-block equal-bottom-card">
             <div>
-              <span className="badge-pill" style={{ marginBottom: "12px" }}>APPOINTMENTS</span>
-              <h3 style={{ fontSize: "1.45rem", fontWeight: 800, color: "var(--neutral-dark)", marginBottom: "10px" }}>
+              <span className="badge-pill cta-badge">APPOINTMENTS</span>
+              <h3 className="cta-heading">
                 Need to Consult Dr. Sai Sekhar P?
               </h3>
-              <p style={{ fontSize: "1rem", color: "var(--neutral-muted)", lineHeight: 1.6, marginBottom: "24px" }}>
+              <p className="cta-desc">
                 Schedule an appointment at Trinetra Medicals today for expert consultation, early diagnosis, and comprehensive treatment plans.
               </p>
             </div>
 
             <div className="cta-buttons">
-              <Link href="/contact" className="btn btn-pill-primary" style={{ padding: "12px 24px" }}>
+              <Link href="/contact" prefetch={true} className="btn btn-pill-primary cta-action-btn">
                 Book an Appointment <i className="fas fa-calendar-alt" style={{ marginLeft: "6px" }}></i>
               </Link>
-              <Link href="/services" className="btn btn-pill-outline" style={{ padding: "12px 24px" }}>
+              <Link href="/services" prefetch={true} className="btn btn-pill-outline cta-action-btn">
                 Browse Services
               </Link>
             </div>

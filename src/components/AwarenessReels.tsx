@@ -11,202 +11,175 @@ interface ReelVideo {
 const REEL_VIDEOS: ReelVideo[] = [
   {
     id: "adult-vaccination",
-    title: "Adult Vaccination",
+    title: "Adult Vaccination Awareness",
     src: "/videos/Adult vaccination awareness video.mp4",
   },
   {
     id: "asthma-awareness",
-    title: "Asthma Awareness",
+    title: "Asthma Care & Prevention",
     src: "/videos/Asthma awareness video.mp4",
   },
   {
     id: "diabetes-awareness",
-    title: "Diabetes Awareness",
+    title: "Diabetes Management Tips",
     src: "/videos/Diabetes awareness video.mp4",
   },
   {
     id: "diabetic-foot",
-    title: "Diabetic Foot",
+    title: "Diabetic Foot Care Protocol",
     src: "/videos/Diabetic foot awareness video.mp4",
   },
   {
     id: "fermented-products",
-    title: "Fermented Products",
+    title: "Gut Health & Fermented Foods",
     src: "/videos/Fermented  products awareness video.mp4",
   },
 ];
 
 export default function AwarenessReels() {
-  const [activeKey, setActiveKey] = useState<string | null>(null);
-  const [isAutoSliding, setIsAutoSliding] = useState<boolean>(true);
-  
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
   const carouselRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  // 1. Initial silent auto-play for all videos on mount
+  // 1. IntersectionObserver to play/pause only the visible video when scrolling on mobile
   useEffect(() => {
-    Object.keys(videoRefs.current).forEach((key) => {
-      const vid = videoRefs.current[key];
-      if (vid) {
-        vid.muted = true;
-        vid.play().catch(() => {});
-      }
-    });
-  }, []);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const videoId = entry.target.getAttribute("data-video-id");
+          if (!videoId) return;
+          const vid = videoRefs.current[videoId];
+          if (!vid) return;
 
-  // 2. Continuous smooth right-to-left auto-sliding track when isAutoSliding is true
-  useEffect(() => {
-    if (!isAutoSliding) return;
+          if (entry.isIntersecting) {
+            // Auto play muted when in viewport
+            vid.muted = true;
+            vid.play().catch(() => {});
+          } else {
+            vid.pause();
+            if (playingId === videoId) {
+              setPlayingId(null);
+            }
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
 
-    let animId: number;
+    const elements = document.querySelectorAll(".phone-reel-card");
+    elements.forEach((el) => observer.observe(el));
 
-    const autoScroll = () => {
-      if (carouselRef.current) {
-        carouselRef.current.scrollLeft += 1.2;
+    return () => observer.disconnect();
+  }, [playingId]);
 
-        const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-        if (carouselRef.current.scrollLeft >= maxScroll - 2) {
-          carouselRef.current.scrollLeft = 0;
-        }
-      }
-      animId = requestAnimationFrame(autoScroll);
-    };
+  // 2. Play / Unmute video on tap/click gesture for iOS / Android compatibility
+  const handleCardClick = (id: string) => {
+    const targetVid = videoRefs.current[id];
+    if (!targetVid) return;
 
-    animId = requestAnimationFrame(autoScroll);
-    return () => cancelAnimationFrame(animId);
-  }, [isAutoSliding]);
-
-  // 3. Click handler: Stop sliding, reset video to 0, unmute audio and play!
-  const handleVideoClick = (uniqueKey: string) => {
-    const targetVid = videoRefs.current[uniqueKey];
-
-    if (activeKey === uniqueKey && !isAutoSliding) {
-      // Second click: Resume sliding and mute audio
-      setIsAutoSliding(true);
-      if (targetVid) {
-        targetVid.muted = true;
-      }
-      setActiveKey(null);
+    if (playingId === id && !isMuted) {
+      // Toggle to muted
+      targetVid.muted = true;
+      setIsMuted(true);
     } else {
-      // First click: Stop sliding, reset video to 0 and unmute synchronously!
-      setIsAutoSliding(false);
-
-      // Mute all other videos
+      // Pause all other videos
       Object.keys(videoRefs.current).forEach((k) => {
-        const vid = videoRefs.current[k];
-        if (vid && k !== uniqueKey) {
-          vid.muted = true;
+        const v = videoRefs.current[k];
+        if (v && k !== id) {
+          v.pause();
+          v.muted = true;
         }
       });
 
-      if (targetVid) {
-        try {
-          targetVid.pause();
-          targetVid.currentTime = 0;
-          targetVid.muted = false;
-          targetVid.volume = 1.0;
-          
-          const playPromise = targetVid.play();
-          if (playPromise !== undefined) {
-            playPromise.catch((err) => console.log("Sync play error:", err));
-          }
-        } catch (e) {
-          console.error("Video reset error:", e);
-        }
+      targetVid.currentTime = 0;
+      targetVid.muted = false;
+      setIsMuted(false);
+      
+      // Explicit play inside user gesture handler for iOS Safari / Android Chrome
+      const p = targetVid.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          // If unmuted autoplay blocked by browser policy, fallback to muted play
+          targetVid.muted = true;
+          setIsMuted(true);
+          targetVid.play().catch(() => {});
+        });
       }
-      setActiveKey(uniqueKey);
+      setPlayingId(id);
     }
   };
 
-  const toggleMute = (e: React.MouseEvent, uniqueKey: string) => {
-    e.stopPropagation();
-    const vid = videoRefs.current[uniqueKey];
-    if (vid) {
-      if (vid.muted) {
-        setIsAutoSliding(false);
-        vid.pause();
-        vid.currentTime = 0;
-        vid.muted = false;
-        vid.volume = 1.0;
-        vid.play().catch(() => {});
-        setActiveKey(uniqueKey);
-      } else {
-        setIsAutoSliding(true);
-        vid.muted = true;
-        setActiveKey(null);
-      }
-    }
+  const scrollLeft = () => {
+    carouselRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    carouselRef.current?.scrollBy({ left: 300, behavior: "smooth" });
   };
 
   return (
-    <section className="awareness-reels-section scroll-reveal">
-      {/* Centered Header */}
+    <section id="awareness-reels" className="awareness-reels-section">
       <div className="container">
-        <div className="section-header text-center" style={{ marginBottom: "36px" }}>
+        <div className="section-header text-center" style={{ marginBottom: "32px" }}>
           <span className="badge-pill">PATIENT EDUCATION</span>
-          <h2 className="section-title" style={{ fontSize: "clamp(2.2rem, 4.5vw, 2.8rem)", fontWeight: 800, color: "var(--neutral-dark)", marginTop: "8px" }}>
-            Awareness Reels
+          <h2 className="section-title" style={{ fontSize: "clamp(2rem, 4vw, 2.6rem)", fontWeight: 800, color: "var(--neutral-dark)", marginTop: "8px" }}>
+            Health Awareness Reels
           </h2>
-          <p style={{ color: "var(--neutral-muted)", fontSize: "1.1rem", marginTop: "4px" }}>
-            Watch short video reels on health tips & preventive healthcare
+          <p style={{ color: "var(--neutral-muted)", fontSize: "1.05rem", marginTop: "4px" }}>
+            Tap any reel below to play with audio on your phone or computer
           </p>
         </div>
       </div>
 
-      {/* Full-width Edge to Edge Carousel Track */}
       <div className="full-width-reels-container">
         <div className="reels-carousel-wrapper">
           <button 
             className="reels-nav-btn reels-prev-btn" 
-            onClick={() => {
-              setIsAutoSliding(false);
-              carouselRef.current?.scrollBy({ left: -320, behavior: "smooth" });
-            }}
+            onClick={scrollLeft}
             aria-label="Previous Reels"
           >
             <i className="fas fa-chevron-left"></i>
           </button>
 
-          {/* Triple video list for full screen edge-to-edge seamless loop */}
           <div className="reels-carousel-track" ref={carouselRef}>
-            {[...REEL_VIDEOS, ...REEL_VIDEOS, ...REEL_VIDEOS].map((video, idx) => {
-              const uniqueKey = `${video.id}-${idx}`;
-              const isSelected = activeKey === uniqueKey;
+            {REEL_VIDEOS.map((video) => {
+              const isPlayingThis = playingId === video.id && !isMuted;
 
               return (
                 <div
-                  key={uniqueKey}
-                  className={`phone-reel-card ${isSelected ? "active-reel" : ""}`}
-                  onClick={() => handleVideoClick(uniqueKey)}
+                  key={video.id}
+                  data-video-id={video.id}
+                  className={`phone-reel-card ${isPlayingThis ? "active-reel" : ""}`}
+                  onClick={() => handleCardClick(video.id)}
                 >
                   <div className="phone-reel-frame">
-                    {/* Phone Notch */}
                     <div className="phone-notch"></div>
 
-                    {/* Sound Mute/Unmute Badge */}
+                    {/* Sound Indicator / Play Button */}
                     <button
-                      className={`sound-toggle-btn ${isSelected ? "unmuted" : ""}`}
-                      onClick={(e) => toggleMute(e, uniqueKey)}
-                      title={isSelected ? "Mute Audio" : "Unmute Audio"}
+                      className={`sound-toggle-btn ${isPlayingThis ? "unmuted" : ""}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCardClick(video.id);
+                      }}
+                      aria-label={isPlayingThis ? "Mute Audio" : "Unmute Audio"}
                     >
-                      <i className={`fas ${isSelected ? "fa-volume-up" : "fa-volume-mute"}`}></i>
+                      <i className={`fas ${isPlayingThis ? "fa-volume-up" : "fa-volume-mute"}`}></i>
                     </button>
 
-                    {/* Continuous Auto-playing Video */}
                     <video
                       ref={(el) => {
-                        videoRefs.current[uniqueKey] = el;
+                        videoRefs.current[video.id] = el;
                       }}
                       src={video.src}
-                      autoPlay
                       loop
                       muted
                       playsInline
                       className="reel-video-element"
-                      preload="auto"
+                      preload="metadata"
                     />
 
-                    {/* Overlay Title Label */}
                     <div className="reel-title-overlay">
                       <span>{video.title}</span>
                     </div>
@@ -218,10 +191,7 @@ export default function AwarenessReels() {
 
           <button 
             className="reels-nav-btn reels-next-btn" 
-            onClick={() => {
-              setIsAutoSliding(false);
-              carouselRef.current?.scrollBy({ left: 320, behavior: "smooth" });
-            }}
+            onClick={scrollRight}
             aria-label="Next Reels"
           >
             <i className="fas fa-chevron-right"></i>
