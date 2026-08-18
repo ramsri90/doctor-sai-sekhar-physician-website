@@ -456,25 +456,39 @@ a {
 .hero-slide-dots {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 24px;
 }
 
-.dot-pill {
+.hero-slide-dots .dot-pill {
   width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  border: none;
+  height: 10px !important;
+  min-height: 10px !important;
+  max-height: 10px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  padding: 0;
-  transition: all 0.3s ease;
+  padding: 0 !important;
+  margin: 0;
+  flex-shrink: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
 }
 
-.dot-pill.active {
-  width: 28px;
-  border-radius: 10px;
+.hero-slide-dots .dot-pill:hover {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: #ffffff;
+}
+
+.hero-slide-dots .dot-pill.active {
+  width: 32px;
+  height: 10px !important;
+  min-height: 10px !important;
+  border-radius: 20px !important;
   background: var(--secondary);
+  border-color: var(--secondary);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
 }
 
 .slide-content-wrapper {
@@ -4022,7 +4036,7 @@ html, body {
 
 /* Touch targets & tap feedback optimization */
 @media (max-width: 767px) {
-  button, .btn, input, select, textarea, a.contact-link, .nav-link {
+  button:not(.dot-pill), .btn, input, select, textarea, a.contact-link, .nav-link {
     min-height: 44px;
     touch-action: manipulation;
   }
