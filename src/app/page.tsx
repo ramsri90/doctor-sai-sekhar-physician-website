@@ -13,72 +13,33 @@ import { getServiceImage } from "@/lib/servicesImageMap";
 export const revalidate = 3600; // Revalidate every hour
 
 async function getClinicData() {
-  const baseURL = "https://admin.drsaisekharphysician.com/api/client/";
-  
-  const fallbackSettings = {
-    contact: {
-      phone: "6300793688",
-      whatsapp_no: "6300793688",
-      email: "info@drsaisekharphysician.com"
-    }
+  return {
+    banners: [],
+    settings: {
+      contact: {
+        phone: "6300793688",
+        whatsapp_no: "6300793688",
+        email: "info@drsaisekharphysician.com"
+      }
+    },
+    counters: [
+      { id: 1, title: "Patients Treated", count: "2,00,000+" },
+      { id: 2, title: "Chronic Disease Management Cases", count: "1,00,000+" },
+      { id: 3, title: "Preventive Health Screenings", count: "50,000+" },
+      { id: 4, title: "Emergency Cases Handled", count: "30,000+" }
+    ],
+    services: [
+      { id: 1, category_name: "Diabetes", services: [{ id: 39, name: "Type 1 DM", slug: "type-1-dm" }, { id: 40, name: "Type II DM", slug: "type-ii-dm" }, { id: 41, name: "Diabetic Neuropathy", slug: "diabetic-neuropathy" }, { id: 42, name: "Diabetic Nephropathy", slug: "diabetic-nephropathy" }] },
+      { id: 2, category_name: "Thyroid Disorder", services: [{ id: 44, name: "Hypothyroidism", slug: "hypothyroidism" }, { id: 45, name: "Hyperthyroidism", slug: "hyperthyroidism" }] },
+      { id: 3, category_name: "Fever & Infections", services: [{ id: 47, name: "Dengue fever", slug: "dengue-fever" }, { id: 48, name: "Malaria", slug: "malaria" }, { id: 49, name: "UTI", slug: "urinary-tract-infection-uti" }] },
+      { id: 4, category_name: "Headache Care", services: [{ id: 54, name: "Tension Headache", slug: "tension-headache" }, { id: 55, name: "Migraine", slug: "migraine" }] },
+      { id: 5, category_name: "Bone and Joint", services: [{ id: 58, name: "Rheumatoid Arthritis", slug: "rheumatoid-arthritis" }, { id: 59, name: "Cervical Spondylosis", slug: "cervical-spondylosis" }] },
+      { id: 6, category_name: "Gastro Intestinal", services: [{ id: 61, name: "Acute Gastritis", slug: "acute-gastritis" }, { id: 63, name: "Diarrhea", slug: "acute-and-chronic-diarrhea" }] },
+      { id: 7, category_name: "Renal Care", services: [{ id: 66, name: "Acute Renal Failure", slug: "acute-renal-failure" }, { id: 69, name: "Kidney stones", slug: "kidney-stones" }] },
+      { id: 8, category_name: "Cardiac & Hypertension", services: [{ id: 43, name: "Hypertension (HTN)", slug: "hypertension-htn" }, { id: 70, name: "Ischemic Heart Disease", slug: "ischemic-heart-disease" }] }
+    ],
+    videos: []
   };
-
-  const fallbackCounters = [
-    { id: 1, title: "Patients Treated", count: "2,00,000+" },
-    { id: 2, title: "Chronic Disease Management Cases", count: "1,00,000+" },
-    { id: 3, title: "Preventive Health Screenings", count: "50,000+" },
-    { id: 4, title: "Emergency Cases Handled", count: "30,000+" }
-  ];
-
-  const fallbackServices = [
-    { id: 1, category_name: "Diabetes", services: [{ id: 39, name: "Type 1 DM", slug: "type-1-dm" }, { id: 40, name: "Type II DM", slug: "type-ii-dm" }, { id: 41, name: "Diabetic Neuropathy", slug: "diabetic-neuropathy" }] },
-    { id: 2, category_name: "Thyroid Disorder", services: [{ id: 44, name: "Hypothyroidism", slug: "hypothyroidism" }, { id: 45, name: "Hyperthyroidism", slug: "hyperthyroidism" }] },
-    { id: 3, category_name: "Fever & Infections", services: [{ id: 47, name: "Dengue fever", slug: "dengue-fever" }, { id: 48, name: "Malaria", slug: "malaria" }, { id: 49, name: "UTI", slug: "urinary-tract-infection-uti" }] },
-    { id: 4, category_name: "Headache Care", services: [{ id: 54, name: "Tension Headache", slug: "tension-headache" }, { id: 55, name: "Migraine", slug: "migraine" }] },
-    { id: 5, category_name: "Bone and Joint", services: [{ id: 58, name: "Rheumatoid Arthritis", slug: "rheumatoid-arthritis" }, { id: 59, name: "Cervical Spondylosis", slug: "cervical-spondylosis" }] },
-    { id: 6, category_name: "Gastro Intestinal", services: [{ id: 61, name: "Acute Gastritis", slug: "acute-gastritis" }, { id: 63, name: "Diarrhea", slug: "acute-and-chronic-diarrhea" }] },
-    { id: 7, category_name: "Renal Care", services: [{ id: 66, name: "Acute Renal Failure", slug: "acute-renal-failure" }, { id: 69, name: "Kidney stones", slug: "kidney-stones" }] },
-    { id: 8, category_name: "Cardiac & Hypertension", services: [{ id: 43, name: "Hypertension (HTN)", slug: "hypertension-htn" }, { id: 70, name: "Ischemic Heart Disease", slug: "ischemic-heart-disease" }] }
-  ];
-
-  const fetchOpts = {
-    next: { revalidate: 3600 },
-    signal: AbortSignal.timeout(300)
-  };
-
-  try {
-    const [bannersRes, settingsRes, countersRes, servicesRes, videosRes] = await Promise.all([
-      fetch(`${baseURL}get-banners-list`, fetchOpts).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-settings`, fetchOpts).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-counter-list`, fetchOpts).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-services-list`, fetchOpts).then(res => res.json()).catch(() => null),
-      fetch(`${baseURL}get-videos-list`, fetchOpts).then(res => res.json()).catch(() => null)
-    ]);
-
-    const mergedCounters = fallbackCounters.map((fallback) => {
-      return {
-        id: fallback.id,
-        count: fallback.count,
-        title: fallback.title
-      };
-    });
-
-    return {
-      banners: bannersRes?.data || [],
-      settings: settingsRes?.data || fallbackSettings,
-      counters: mergedCounters,
-      services: (servicesRes?.data && servicesRes.data.length > 0) ? servicesRes.data : fallbackServices,
-      videos: videosRes?.data || []
-    };
-  } catch (error) {
-    return {
-      banners: [],
-      settings: fallbackSettings,
-      counters: fallbackCounters,
-      services: fallbackServices,
-      videos: []
-    };
-  }
 }
 
 export default async function HomePage() {
@@ -194,25 +155,54 @@ export default async function HomePage() {
           
           <div className="doctor-info-content">
             <span className="badge-pill">ABOUT THE PHYSICIAN</span>
-            <h1 className="section-title-doctor">
-              Dr. Sai Sekhar Pyla
+            <h1 className="section-title-doctor" style={{ fontSize: "clamp(2rem, 3.8vw, 2.8rem)", fontWeight: 800, color: "var(--neutral-dark)", lineHeight: 1.25, marginBottom: "12px" }}>
+              Dr. Sai Sekhar Pyla - General Physician & Diabetologist in Visakhapatnam
             </h1>
-            <h2 className="doctor-credentials-subtitle">
+            <h2 className="doctor-credentials-subtitle" style={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--primary)", marginBottom: "8px" }}>
               MD General Medicine | Diabetologist | Infectious Disease Specialist
             </h2>
-            <p className="doctor-hospitals-subtitle">
+            <p className="doctor-hospitals-subtitle" style={{ fontSize: "1.02rem", color: "var(--neutral-muted)", marginBottom: "20px" }}>
               Consultant Physician at CARE Hospital & <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>
             </p>
 
-            {/* Featured Highlight Card - Best Physician in Visakhapatnam / Vizag */}
-            <div className="top-key-takeaway-card" style={{ backgroundColor: "#f0fdf4", borderLeft: "4px solid var(--primary)", padding: "14px 18px", borderRadius: "12px", marginBottom: "16px" }}>
-              <p style={{ margin: 0, fontSize: "0.98rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
-                <strong>Best Physician in Visakhapatnam / Vizag</strong> — <strong>Dr. Sai Sekhar Pyla</strong> is an <strong>MD General Medicine</strong>, <strong>Diabetologist</strong>, and <strong>Infectious Disease Specialist</strong> with 12 years of experience providing gold-standard healthcare at <strong>Trinetra Medicals, Muralinagar, Visakhapatnam</strong>.
+            {/* Executive Medical Summary & Key Takeaways Card (AEO & GEO Optimization) */}
+            <div className="top-key-takeaway-card" style={{ backgroundColor: "#f0fdf4", border: "1px solid rgba(13, 122, 102, 0.25)", padding: "20px 24px", borderRadius: "16px", marginBottom: "24px", boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                <span className="badge-pill" style={{ backgroundColor: "var(--primary)", color: "#ffffff", padding: "4px 12px", borderRadius: "20px", fontSize: "0.78rem", fontWeight: 700 }}>
+                  EXECUTIVE MEDICAL SUMMARY
+                </span>
+                <span style={{ fontSize: "0.98rem", fontWeight: 800, color: "var(--neutral-dark)" }}>
+                  Key Care Takeaways & Doctor Overview
+                </span>
+              </div>
+
+              <p style={{ margin: "0 0 12px 0", fontSize: "0.98rem", color: "var(--neutral-dark)", lineHeight: 1.6 }}>
+                <strong>Best Physician in Visakhapatnam / Vizag</strong> - <strong>Dr. Sai Sekhar Pyla</strong> (MD General Medicine) brings <strong>12+ years of expertise</strong> specializing in <strong>Type 1 & Type 2 Diabetes management</strong>, <strong>Dengue & viral fevers</strong>, <strong>Hypertension</strong>, and <strong>preventive internal medicine</strong>. Serving patients in <strong>Muralinagar, NAD Junction, Madhavadhara, Gajuwaka, and Visakhapatnam</strong>.
               </p>
+
+              {/* Structured Table/Grid for AI Extraction (AEO & GEO) */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid rgba(13, 122, 102, 0.15)" }}>
+                <div>
+                  <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Lead Physician</strong>
+                  <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>Dr. Sai Sekhar Pyla (MD)</span>
+                </div>
+                <div>
+                  <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Specialization</strong>
+                  <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>Diabetology & Infectious Fevers</span>
+                </div>
+                <div>
+                  <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Primary Clinic</strong>
+                  <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>Trinetra Medicals, Muralinagar</span>
+                </div>
+                <div>
+                  <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Evening Timings</strong>
+                  <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>6:00 PM - 9:00 PM (Mon-Sat)</span>
+                </div>
+              </div>
             </div>
             
             <p className="doctor-bio-paragraph">
-              If you are wondering <strong>when should I see a physician</strong>, or if you are experiencing persistent fatigue, unexplained weight changes, or managing a chronic condition like diabetes or thyroid disorders, <strong>Dr. Sai Sekhar Pyla&apos;s</strong> General Medicine practice provides comprehensive care. According to research published by the <a href="https://www.icmr.gov.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>Indian Council of Medical Research (ICMR)</a>, over 101 million Indians live with diabetes—making early diagnosis and evidence-based diabetology essential for preventing long-term complications.
+              If you are wondering <strong>when should I see a physician</strong>, or if you are experiencing persistent fatigue, unexplained weight changes, or managing a chronic condition like diabetes or thyroid disorders, <strong>Dr. Sai Sekhar Pyla&apos;s</strong> General Medicine practice provides comprehensive care. According to research published by the <a href="https://www.icmr.gov.in/" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", textDecoration: "underline" }}>Indian Council of Medical Research (ICMR)</a>, over 101 million Indians live with diabetes - making early diagnosis and evidence-based diabetology essential for preventing long-term complications.
             </p>
             <p className="doctor-bio-paragraph">
               Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong>Trinetra Medicals</strong>, <strong>Dr. Sai Sekhar</strong> is known for his evidence-based, patient-centered approach. Whether you want to know <em>how to manage type 2 diabetes</em>, need screening for thyroid imbalance, or require immediate treatment for acute infectious fevers, his clinical expertise encompasses comprehensive internal medicine care.
@@ -225,7 +215,7 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <h4>Primary Timings</h4>
-                  <p>Trinetra Medicals (Muralinagar): 6:00 PM – 9:00 PM</p>
+                  <p>Trinetra Medicals (Muralinagar): 6:00 PM - 9:00 PM</p>
                 </div>
               </div>
               <div className="highlight-row">

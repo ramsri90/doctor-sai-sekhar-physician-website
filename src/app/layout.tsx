@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: "Dr Sai Sekhar P | Best Physician in Visakhapatnam / Vizag",
     template: "%s | Dr. Sai Sekhar P - Best Physician in Visakhapatnam"
   },
-  description: "Dr. Sai Sekhar P is the best physician in Visakhapatnam / Vizag. MD General Medicine, Diabetologist, & Infectious Disease Specialist with 12 years experience at Trinetra Medicals, Muralinagar.",
+  description: "Dr. Sai Sekhar Pyla (MD) is a top physician & diabetologist in Visakhapatnam with 12+ years experience. Evening care at Trinetra Medicals, Muralinagar.",
   keywords: [
     "Dr. Sai Sekhar P",
     "Dr. Sai Sekhar Pyla",
@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://www.drsaisekharphysician.com/",
     title: "Dr Sai Sekhar P | Best Physician in Visakhapatnam / Vizag",
-    description: "Dr. Sai Sekhar P is the best physician in Visakhapatnam / Vizag. MD General Medicine, Diabetologist, & Infectious Disease Specialist at Trinetra Medicals, Muralinagar.",
+    description: "Dr. Sai Sekhar Pyla (MD) is a top physician & diabetologist in Visakhapatnam with 12+ years experience. Evening care at Trinetra Medicals, Muralinagar.",
     siteName: "Dr. Sai Sekhar P - General Physician Visakhapatnam",
     images: [{ url: "https://www.drsaisekharphysician.com/images/two.webp", width: 1200, height: 630, alt: "Dr. Sai Sekhar P - Best Physician in Visakhapatnam / Vizag" }]
   },
   twitter: {
     card: "summary_large_image",
     title: "Dr Sai Sekhar P | Best Physician in Visakhapatnam / Vizag",
-    description: "Dr. Sai Sekhar P is the best physician in Visakhapatnam / Vizag. MD General Medicine, Diabetologist, & Infectious Disease Specialist at Trinetra Medicals, Muralinagar.",
+    description: "Dr. Sai Sekhar Pyla (MD) is a top physician & diabetologist in Visakhapatnam with 12+ years experience. Evening care at Trinetra Medicals, Muralinagar.",
     images: ["https://www.drsaisekharphysician.com/images/two.webp"]
   },
   robots: {
@@ -68,6 +68,19 @@ export default function RootLayout({
   const jsonLdSchemas = [
     {
       "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "@id": "https://www.drsaisekharphysician.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.drsaisekharphysician.com/"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "Physician",
       "@id": "https://www.drsaisekharphysician.com/#physician",
       "name": "Dr. Sai Sekhar P (Dr. Sai Sekhar Pyla)",
@@ -79,7 +92,7 @@ export default function RootLayout({
         "InfectiousDisease"
       ],
       "jobTitle": "MD General Medicine | Diabetologist | Infectious Disease Specialist",
-      "description": "Dr. Sai Sekhar P is the best physician in Visakhapatnam / Vizag with 12 years of experience specializing in MD (General Medicine), Diabetology, Infectious Diseases, and Chronic Care at Trinetra Medicals, Muralinagar.",
+      "description": "Dr. Sai Sekhar Pyla (MD) is a top physician & diabetologist in Visakhapatnam with 12+ years experience. Evening care at Trinetra Medicals, Muralinagar.",
       "telephone": "+91 63007 93688",
       "email": "info@drsaisekharphysician.com",
       "url": "https://www.drsaisekharphysician.com",

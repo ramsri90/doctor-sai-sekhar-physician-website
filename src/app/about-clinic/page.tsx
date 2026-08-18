@@ -6,33 +6,21 @@ import RegionalSEOBlock from "@/components/RegionalSEOBlock";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "About Trinetra Medicals | Dr. Sai Sekhar P Clinic - Muralinagar",
-  description: "Explore Trinetra Medicals clinic facilities, consultation timings in Muralinagar, and patient support options in Visakhapatnam.",
+  title: { absolute: "About Clinic | Trinetra Medicals Visakhapatnam" },
+  description: "Facility overview, consultation hours, and medical amenities at Trinetra Medicals, Muralinagar — clinic of Dr. Sai Sekhar Pyla.",
 };
 
 async function getAboutClinicContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", {
-      next: { revalidate: 3600 },
-      signal: AbortSignal.timeout(300)
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data?.find((p: { slug: string, content: string }) => p.slug === "about-clinic");
-    return page ? page.content : "";
-  } catch (err) {
-    console.error("Error fetching about-clinic content:", err);
-    return `
-      <h2>About Our Clinic &ndash; <strong style="color: #0d7a66;">Trinetra Medicals</strong></h2>
-      <p><strong style="color: #0d7a66; font-size: 1.05em;">Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <strong style="color: #0d7a66;">Dr. Sai Sekhar Pyla (Dr. P. Sai Sekhar)</strong> with <strong>12 years of medical experience</strong>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments.</p>
-      <p>Conveniently located <strong>beside Abhiruchi Sweets, Ramalayam Street, Muralinagar</strong>, <strong style="color: #0d7a66;">Trinetra Medicals</strong> is equipped with modern medical facilities for accurate diagnoses and effective treatment plans.</p>
-      <h3>Clinic Timings</h3>
-      <ul>
-        <li><strong style="color: #0d7a66;">Trinetra Medicals (Muralinagar)</strong> &ndash; 6:00 PM to 9:00 PM (Monday &ndash; Saturday)</li>
-      </ul>
-      <p>For consultations, call: <strong style="color: #0d7a66;">6300793688</strong>.</p>
-    `;
-  }
+  return `
+    <h2>About Our Clinic &ndash; <strong style="color: #0d7a66;">Trinetra Medicals</strong></h2>
+    <p><strong style="color: #0d7a66; font-size: 1.05em;">Trinetra Medicals</strong> is a trusted healthcare facility in <strong>Muralinagar, Visakhapatnam</strong>, led by <strong style="color: #0d7a66;">Dr. Sai Sekhar Pyla (Dr. P. Sai Sekhar)</strong> with <strong>12 years of medical experience</strong>. We specialize in <strong>comprehensive medical care</strong> with a focus on preventive, diagnostic, and therapeutic treatments.</p>
+    <p>Conveniently located <strong>beside Abhiruchi Sweets, Ramalayam Street, Muralinagar</strong>, <strong style="color: #0d7a66;">Trinetra Medicals</strong> is equipped with modern medical facilities for accurate diagnoses and effective treatment plans.</p>
+    <h3>Clinic Timings</h3>
+    <ul>
+      <li><strong style="color: #0d7a66;">Trinetra Medicals (Muralinagar)</strong> &ndash; 6:00 PM to 9:00 PM (Monday &ndash; Saturday)</li>
+    </ul>
+    <p>For consultations, call: <strong style="color: #0d7a66;">6300793688</strong>.</p>
+  `;
 }
 
 function cleanAndSanitizeContent(html: string): string {

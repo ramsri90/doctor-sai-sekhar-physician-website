@@ -8,33 +8,21 @@ export const metadata: Metadata = {
 };
 
 async function getPrivacyPolicyContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", {
-      next: { revalidate: 3600 },
-      signal: AbortSignal.timeout(300)
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data?.find((p: { slug: string, content: string }) => p.slug === "privacy-policy");
-    return page ? page.content : "";
-  } catch (err) {
-    console.error("Error fetching privacy-policy content:", err);
-    return `
-      <h2>Privacy Policy</h2>
-      <p>At <strong>Dr. Sai Sekhar P's Clinic</strong>, we prioritize your privacy and ensure the protection of your personal and medical information.</p>
-      <h3>1. Information We Collect</h3>
-      <p>We may collect your <strong>name, contact details, medical history, and appointment details</strong> to provide you with the best possible healthcare services.</p>
-      <h3>2. How We Use Your Information</h3>
-      <ul>
-        <li>To schedule and manage appointments</li>
-        <li>To maintain medical records</li>
-        <li>To send appointment reminders and health-related updates</li>
-        <li>To ensure compliance with medical laws and ethics</li>
-      </ul>
-      <h3>3. Data Security</h3>
-      <p>We implement strict security measures to safeguard your personal and medical data. Your information will never be shared with third parties without your consent.</p>
-    `;
-  }
+  return `
+    <h2>Privacy Policy</h2>
+    <p>At <strong>Dr. Sai Sekhar P's Clinic</strong>, we prioritize your privacy and ensure the protection of your personal and medical information.</p>
+    <h3>1. Information We Collect</h3>
+    <p>We may collect your <strong>name, contact details, medical history, and appointment details</strong> to provide you with the best possible healthcare services.</p>
+    <h3>2. How We Use Your Information</h3>
+    <ul>
+      <li>To schedule and manage appointments</li>
+      <li>To maintain medical records</li>
+      <li>To send appointment reminders and health-related updates</li>
+      <li>To ensure compliance with medical laws and ethics</li>
+    </ul>
+    <h3>3. Data Security</h3>
+    <p>We implement strict security measures to safeguard your personal and medical data. Your information will never be shared with third parties without your consent.</p>
+  `;
 }
 
 export default async function PrivacyPolicyPage() {

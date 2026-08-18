@@ -11,22 +11,22 @@ const faqs: FaqItem[] = [
   {
     question: "What conditions does a General Physician treat?",
     answer:
-      "A General Physician is your primary point of contact for adult healthcare. Dr. Sai Sekhar treats a wide range of acute and chronic conditions, including viral fevers, respiratory infections, gastrointestinal issues, and metabolic disorders. According to the World Health Organization (WHO), primary care physicians handle the vast majority of personal health needs safely and effectively.",
+      "Direct Answer: A General Physician diagnoses and treats a full range of adult medical conditions including Type 1 & Type 2 Diabetes, Hypertension, Dengue and viral fevers, Thyroid disorders, Asthma/COPD, and Gastrointestinal illnesses. Dr. Sai Sekhar Pyla provides expert primary and preventive care at Trinetra Medicals, Visakhapatnam.",
   },
   {
     question: "When should you see a Diabetologist in Vizag?",
     answer:
-      "You should consult a diabetologist if your fasting blood sugar is consistently above 126 mg/dL, if you experience excessive thirst or frequent urination, or if you have a family history of diabetes. Early intervention is critical; as per ICMR guidelines, timely management of Type 2 Diabetes prevents severe complications like neuropathy and kidney disease.",
+      "Direct Answer: You should consult a diabetologist immediately if your fasting blood sugar exceeds 126 mg/dL, HbA1c is above 6.5%, or if you experience frequent urination, extreme thirst, or foot numbness. As per ICMR guidelines, early diabetes management by Dr. Sai Sekhar Pyla prevents kidney damage and neuropathy.",
   },
   {
     question: "How is Dr. Sai Sekhar different from other physicians in Visakhapatnam?",
     answer:
-      "Dr. Sai Sekhar brings 12 years of specialized experience in both critical care and chronic disease management. His approach focuses on evidence-based medicine and comprehensive lifestyle counseling rather than just prescribing medication. He prioritizes taking a detailed medical history to uncover the root cause of symptoms.",
+      "Direct Answer: Dr. Sai Sekhar Pyla brings 12+ years of dual expertise in critical care medicine and diabetology. He focuses on root-cause clinical diagnosis, evidence-based guidelines, and patient-centered lifestyle counseling at Trinetra Medicals, Muralinagar.",
   },
   {
     question: "What should I expect during my first consultation?",
     answer:
-      "During your initial visit at Trinetra Medicals, expect a thorough review of your medical history, a physical examination, and a detailed discussion of your current symptoms. Dr. Sai Sekhar will explain your diagnosis clearly and work with you to develop a personalized, easy-to-follow treatment and diet plan.",
+      "Direct Answer: During your first visit at Trinetra Medicals, expect a comprehensive 30-minute medical evaluation, detailed symptom analysis, blood sugar or vitals check, and a personalized treatment and diet plan tailored to your health goals.",
   },
 ];
 

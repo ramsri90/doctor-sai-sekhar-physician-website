@@ -5,23 +5,12 @@ import Link from "next/link";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "About Dr. Sai Sekhar P Clinic | Consultant Physician in Visakhapatnam",
-  description: "Learn about Dr. Sai Sekhar P's clinic, his mission to provide expert primary care, diabetes treatment, and preventative health services in Visakhapatnam.",
+  title: { absolute: "About Us | Dr. Sai Sekhar Physician Visakhapatnam" },
+  description: "Learn about Dr. Sai Sekhar Pyla's medical practice, mission, 12+ years clinical experience, and primary care clinic in Visakhapatnam.",
 };
 
 async function getAboutUsContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", {
-      next: { revalidate: 3600 },
-      signal: AbortSignal.timeout(300)
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data?.find((p: { slug: string, content: string }) => p.slug === "about-us");
-    return page ? page.content : "";
-  } catch (err) {
-    return "";
-  }
+  return "";
 }
 
 function cleanAndSanitizeContent(html: string): string {

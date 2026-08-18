@@ -5,8 +5,8 @@ import FeaturedServicesTabs from "@/components/FeaturedServicesTabs";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "Medical Services & Care | Dr. Sai Sekhar P - Best Physician in Visakhapatnam / Vizag",
-  description: "Explore 40+ clinical specialties and medical treatments by Dr. Sai Sekhar P (Best Physician in Visakhapatnam / Vizag · MD General Medicine) at Trinetra Medicals, Muralinagar.",
+  title: { absolute: "Medical Services | Dr. Sai Sekhar Visakhapatnam" },
+  description: "Explore 40+ clinical services & internal medicine treatments by Dr. Sai Sekhar Pyla (MD) at Trinetra Medicals, Visakhapatnam.",
 };
 
 const fallbackServicesList = [
@@ -121,17 +121,7 @@ const fallbackServicesList = [
 ];
 
 async function getServicesList() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-services-list", {
-      next: { revalidate: 3600 },
-      signal: AbortSignal.timeout(300)
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    return (json.data && json.data.length > 0) ? json.data : fallbackServicesList;
-  } catch (err) {
-    return fallbackServicesList;
-  }
+  return fallbackServicesList;
 }
 
 export default async function ServicesPage() {

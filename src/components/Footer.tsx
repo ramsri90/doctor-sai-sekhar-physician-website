@@ -66,8 +66,8 @@ export default function Footer() {
           <div className="timings-block">
             <div className="timing-item">
               <span className="timing-location"><i className="fas fa-clinic-medical"></i> <strong style={{ color: "var(--primary)" }}>Trinetra Medicals</strong> (Muralinagar)</span>
-              <span className="timing-hours">6:00 PM – 9:00 PM</span>
-              <span className="timing-days">Monday – Saturday</span>
+              <span className="timing-hours">6:00 PM - 9:00 PM</span>
+              <span className="timing-days">Monday - Saturday</span>
             </div>
             <div className="timing-item">
               <span className="timing-location"><i className="fas fa-certificate"></i> Practitioner Profile</span>

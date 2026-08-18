@@ -137,7 +137,7 @@ export default function AwarenessReels() {
             Health Awareness Reels
           </h2>
           <p style={{ color: "var(--neutral-muted)", fontSize: "1.05rem", marginTop: "4px" }}>
-            Tap any reel to play with audio from 0:00. Tap again to mute & resume auto-slide.
+            Tap any video to play with audio from 0:00. Tap again to mute.
           </p>
         </div>
       </div>

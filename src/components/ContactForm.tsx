@@ -100,7 +100,6 @@ export default function ContactForm() {
                 autoComplete="name"
                 value={formData.fullname}
                 onChange={handleChange}
-                placeholder="e.g. John Doe"
                 required
                 className="form-control"
               />
@@ -115,7 +114,6 @@ export default function ContactForm() {
                 autoComplete="tel"
                 value={formData.mobile}
                 onChange={handleChange}
-                placeholder="e.g. +91 98765 43210"
                 required
                 className="form-control"
               />
@@ -131,7 +129,6 @@ export default function ContactForm() {
               autoComplete="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="e.g. john@example.com"
               className="form-control"
             />
           </div>

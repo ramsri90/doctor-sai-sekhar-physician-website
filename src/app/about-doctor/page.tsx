@@ -5,38 +5,26 @@ import Link from "next/link";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "About Dr. Sai Sekhar P | MD General Medicine | Diabetologist | Infectious Disease Specialist",
-  description: "Read about Dr. Sai Sekhar P's medical qualifications, 12 years of experience as a Consultant Physician, and specializations in diabetes and infectious diseases.",
+  title: { absolute: "About Dr. Sai Sekhar Pyla | Diabetologist Vizag" },
+  description: "Qualifications, 12+ years clinical experience, and medical specializations of Dr. Sai Sekhar Pyla (MD General Medicine, Diabetologist).",
 };
 
 async function getAboutDoctorContent() {
-  try {
-    const res = await fetch("https://admin.drsaisekharphysician.com/api/client/get-dynamic-page-list", {
-      next: { revalidate: 3600 },
-      signal: AbortSignal.timeout(300)
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const json = await res.json();
-    const page = json.data?.find((p: { slug: string, content: string }) => p.slug === "about-doctor");
-    return page ? page.content : "";
-  } catch (err) {
-    console.error("Error fetching about-doctor content:", err);
-    return `
-      <h2>About Dr. Sai Sekhar Pyla</h2>
-      <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.</p>
-      <p>Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong style="color: #0d7a66;">Trinetra Medicals</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
-      <h3>Core Clinical Areas</h3>
-      <ul>
-        <li><strong>Diabetes Management</strong></li>
-        <li><strong>Hypertension & Lipidology</strong></li>
-        <li><strong>Infectious Diseases</strong></li>
-        <li><strong>Asthma & COPD</strong></li>
-        <li><strong>Critical Care & ICU</strong></li>
-        <li><strong>Preventive Checkups</strong></li>
-      </ul>
-      <p>For appointments and consultations, call: <strong style="color: #0d7a66; font-size: 1.1em;">6300793688</strong>.</p>
-    `;
-  }
+  return `
+    <h2>About Dr. Sai Sekhar Pyla</h2>
+    <p><strong>Dr. Sai Sekhar Pyla</strong>, MBBS, MD (General Medicine), is a highly experienced physician with a passion for providing top-quality medical care. With <strong>12 years of expertise</strong>, he specializes in the management of critical care, lifestyle diseases, and preventive healthcare. He is the best physician in Visakhapatnam with great knowledge.</p>
+    <p>Currently serving as a Consultant Physician at CARE Hospital, Visakhapatnam, and primarily at <strong style="color: #0d7a66;">Trinetra Medicals</strong>, Dr. Sai Sekhar Pyla is known for his patient-centered approach and commitment to medical excellence. His expertise includes:</p>
+    <h3>Core Clinical Areas</h3>
+    <ul>
+      <li><strong>Diabetes Management</strong></li>
+      <li><strong>Hypertension & Lipidology</strong></li>
+      <li><strong>Infectious Diseases</strong></li>
+      <li><strong>Asthma & COPD</strong></li>
+      <li><strong>Critical Care & ICU</strong></li>
+      <li><strong>Preventive Checkups</strong></li>
+    </ul>
+    <p>For appointments and consultations, call: <strong style="color: #0d7a66; font-size: 1.1em;">6300793688</strong>.</p>
+  `;
 }
 
 function cleanAndSanitizeContent(html: string): string {

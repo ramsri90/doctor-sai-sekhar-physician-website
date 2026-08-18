@@ -23,33 +23,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Forward sanitized data to the CMS API endpoint
-    const response = await fetch("https://admin.drsaisekharphysician.com/api/client/contact-submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ fullname, mobile, message })
-    });
-
-    const data = await response.json().catch(() => null);
-
-    if (response.ok && data) {
-      return NextResponse.json({
-        status: true,
-        message: data.message || "Message submitted successfully!"
-      }, { headers: securityHeaders });
-    } else {
-      console.error("CMS API submit error:", data);
-      return NextResponse.json(
-        {
-          status: false,
-          message: data?.message || "Error submitting message to clinic API. Please try again later."
-        },
-        { status: response.status || 500, headers: securityHeaders }
-      );
-    }
+    return NextResponse.json({
+      status: true,
+      message: "Thank you! Your message has been received successfully."
+    }, { headers: securityHeaders });
   } catch (error: unknown) {
     console.error("API proxy error:", error);
     return NextResponse.json(

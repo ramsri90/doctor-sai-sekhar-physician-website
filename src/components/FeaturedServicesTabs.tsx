@@ -122,8 +122,10 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                   <Image
                     src={getServiceImage(service.slug, service.name)}
                     alt={service.name}
-                    width={220}
-                    height={140}
+                    width={600}
+                    height={380}
+                    quality={95}
+                    unoptimized={true}
                     className="card-service-img"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />

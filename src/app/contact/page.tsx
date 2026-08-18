@@ -3,8 +3,8 @@ import ContactForm from "@/components/ContactForm";
 import RegionalSEOBlock from "@/components/RegionalSEOBlock";
 
 export const metadata: Metadata = {
-  title: "Contact Dr. Sai Sekhar P | Best Physician in Visakhapatnam / Vizag",
-  description: "Get clinic location directions, contact numbers, and schedule appointments with Dr. Sai Sekhar P (Best Physician in Visakhapatnam / Vizag · MD General Medicine) at Trinetra Medicals, Muralinagar, Visakhapatnam.",
+  title: { absolute: "Contact Clinic | Dr. Sai Sekhar Visakhapatnam" },
+  description: "Contact information, clinic directions, and consultation booking for Dr. Sai Sekhar Pyla at Trinetra Medicals, Visakhapatnam.",
 };
 
 export default function ContactPage() {
