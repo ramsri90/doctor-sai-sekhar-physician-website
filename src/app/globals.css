@@ -132,18 +132,18 @@
   animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Scroll Reveal Animations (Smooth Fade-Up & Scale Reveal) */
+/* Scroll Reveal Animations (Ultra-Fast Snappy Fade-Up) */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(26px) scale(0.98);
+  transform: translateY(14px);
   will-change: opacity, transform;
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.is-revealed {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -151,7 +151,7 @@
     .scroll-reveal {
       animation: smoothSectionReveal auto cubic-bezier(0.16, 1, 0.3, 1) forwards;
       animation-timeline: view(block);
-      animation-range: entry 5% cover 20%;
+      animation-range: entry 0% cover 15%;
     }
 
     @keyframes smoothSectionReveal {
