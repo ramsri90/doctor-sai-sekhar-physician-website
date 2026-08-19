@@ -42,12 +42,12 @@ export default function ContactForm() {
 
 I would like to book a consultation / inquiry.
 
-📋 *Patient Details:*
-• *Name:* ${formData.fullname}
-• *Phone:* ${formData.mobile}
-${formData.email ? `• *Email:* ${formData.email}\n` : ''}• *Rating:* ${'★'.repeat(formData.rating)} (${formData.rating}/5)
+*Patient Details:*
+- Name: ${formData.fullname}
+- Phone: ${formData.mobile}
+${formData.email ? `- Email: ${formData.email}\n` : ''}- Rating: ${formData.rating}/5 Stars
 
-💬 *Query / Symptoms:*
+*Query / Symptoms:*
 "${formData.message}"
 
 Sent via website: drsaisekharphysician.com`;
