@@ -124,8 +124,7 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                     src={getServiceImage(service.slug, service.name)}
                     alt={service.name}
                     loading="eager"
-                    // @ts-expect-error fetchpriority attribute for instant browser preloading
-                    fetchpriority="high"
+                    fetchPriority="high"
                     className="card-service-img"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
