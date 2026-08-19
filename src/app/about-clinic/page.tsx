@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import RegionalSEOBlock from "@/components/RegionalSEOBlock";
+import ClinicGallery from "@/components/ClinicGallery";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -59,38 +60,9 @@ export default async function AboutClinicPage() {
               dangerouslySetInnerHTML={{ __html: cleanedContent }}
             />
             
-            {/* Gallery images inside about clinic page */}
-            <div className="clinic-gallery">
-              <h3 className="gallery-title">Clinic Gallery</h3>
-              <div className="gallery-grid">
-                <div className="gallery-img-wrapper">
-                  <Image
-                    src="/images/one.webp"
-                    alt="Clinic Consultation Room"
-                    width={280}
-                    height={200}
-                    className="gallery-img"
-                  />
-                </div>
-                <div className="gallery-img-wrapper">
-                  <Image
-                    src="/images/three.webp"
-                    alt="Clinic Diagnostic Equipment"
-                    width={280}
-                    height={200}
-                    className="gallery-img"
-                  />
-                </div>
-                <div className="gallery-img-wrapper">
-                  <Image
-                    src="/images/four.webp"
-                    alt="Clinic Pharmacy & Reception"
-                    width={280}
-                    height={200}
-                    className="gallery-img"
-                  />
-                </div>
-              </div>
+            {/* Interactive Clinic Gallery Component */}
+            <div style={{ marginTop: "36px" }}>
+              <ClinicGallery />
             </div>
           </div>
 
