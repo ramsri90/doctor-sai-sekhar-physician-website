@@ -188,7 +188,12 @@ export default async function HomePage() {
                 </div>
                 <div>
                   <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Specialization</strong>
-                  <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>Diabetology & Infectious Fevers</span>
+                  <div style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)", lineHeight: 1.35 }}>
+                    MD GENERAL MEDICINE
+                    <div style={{ fontSize: "0.84rem", fontWeight: 600, color: "var(--neutral-dark)", marginTop: "2px" }}>
+                      Diabetology & Infectious Diseases
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Primary Clinic</strong>
