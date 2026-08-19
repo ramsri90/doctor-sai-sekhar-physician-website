@@ -181,7 +181,7 @@ export default async function HomePage() {
               </p>
 
               {/* Structured Table/Grid for AI Extraction (AEO & GEO) */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid rgba(13, 122, 102, 0.15)" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "12px", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid rgba(13, 122, 102, 0.15)" }}>
                 <div>
                   <strong style={{ color: "var(--primary)", display: "block", fontSize: "0.8rem", textTransform: "uppercase", letterSpacing: "0.5px" }}>Lead Physician</strong>
                   <span style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--neutral-dark)" }}>Dr. Sai Sekhar Pyla (MD)</span>
