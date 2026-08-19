@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 
 interface GalleryItem {
@@ -13,6 +14,11 @@ interface GalleryItem {
 
 export default function ClinicGallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const galleryItems: GalleryItem[] = [
     {
@@ -161,8 +167,8 @@ export default function ClinicGallery() {
         ))}
       </div>
 
-      {/* Lightbox Modal Popup */}
-      {selectedIndex !== null && activeItem && (
+      {/* Lightbox Modal Popup (Portal to document.body) */}
+      {mounted && selectedIndex !== null && activeItem && createPortal(
         <div className="gallery-lightbox-backdrop" onClick={() => setSelectedIndex(null)}>
           <div className="gallery-lightbox-modal" onClick={(e) => e.stopPropagation()}>
             {/* Close Button */}
@@ -222,7 +228,8 @@ export default function ClinicGallery() {
               </span>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
