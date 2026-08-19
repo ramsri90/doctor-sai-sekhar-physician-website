@@ -129,7 +129,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       {/* Header Banner */}
       <div className="page-header bg-gradient-mesh">
         <div className="container">
-          <Link href="/services" className="back-link">
+          <Link href="/services" prefetch={true} className="back-link">
             <i className="fas fa-arrow-left"></i> Back to Services Catalog
           </Link>
           <h1 className="page-title">{service.name}</h1>

@@ -116,6 +116,7 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
               <Link
                 key={service.id}
                 href={`/services/${service.slug}`}
+                prefetch={true}
                 className="featured-service-card card-interactive"
               >
                 <div className="card-image-wrapper">
@@ -123,8 +124,7 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                   <img
                     src={getServiceImage(service.slug, service.name)}
                     alt={service.name}
-                    loading="eager"
-                    fetchPriority="high"
+                    loading="lazy"
                     className="card-service-img"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
