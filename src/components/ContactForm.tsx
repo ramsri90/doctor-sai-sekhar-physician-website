@@ -28,30 +28,49 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, rating: ratingValue }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, isWhatsAppDirect: boolean = false) => {
     e.preventDefault();
     if (!formData.fullname || !formData.mobile || !formData.message) {
       setStatus({ type: "error", message: "Please fill in all required fields (Name, Mobile, Message)." });
       return;
     }
 
-    setStatus({ type: "loading", message: "Submitting your message..." });
+    setStatus({ type: "loading", message: "Processing your request..." });
+
+    // Format pre-filled WhatsApp message
+    const waMessage = `Hello Dr. Sai Sekhar Pyla Clinic,
+
+I would like to book a consultation / inquiry.
+
+📋 *Patient Details:*
+• *Name:* ${formData.fullname}
+• *Phone:* ${formData.mobile}
+${formData.email ? `• *Email:* ${formData.email}\n` : ''}• *Rating:* ${'★'.repeat(formData.rating)} (${formData.rating}/5)
+
+💬 *Query / Symptoms:*
+"${formData.message}"
+
+Sent via website: drsaisekharphysician.com`;
+
+    const whatsappUrl = `https://wa.me/916300793688?text=${encodeURIComponent(waMessage)}`;
 
     try {
+      // 1. Submit to API route (saves to Google Sheets webhook if configured)
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
 
       const result = await response.json();
 
+      // 2. Open WhatsApp pre-filled chat in a new tab
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
       if (response.ok && result.status) {
         setStatus({
           type: "success",
-          message: result.message || "Thank you! Your inquiry has been submitted successfully."
+          message: "Thank you! Your inquiry has been saved and WhatsApp has been launched to chat directly with Dr. Sai Sekhar's clinic."
         });
         setFormData({
           fullname: "",
@@ -62,15 +81,17 @@ export default function ContactForm() {
         });
       } else {
         setStatus({
-          type: "error",
-          message: result.message || "Failed to submit. Please try again later."
+          type: "success",
+          message: "WhatsApp has been opened with your pre-filled inquiry. You can send it directly to the clinic!"
         });
       }
     } catch (error) {
       console.error("Form submit error:", error);
+      // Fallback: open WhatsApp directly even if API offline
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       setStatus({
-        type: "error",
-        message: "An error occurred while sending your request. Please check your network connection."
+        type: "success",
+        message: "WhatsApp has been opened with your pre-filled message."
       });
     }
   };
@@ -78,7 +99,7 @@ export default function ContactForm() {
   return (
     <div className="contact-form-container">
       <h2 className="form-title">Send a Message</h2>
-      <p className="form-subtitle">For appointments, questions, or patient inquiries, please fill out the form below. We will get back to you shortly.</p>
+      <p className="form-subtitle">For appointments, questions, or patient inquiries, please fill out the form below to connect instantly via WhatsApp & Google Sheets.</p>
       
       {status.type === "success" ? (
         <div className="alert alert-success">
@@ -86,10 +107,17 @@ export default function ContactForm() {
           <div>
             <h4>Submission Successful</h4>
             <p>{status.message}</p>
+            <button
+              onClick={() => setStatus({ type: "idle", message: "" })}
+              className="btn btn-pill-outline"
+              style={{ marginTop: "12px", padding: "6px 16px", fontSize: "0.85rem" }}
+            >
+              Send Another Inquiry
+            </button>
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="contact-form">
+        <form onSubmit={(e) => handleSubmit(e, false)} className="contact-form">
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="fullname">Full Name <span className="required">*</span></label>
@@ -171,20 +199,25 @@ export default function ContactForm() {
             </div>
           )}
 
-          <button
-            type="submit"
-            disabled={status.type === "loading"}
-            className="btn btn-pill-primary submit-btn"
-            style={{ width: "100%", justifyContent: "center", paddingTop: "14px", paddingBottom: "14px", fontSize: "1rem" }}
-          >
-            {status.type === "loading" ? (
-              <>
-                <span className="spinner"></span> Sending...
-              </>
-            ) : (
-              "Submit Message"
-            )}
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "16px" }}>
+            <button
+              type="submit"
+              disabled={status.type === "loading"}
+              className="btn btn-pill-primary submit-btn"
+              style={{ width: "100%", justifyContent: "center", paddingTop: "14px", paddingBottom: "14px", fontSize: "1rem", backgroundColor: "#25D366", borderColor: "#25D366" }}
+            >
+              {status.type === "loading" ? (
+                <>
+                  <span className="spinner"></span> Processing...
+                </>
+              ) : (
+                <>
+                  <i className="fab fa-whatsapp" style={{ fontSize: "1.2rem", marginRight: "8px" }}></i>
+                  Book & Send via WhatsApp
+                </>
+              )}
+            </button>
+          </div>
         </form>
       )}
     </div>
