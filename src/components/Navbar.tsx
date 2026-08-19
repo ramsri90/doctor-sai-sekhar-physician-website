@@ -31,9 +31,36 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    // Handle smooth scroll to #services if hash is in URL
+    if (typeof window !== "undefined" && window.location.hash === "#services") {
+      setTimeout(() => {
+        const el = document.getElementById("services");
+        if (el) {
+          const yOffset = -90;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 150);
+    }
+  }, [pathname]);
+
+  const handleServicesClick = (e: React.MouseEvent) => {
+    setIsOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      const el = document.getElementById("services");
+      if (el) {
+        const yOffset = -90;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  };
+
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Services", href: "/services" },
+    { name: "Services", href: "/#services" },
     { name: "About Us", href: "/about-us" },
     { name: "About Doctor", href: "/about-doctor" },
     { name: "Clinic", href: "/about-clinic" },
@@ -83,14 +110,23 @@ export default function Navbar() {
         <div className={`nav-links-wrapper ${isOpen ? "open" : ""}`}>
           <ul className="nav-links">
             {navLinks.map((link) => {
+              const isServices = link.name === "Services";
+              const targetHref = isServices ? (pathname === "/" ? "#services" : "/#services") : link.href;
               const isActive = pathname === link.href;
+
               return (
                 <li key={link.name}>
                   <NextLink
-                    href={link.href}
+                    href={targetHref}
                     prefetch={true}
                     className={`nav-link ${isActive ? "active" : ""}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => {
+                      if (isServices) {
+                        handleServicesClick(e);
+                      } else {
+                        setIsOpen(false);
+                      }
+                    }}
                   >
                     {link.name}
                   </NextLink>
