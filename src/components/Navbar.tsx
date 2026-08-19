@@ -90,18 +90,7 @@ export default function Navbar() {
                     href={link.href}
                     prefetch={true}
                     className={`nav-link ${isActive ? "active" : ""}`}
-                    onClick={(e) => {
-                      setIsOpen(false);
-                      if (link.href === "/services" && pathname === "/") {
-                        e.preventDefault();
-                        const el = document.getElementById("services");
-                        if (el) {
-                          const yOffset = -80;
-                          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                          window.scrollTo({ top: y, behavior: "smooth" });
-                        }
-                      }
-                    }}
+                    onClick={() => setIsOpen(false)}
                   >
                     {link.name}
                   </NextLink>
