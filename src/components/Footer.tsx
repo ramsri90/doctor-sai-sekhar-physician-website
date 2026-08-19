@@ -10,8 +10,7 @@ export default function Footer() {
   const socialLinks = [
     { icon: "fab fa-facebook-f", url: "https://www.facebook.com/profile.php?id=61572975916654", label: "Facebook" },
     { icon: "fab fa-instagram", url: "https://www.instagram.com/dr.saisekhar?igsh=bXBnbWswOGozcmd0", label: "Instagram" },
-    { icon: "fab fa-youtube", url: "https://www.youtube.com/channel/UCUmW050qLRLdfBOns1eDMzw", label: "YouTube" },
-    { icon: "fab fa-linkedin-in", url: "https://linkdein.com", label: "LinkedIn" }
+    { icon: "fab fa-youtube", url: "https://www.youtube.com/channel/UCUmW050qLRLdfBOns1eDMzw", label: "YouTube" }
   ];
 
   return (
