@@ -559,3 +559,26 @@ export const serviceFallbackMap: Record<string, ServiceDetail> = {
     `
   }
 };
+
+/**
+ * Extracts a concise 1-sentence medical summary for a service card.
+ */
+export function getServiceSummary(slug?: string, fallbackName?: string): string {
+  const name = fallbackName || "this medical condition";
+  if (!slug) {
+    return `Comprehensive clinical consultation, evaluation, and evidence-based management for ${name} by Dr. Sai Sekhar Pyla.`;
+  }
+
+  const detail = serviceFallbackMap[slug.toLowerCase()];
+  if (detail && detail.content) {
+    const match = detail.content.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+    if (match && match[1]) {
+      const cleanText = match[1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      if (cleanText.length > 15) {
+        return cleanText.length > 130 ? cleanText.substring(0, 127) + "..." : cleanText;
+      }
+    }
+  }
+
+  return `Comprehensive clinical consultation, evaluation, and evidence-based management for ${name} by Dr. Sai Sekhar Pyla.`;
+}

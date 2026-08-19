@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getServiceImage } from "@/lib/servicesImageMap";
+import { getServiceSummary } from "@/data/serviceDetails";
 
 interface ServiceItem {
   id: number | string;
@@ -135,7 +136,7 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                 <div className="card-body-content">
                   <h4 className="card-service-title">{service.name}</h4>
                   <p className="card-service-desc">
-                    Comprehensive clinical consultation, evaluation, and management plan by Dr. Sai Sekhar P.
+                    {getServiceSummary(service.slug, service.name)}
                   </p>
                   <span className="card-link-action">
                     View Details & Care Protocol <i className="fas fa-arrow-right"></i>
