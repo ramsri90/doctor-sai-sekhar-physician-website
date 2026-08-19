@@ -10,71 +10,14 @@ export interface ServiceDetail {
  */
 export function cleanServiceContent(html: string, serviceTitle?: string): string {
   if (!html) return "";
+  let cleaned = html.trim();
 
-  let cleaned = html;
-
-  // 1. Remove duplicate main H1/H2 header matching service title
+  // Remove duplicate title header if present at beginning
   if (serviceTitle) {
     const escaped = serviceTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const titleRegex = new RegExp(`<h[12][^>]*>\\s*(?:<strong[^>]*>)?\\s*` + escaped + `\\s*(?:<\\/strong>)?\\s*<\\/h[12]>`, 'gi');
     cleaned = cleaned.replace(titleRegex, "");
   }
-
-  // 2. Strip emojis and unicode symbols
-  cleaned = cleaned.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{1F680}-\u{1F6FF}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{3297}\u{3299}🔹✅❌🛑💊💉🩺🩸⚡🌀🏃🥗🏃🚫😷🦠✔️]/gu, "");
-
-  // 3. Remove horizontal rules
-  cleaned = cleaned.replace(/<hr\s*\/?>/gi, "");
-
-  // 4. Convert H1 and H2 inside content to H3 subheadings
-  cleaned = cleaned.replace(/<h[12]([^>]*)>/gi, '<h3$1>');
-  cleaned = cleaned.replace(/<\/h[12]>/gi, '</h3>');
-
-  // 5. Flatten <p> inside <li> tags (<li><p>text</p></li> -> <li>text</li>)
-  cleaned = cleaned.replace(/<li([^>]*)>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<\/li>/gi, '<li$1>$2</li>');
-
-  // 6. Remove messy inline bold tags inside normal paragraph body
-  cleaned = cleaned.replace(/<p([^>]*)>([\s\S]*?)<\/p>/gi, (match, attrs, pInner) => {
-    // If paragraph has multiple strong tags wrapping arbitrary words in normal text
-    const strongMatches = pInner.match(/<strong[^>]*>/gi);
-    if (strongMatches && strongMatches.length >= 2 && pInner.length > 70 && !pInner.includes(":")) {
-      const cleanInner = pInner.replace(/<\/?strong[^>]*>/gi, "");
-      return `<p${attrs}>${cleanInner}</p>`;
-    }
-    return match;
-  });
-
-  // 7. Convert pseudo-lists ONLY if lines actually start with dash/bullet/ndash/mdash
-  cleaned = cleaned.replace(/<p([^>]*)>([\s\S]*?)<\/p>/gi, (match, attrs, pInner) => {
-    if (pInner.includes("<br") || pInner.includes("\n")) {
-      const lines = pInner.split(/<br\s*\/?>|\n+/);
-      const isBulletList = lines.some((item: string) => /^\s*[\-\•\*\&ndash;\&mdash;]/.test(item.trim()));
-      if (isBulletList) {
-        const listItems = lines
-          .map((item: string) => item.replace(/^[\s\-•\*\&ndash;\&mdash;]+/, "").trim())
-          .filter((item: string) => item.length > 0)
-          .map((item: string) => `<li>${item}</li>`)
-          .join("");
-        if (listItems.length > 0) {
-          return `<ul>${listItems}</ul>`;
-        }
-      }
-    }
-    return match;
-  });
-
-  // 8. Strip conversational chatbot questions and closing sentences
-  cleaned = cleaned.replace(/<p[^>]*>\s*(?:Would you like|Let me know|Feel free|Hope this|Do you need|If you need|Reach out if)[^<]*<\/p>/gi, "");
-  cleaned = cleaned.replace(/(?:Would you like|Let me know|Feel free|Hope this|Do you need|If you need)\s+[^\n.<>]*[\.!\?]/gi, "");
-
-  // 9. Strip any empty <li> tags
-  cleaned = cleaned.replace(/<li[^>]*>\s*(?:<br\s*\/?>)?\s*<\/li>/gi, "");
-
-  // 10. Clean up empty <p> or <ul> tags
-  cleaned = cleaned.replace(/<(p|ul)[^>]*>\s*<\/\1>/gi, "");
-
-  // 11. Normalize em-dashes and en-dashes to a single dash (-)
-  cleaned = cleaned.replace(/&mdash;|&ndash;|—|–/g, "-");
 
   return cleaned.trim();
 }

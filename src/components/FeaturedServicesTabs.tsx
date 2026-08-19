@@ -136,7 +136,7 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                 <div className="card-body-content">
                   <h4 className="card-service-title">{service.name}</h4>
                   <p className="card-service-desc">
-                    {getServiceSummary(service.slug, service.name)}
+                    Comprehensive clinical consultation, evaluation, and management plan by Dr. Sai Sekhar P.
                   </p>
                   <span className="card-link-action">
                     View Details & Care Protocol <i className="fas fa-arrow-right"></i>
