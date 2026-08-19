@@ -4,7 +4,6 @@ import React, { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getServiceImage } from "@/lib/servicesImageMap";
-import { getServiceSummary } from "@/data/serviceDetails";
 
 interface ServiceItem {
   id: number | string;
