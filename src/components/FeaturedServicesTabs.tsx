@@ -119,13 +119,13 @@ export default function FeaturedServicesTabs({ categories, showCatalogLink = tru
                 className="featured-service-card card-interactive"
               >
                 <div className="card-image-wrapper">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={getServiceImage(service.slug, service.name)}
                     alt={service.name}
-                    width={600}
-                    height={380}
-                    quality={95}
-                    unoptimized={true}
+                    loading="eager"
+                    // @ts-expect-error fetchpriority attribute for instant browser preloading
+                    fetchpriority="high"
                     className="card-service-img"
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
