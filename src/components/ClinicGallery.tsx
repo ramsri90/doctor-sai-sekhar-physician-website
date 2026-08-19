@@ -155,11 +155,8 @@ export default function ClinicGallery() {
               )}
               
               <div className="gallery-card-overlay">
-                <span className="overlay-category-chip">{item.category}</span>
-                <h4 className="overlay-item-title">{item.title}</h4>
                 <div className="overlay-action-indicator">
-                  <i className={item.type === "video" ? "fas fa-play-circle" : "fas fa-expand"}></i>
-                  <span>{item.type === "video" ? "Play Video" : "View Photo"}</span>
+                  <i className={item.type === "video" ? "fas fa-play-circle" : "fas fa-search-plus"}></i>
                 </div>
               </div>
             </div>
@@ -204,7 +201,7 @@ export default function ClinicGallery() {
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
                   src={activeItem.src}
-                  alt={activeItem.title}
+                  alt="Clinic Gallery Item"
                   className="lightbox-img"
                 />
               ) : (
@@ -215,17 +212,6 @@ export default function ClinicGallery() {
                   className="lightbox-video"
                 />
               )}
-            </div>
-
-            {/* Modal Footer Caption */}
-            <div className="lightbox-caption-bar">
-              <div>
-                <span className="caption-badge">{activeItem.category}</span>
-                <h4 className="caption-title">{activeItem.title}</h4>
-              </div>
-              <span className="caption-counter">
-                {selectedIndex + 1} of {galleryItems.length}
-              </span>
             </div>
           </div>
         </div>,
