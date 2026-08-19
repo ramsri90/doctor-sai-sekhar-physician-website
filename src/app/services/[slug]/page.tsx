@@ -22,18 +22,26 @@ async function getServiceDetail(slug: string) {
     };
   }
 
-  // Generic fallback if slug is not explicitly mapped
+  // Dynamic high-quality protocol generator if slug is not explicitly mapped
   const formattedName = slug
     .split("-")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
+  const generatedContent = `
+    <p>Comprehensive clinical consultation, evaluation, and evidence-based management for <strong>${formattedName}</strong> provided by <strong>Dr. Sai Sekhar Pyla</strong> (MD General Medicine) at Trinetra Medicals, Visakhapatnam.</p>
+    <h3>Clinical Evaluation & Care Protocol</h3>
+    <ul>
+      <li><strong>Comprehensive Clinical Assessment:</strong> Symptom review, vitals evaluation, and physical examination by Dr. Sai Sekhar P.</li>
+      <li><strong>Targeted Diagnostics:</strong> Relevant blood biomarkers, organ function panels, and diagnostic imaging.</li>
+      <li><strong>Individualized Treatment Plan:</strong> Evidence-based medical therapy and therapeutic lifestyle adjustments.</li>
+      <li><strong>Follow-Up & Prevention:</strong> Regular progress tracking and preventative healthcare strategies.</li>
+    </ul>
+  `;
+
   return {
     name: formattedName,
-    content: cleanServiceContent(
-      `<p>Expert diagnosis, clinical evaluation, and customized treatment plans for ${formattedName} provided by Dr. Sai Sekhar P in Visakhapatnam.</p><h3>Clinical Services & Care</h3><ul><li>Comprehensive Medical Evaluation</li><li>Targeted Diagnostic & Medication Therapy</li><li>Preventative Health Counseling</li></ul>`,
-      formattedName
-    ),
+    content: cleanServiceContent(generatedContent, formattedName),
     image: getServiceImage(slug, formattedName)
   };
 }

@@ -557,6 +557,264 @@ export const serviceFallbackMap: Record<string, ServiceDetail> = {
     content: `
       <p>Progressive loss of kidney function over time managed with blood pressure control, renal diet, and disease-modifying therapies.</p>
     `
+  },
+
+  "ischemic-heart-disease": {
+    name: "Ischemic Heart Disease (CAD)",
+    content: `
+      <p>Ischemic Heart Disease, also known as Coronary Artery Disease (CAD), occurs when reduced blood flow to the heart muscle causes chest pain, angina, and increased risk of myocardial infarction.</p>
+      <h3>Causes & Risk Factors</h3>
+      <ul>
+        <li><strong>Atherosclerosis:</strong> Plaque accumulation in coronary arteries.</li>
+        <li><strong>Uncontrolled Hypertension & Diabetes:</strong> Accelerates arterial stiffness and vascular damage.</li>
+        <li><strong>Dyslipidemia & Smoking:</strong> High LDL cholesterol levels and tobacco use severely elevate CAD risks.</li>
+      </ul>
+      <h3>Symptoms</h3>
+      <ul>
+        <li>Angina or pressure-like chest tightness radiating to left arm or jaw.</li>
+        <li>Shortness of breath during mild exertion.</li>
+        <li>Unexplained fatigue and dizziness.</li>
+      </ul>
+      <h3>Clinical Management</h3>
+      <ul>
+        <li><strong>Diagnostic Screening:</strong> ECG, ECHO, Treadmill Test (TMT), and Cardiac Biomarkers.</li>
+        <li><strong>Medical Therapy:</strong> Antiplatelets, Statins, Beta-blockers, and ACE inhibitors.</li>
+        <li><strong>Lifestyle Modification:</strong> Low-sodium heart-healthy diet, structured cardiac rehabilitation, and weight management.</li>
+      </ul>
+    `
+  },
+
+  "heart-failure": {
+    name: "Heart Failure Management",
+    content: `
+      <p>Heart Failure is a chronic progressive condition in which the heart muscle is unable to pump sufficient blood to meet the body's metabolic demands.</p>
+      <h3>Causes & Risk Factors</h3>
+      <ul>
+        <li>Long-standing hypertension and ischemic heart disease.</li>
+        <li>Valvular heart disorders, cardiomyopathy, and uncontrolled diabetes.</li>
+      </ul>
+      <h3>Symptoms</h3>
+      <ul>
+        <li>Shortness of breath (dyspnea) when lying flat or during physical activity.</li>
+        <li>Swelling (edema) in legs, feet, ankles, and abdomen.</li>
+        <li>Persistent cough, rapid weight gain from fluid retention, and severe weakness.</li>
+      </ul>
+      <h3>Treatment Protocol</h3>
+      <ul>
+        <li><strong>Pharmacotherapy:</strong> Diuretics, ARNI/ACEi, Beta-blockers, and SGLT2 inhibitors.</li>
+        <li><strong>Fluid & Sodium Restriction:</strong> Daily weight monitoring and salt intake restriction.</li>
+        <li><strong>Routine Monitoring:</strong> Regular echocardiograms and kidney function monitoring.</li>
+      </ul>
+    `
+  },
+
+  "allergies": {
+    name: "Allergies & Immunological Care",
+    content: `
+      <p>Allergies are hypersensitive immune responses to environmental substances, food, or medications, triggering inflammatory reactions across respiratory, skin, and mucosal tissues.</p>
+      <h3>Common Triggers & Types</h3>
+      <ul>
+        <li><strong>Allergic Rhinitis:</strong> Pollen, dust mites, mold spores, and animal dander.</li>
+        <li><strong>Food & Drug Allergens:</strong> Peanuts, seafood, antibiotics, or NSAIDs.</li>
+        <li><strong>Skin Allergies:</strong> Urticaria (hives), contact dermatitis, and eczema.</li>
+      </ul>
+      <h3>Symptoms</h3>
+      <ul>
+        <li>Sneezing, runny nose, nasal congestion, and watery eyes.</li>
+        <li>Itchy skin rashes, hives, coughing, or wheezing.</li>
+      </ul>
+      <h3>Treatment Protocol</h3>
+      <ul>
+        <li><strong>Antihistamine Therapy:</strong> Second-generation non-drowsy H1 blockers and nasal sprays.</li>
+        <li><strong>Trigger Identification:</strong> Allergy testing and environmental elimination.</li>
+        <li><strong>Emergency Management:</strong> Anaphylaxis prevention counseling and prompt acute care.</li>
+      </ul>
+    `
+  },
+
+  "substance-abuse": {
+    name: "Substance Abuse & Addiction Recovery",
+    content: `
+      <p>Substance Abuse management involves medical detox, psychological support, and lifestyle modification to overcome harmful dependencies on alcohol, tobacco, prescription drugs, or chemical substances.</p>
+      <h3>Clinical Symptoms & Risks</h3>
+      <ul>
+        <li>Physical dependence, tremors, cravings, and withdrawal symptoms.</li>
+        <li>Organ impairment including hepatic dysfunction, gastrointestinal damage, and cardiovascular strain.</li>
+      </ul>
+      <h3>Comprehensive Care Protocol</h3>
+      <ul>
+        <li><strong>Medical Detoxification:</strong> Safe supervised tapering and symptom management.</li>
+        <li><strong>Organ Function Screening:</strong> Liver function tests, renal panels, and cardiac evaluation.</li>
+        <li><strong>Relapse Prevention:</strong> Behavioral counseling, lifestyle restructuring, and support therapy.</li>
+      </ul>
+    `
+  },
+
+  "insomnia": {
+    name: "Insomnia & Sleep Disorders",
+    content: `
+      <p>Insomnia is a prevalent sleep disorder characterized by persistent difficulty falling asleep, staying asleep, or experiencing non-restorative sleep, leading to daytime impairment.</p>
+      <h3>Causes & Contributing Factors</h3>
+      <ul>
+        <li>High anxiety, chronic stress, or underlying depressive disorders.</li>
+        <li>Poor sleep hygiene, irregular work schedules, and excessive screen time.</li>
+        <li>Chronic medical conditions, pain, or sleep apnea.</li>
+      </ul>
+      <h3>Treatment & Management</h3>
+      <ul>
+        <li><strong>Cognitive Behavioral Therapy for Insomnia (CBT-I):</strong> First-line non-pharmacological treatment.</li>
+        <li><strong>Sleep Hygiene Protocols:</strong> Structured sleep-wake cycles, dark quiet environment, and stimulus control.</li>
+        <li><strong>Short-Term Pharmacotherapy:</strong> Judicious short-term medical management when indicated.</li>
+      </ul>
+    `
+  },
+
+  "adult-vaccination": {
+    name: "Adult Immunization & Vaccines",
+    content: `
+      <p>Adult Vaccination is essential for maintaining lifelong immunity against preventable infectious diseases, particularly for elderly individuals and patients with chronic health conditions.</p>
+      <h3>Key Recommended Adult Vaccines</h3>
+      <ul>
+        <li><strong>Influenza Vaccine:</strong> Annual flu shot for respiratory infection prevention.</li>
+        <li><strong>Pneumococcal Vaccine:</strong> Protects against severe pneumonia and invasive pneumococcal disease.</li>
+        <li><strong>Hepatitis B & Tdap:</strong> Immunization against Hepatitis B, Tetanus, Diphtheria, and Pertussis.</li>
+        <li><strong>Shingles (Herpes Zoster) Vaccine:</strong> Prevents painful shingles outbreaks in adults aged 50+.</li>
+      </ul>
+      <h3>Clinical Benefits</h3>
+      <ul>
+        <li>Reduces hospitalization rates in diabetic, cardiac, and senior patients.</li>
+        <li>Provides community immunity and prevents severe complications.</li>
+      </ul>
+    `
+  },
+
+  "connective-tissue-diseases": {
+    name: "Connective Tissue Diseases",
+    content: `
+      <p>Connective Tissue Diseases encompass autoimmune inflammatory disorders affecting collagen and tissue structures throughout joints, skin, blood vessels, and internal organs.</p>
+      <h3>Key Conditions Covered</h3>
+      <ul>
+        <li>Systemic Lupus Erythematosus (SLE)</li>
+        <li>Systemic Sclerosis (Scleroderma)</li>
+        <li>Mixed Connective Tissue Disease (MCTD) and Sjögren's Syndrome</li>
+      </ul>
+      <h3>Symptoms & Evaluation</h3>
+      <ul>
+        <li>Joint pain, Raynaud's phenomenon, skin rashes, and chronic fatigue.</li>
+        <li>Autoantibody panels (ANA, anti-dsDNA, ENA), ESR, and CRP biomarkers.</li>
+      </ul>
+      <h3>Management</h3>
+      <ul>
+        <li>Disease-Modifying Antirheumatic Drugs (DMARDs) and targeted immunosuppressive regimens.</li>
+        <li>Multisystem organ screening and protective lifestyle counseling.</li>
+      </ul>
+    `
+  },
+
+  "cancer-surgery": {
+    name: "Cancer Surgery Pre & Post Care",
+    content: `
+      <p>Comprehensive perioperative medical management, pre-surgical fitness optimization, and post-surgical recovery care for oncology patients undergoing tumor resection.</p>
+      <h3>Care Protocols</h3>
+      <ul>
+        <li><strong>Pre-Operative Clearance:</strong> Cardiopulmonary evaluation, nutritional optimization, and metabolic stabilization.</li>
+        <li><strong>Post-Operative Recovery:</strong> Wound monitoring, pain management, infection control, and venous thromboembolism (VTE) prophylaxis.</li>
+        <li><strong>Oncology Support:</strong> Multidisciplinary coordination with surgical and medical oncologists.</li>
+      </ul>
+    `
+  },
+
+  "routine-health-checkups": {
+    name: "Routine Executive Health Checkups",
+    content: `
+      <p>Comprehensive preventative health screenings designed to detect early asymptomatic medical conditions including hypertension, pre-diabetes, dyslipidemia, and organ dysfunction.</p>
+      <h3>Screening Package Includes</h3>
+      <ul>
+        <li><strong>Comprehensive Lab Panel:</strong> Complete Blood Count (CBC), Fasting Blood Glucose, HbA1c, Lipid Profile, Liver & Kidney function tests.</li>
+        <li><strong>Diagnostic Imaging & Screening:</strong> ECG, Chest X-ray, and Abdominal Ultrasound if indicated.</li>
+        <li><strong>Physician Consultation:</strong> Detailed clinical assessment, risk stratifying, and personalized preventative care roadmap.</li>
+      </ul>
+    `
+  },
+
+  "vitamin-deficiency": {
+    name: "Vitamin & Mineral Deficiency Management",
+    content: `
+      <p>Clinical evaluation and therapeutic supplementation for essential micronutrient deficiencies affecting bone health, nerve function, immunity, and energy levels.</p>
+      <h3>Common Deficiencies Treated</h3>
+      <ul>
+        <li><strong>Vitamin D3 Deficiency:</strong> Causes bone pain, muscle weakness, osteopenia, and fatigue.</li>
+        <li><strong>Vitamin B12 Deficiency:</strong> Leads to megaloblastic anemia, peripheral neuropathy, memory loss, and tingling sensations.</li>
+        <li><strong>Iron & Calcium Deficiencies:</strong> Causes fatigue, anemia, brittle nails, and diminished bone density.</li>
+      </ul>
+      <h3>Treatment Protocol</h3>
+      <ul>
+        <li>Serum biomarker testing (25-OH Vitamin D, B12, Serum Ferritin).</li>
+        <li>Therapeutic oral or parenteral supplementation and dietary modification plans.</li>
+      </ul>
+    `
+  },
+
+  "diet-lifestyle-modifications": {
+    name: "Diet & Lifestyle Modifications",
+    content: `
+      <p>Evidence-based nutritional counseling, medical weight management, and therapeutic lifestyle changes tailored to manage metabolic diseases, diabetes, hypertension, and fatty liver.</p>
+      <h3>Key Clinical Focus Areas</h3>
+      <ul>
+        <li><strong>Glycemic Control Diet:</strong> Low glycemic index meal plans for optimal HbA1c regulation.</li>
+        <li><strong>DASH & Heart-Healthy Diet:</strong> Low-sodium, high-potassium nutrition for blood pressure optimization.</li>
+        <li><strong>Weight & Exercise Management:</strong> Safe aerobic and resistance exercise schedules for metabolic health.</li>
+      </ul>
+    `
+  },
+
+  "dyslipidemia": {
+    name: "Dyslipidemia & Lipid Management",
+    content: `
+      <p>Dyslipidemia is an abnormal elevation of serum cholesterol, triglycerides, or low-density lipoproteins (LDL) that significantly increases arterial plaque formation and stroke risk.</p>
+      <h3>Clinical Diagnostic Targets</h3>
+      <ul>
+        <li>Fasting Lipid Panel: Total Cholesterol, LDL-C, HDL-C, Triglycerides, and Non-HDL Cholesterol.</li>
+        <li>Atherosclerotic Cardiovascular Disease (ASCVD) Risk Assessment.</li>
+      </ul>
+      <h3>Management Strategy</h3>
+      <ul>
+        <li><strong>Statin & Lipid-Lowering Therapy:</strong> High-intensity or moderate-intensity statins tailored to patient risk.</li>
+        <li><strong>Dietary Interventions:</strong> Reduction of saturated fats, elimination of trans-fats, and increase in soluble fiber.</li>
+      </ul>
+    `
+  },
+
+  "septic-syndrome": {
+    name: "Septic Syndrome & Severe Infection Care",
+    content: `
+      <p>Septic Syndrome (Sepsis) is a life-threatening organ dysfunction caused by a dysregulated host response to severe bacterial, viral, or fungal infections.</p>
+      <h3>Early Warning Signs</h3>
+      <ul>
+        <li>High fever or hypothermia with severe chills/shivering.</li>
+        <li>Rapid heart rate (tachycardia), rapid breathing (tachypnea), and altered mental state.</li>
+        <li>Low blood pressure (hypotension) and reduced urine output.</li>
+      </ul>
+      <h3>Emergency Protocol</h3>
+      <ul>
+        <li>Immediate broad-spectrum intravenous antimicrobial therapy.</li>
+        <li>Hemodynamic stabilization with IV fluids and vasopressors if required.</li>
+        <li>Source control and intensive hemodynamic monitoring.</li>
+      </ul>
+    `
+  },
+
+  "geriatric-care": {
+    name: "Geriatric Medicine & Elderly Care",
+    content: `
+      <p>Specialized comprehensive healthcare tailored for senior citizens, addressing multiple co-morbidities, polypharmacy management, cognitive wellness, and mobility maintenance.</p>
+      <h3>Core Geriatric Focus Areas</h3>
+      <ul>
+        <li><strong>Polypharmacy Optimization:</strong> Medication review to eliminate drug interactions and unnecessary prescriptions.</li>
+        <li><strong>Chronic Disease Co-Management:</strong> Coordinated care for hypertension, diabetes, arthritis, and heart disease.</li>
+        <li><strong>Fall Prevention & Frailty:</strong> Bone density optimization, joint stabilization, and mobility support.</li>
+      </ul>
+    `
   }
 };
 
